@@ -1,0 +1,60 @@
+package com.example.rwaprojekat.servlet;
+
+import com.example.rwaprojekat.dao.UserDao;
+import com.example.rwaprojekat.model.User;
+import jakarta.servlet.RequestDispatcher;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.annotation.WebServlet;
+import jakarta.servlet.http.HttpServlet;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+
+import java.io.IOException;
+
+@WebServlet(name = "/Login", urlPatterns = "/login")
+public class LoginServlet extends HttpServlet {
+
+    RequestDispatcher dispatcher = null;
+    UserDao userDao;
+
+    public LoginServlet() {
+        userDao = new UserDao();
+    }
+
+    @Override
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        dispatcher = req.getRequestDispatcher("/index.jsp");
+        dispatcher.forward(req, resp);
+    }
+
+    @Override
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        String userName = req.getParameter("username");
+        String password = req.getParameter("password");
+
+        if (userName.isEmpty() || password.isEmpty()) {
+            //ako je potrebno sta
+        } else {
+            User user = userDao.getUser(userName, password);
+
+            if (user == null) {
+                //ostani na loginu
+            } else {
+                if (user.getRole().equals("admin")) {
+                    req.getSession().setAttribute("user", user);
+                    //prebaciti ga na admin stranu
+                    System.out.println("admin");
+                } else if(user.getRole().equals("super-admin")){
+                    req.getSession().setAttribute("user", user);
+//                  //prebaciti ga na super admin stranu
+                    System.out.println("super admin");
+                }
+                else {
+                    req.getSession().setAttribute("user", user);
+                    //prebaciti ga na user stranu
+                    System.out.println("user");
+                }
+            }
+        }
+    }
+}
