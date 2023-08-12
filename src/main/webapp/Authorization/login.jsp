@@ -9,6 +9,7 @@
 <html>
 <head>
     <title>Login</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
     <link rel="stylesheet" href="styles.css">
     <link rel="stylesheet" href="Authorization/login.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
@@ -24,7 +25,7 @@
 
         <h1 class="fs-heading"> Login </h1>
 
-        <form method="post" class="flex flex-column gap-2">
+        <form method="post"  class="flex flex-column gap-2">
 
             <div class="w-100 mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
                 <label class="mdl-textfield__label" for="username">Korisničko ime</label>
@@ -37,12 +38,14 @@
                 <span class="mdl-textfield__error"> Šifra mora biti minimalno 8 karaktera! </span>
             </div>
 
-            <input type="submit" value="Login" class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored">
+            <input type="submit" value="Login" class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored tc-primary-button">
         </form>
+
+        <p>Nemate račun? Kliknite <a class="tc-link" href="register"> OVDJE </a> </p>
+
     </div>
 
 
-    <p>Već imate račun? Kliknite <a class="" href="register "> OVDJE </a> </p>
 
 </div>
 

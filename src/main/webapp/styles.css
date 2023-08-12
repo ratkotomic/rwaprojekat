@@ -3,9 +3,12 @@
     --primary-color-super-light: #DEF4FE;
     --primary-text-color: #000000;
     --secondary-color: #FF5600;
+    --secondary-color-darker: #c13100;
     --secondary-text-color: #000000;
     --secondary-color-light: #FF855D;
 }
+
+
 
 
 
@@ -213,5 +216,15 @@ body{
     font-size: 1rem;
 }
 
+/* text colors */
 
+
+.tc-primary-button{
+    color: black !important;
+}
+
+
+.tc-link{
+    color: var(--secondary-color-darker);
+}
 

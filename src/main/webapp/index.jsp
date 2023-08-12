@@ -3,7 +3,9 @@
 <html>
 <head>
     <title>JSP - Hello World</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
     <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="reset.css">
     <link rel="stylesheet" href="index.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
     <link rel="stylesheet" href="https://code.getmdl.io/1.3.0/material.cyan-deep_orange.min.css" />
@@ -15,7 +17,7 @@
 
     <div class="wrapper py-3  mb-1 w-80 px-3 flex flex-column flex-center gap-4">
 
-        <h1 class="fs-heading"> Dobrodošli u Kviz aplikaciju </h1>
+        <h1 class="fs-heading"> Dobrodošli u Kviz aplikaciju</h1>
 
         <form method="post" class="flex flex-column gap-2 w-100">
 
@@ -25,9 +27,9 @@
                 <span class="mdl-textfield__error">Unos nije broj!</span>
             </div>
 
-            <input type="submit" value="Potvrdi pin" class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored">
+            <input type="submit" value="Potvrdi pin" class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored  tc-primary-button">
         </form>
-        <p> Za admin pristup aplikaciji možete kliknuti <a class="" href="login"> OVDJE </a> </p>
+        <p> Za admin pristup aplikaciji možete kliknuti <a class="tc-link" href="login"> OVDJE </a> </p>
 
     </div>
 

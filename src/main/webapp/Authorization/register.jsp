@@ -10,6 +10,7 @@
 <head>
     <title>Title</title>
     <title>Registracija</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
     <link rel="stylesheet" href="styles.css">
     <link rel="stylesheet" href="Authorization/register.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
@@ -38,7 +39,8 @@
             </div>
 
 
-            <input type="submit" value="Registruj se" class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored">
+            <input type="submit" value="Registruj se" class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored tc-primary-button">
+            <p>Već imate račun? Kliknite <a class="tc-link" href="login"> OVDJE </a> </p>
         </form>
 
 
@@ -72,7 +74,6 @@
     </div>
 
 
-    <p>Već imate račun? Uraditi login <a class="" href="login"> OVDJE </a> </p>
 
 </div>
 
