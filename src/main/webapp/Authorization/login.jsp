@@ -38,7 +38,7 @@
                 <span class="mdl-textfield__error"> Šifra mora biti minimalno 8 karaktera! </span>
             </div>
 
-            <input type="submit" value="Login" class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored tc-primary-button">
+            <input id="submit" type="submit" value="Login" class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored tc-primary-button" disabled>
         </form>
 
         <p>Nemate račun? Kliknite <a class="tc-link" href="register"> OVDJE </a> </p>
@@ -49,7 +49,22 @@
 
 </div>
 
+<script>
 
+    const submit = document.getElementById("submit");
+
+    const usernameInput = document.getElementById("username");
+    const passwordInput = document.getElementById("password");
+
+    usernameInput.addEventListener("input", inputModified);
+    passwordInput.addEventListener("input", inputModified);
+
+    function inputModified()
+    {
+        submit.disabled = usernameInput.value === "" || passwordInput.value === "" || !passwordInput.checkValidity();
+    }
+
+</script>
 
 <script defer src="https://code.getmdl.io/1.3.0/material.min.js"></script>
 

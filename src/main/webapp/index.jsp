@@ -27,7 +27,7 @@
                 <span class="mdl-textfield__error">Unos nije broj!</span>
             </div>
 
-            <input type="submit" value="Potvrdi pin" class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored  tc-primary-button">
+            <input type="submit" id="submit" value="Potvrdi pin" class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored  tc-primary-button" disabled>
         </form>
         <p> Za admin pristup aplikaciji možete kliknuti <a class="tc-link" href="login"> OVDJE </a> </p>
 
@@ -37,7 +37,17 @@
 
 </div>
 
+<script>
 
+    const submit = document.getElementById("submit");
+    document.getElementById("pin").addEventListener("input", inputModified);
+
+    function inputModified(e)
+    {
+        submit.disabled = e.target.value === "" || !e.target.checkValidity();
+    }
+
+</script>
 
 <script defer src="https://code.getmdl.io/1.3.0/material.min.js"></script>
 

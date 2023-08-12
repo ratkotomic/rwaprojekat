@@ -39,7 +39,7 @@
             </div>
 
 
-            <input type="submit" value="Registruj se" class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored tc-primary-button">
+            <input id="submit" type="submit" value="Registruj se" class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored tc-primary-button">
             <p>Već imate račun? Kliknite <a class="tc-link" href="login"> OVDJE </a> </p>
         </form>
 
@@ -77,6 +77,22 @@
 
 </div>
 
+
+<script>
+    const submit = document.getElementById("submit");
+
+    const usernameInput = document.getElementById("username");
+    const passwordInput = document.getElementById("password");
+
+    usernameInput.addEventListener("input", inputModified);
+    passwordInput.addEventListener("input", inputModified);
+
+    function inputModified()
+    {
+        submit.disabled = usernameInput.value === "" || passwordInput.value === "" || !passwordInput.checkValidity();
+    }
+
+</script>
 
 
 <script defer src="https://code.getmdl.io/1.3.0/material.min.js"></script>
