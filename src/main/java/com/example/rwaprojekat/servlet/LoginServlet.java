@@ -40,7 +40,9 @@ public class LoginServlet extends HttpServlet {
             User user = userDao.getUser(userName, password);
 
             if (user == null) {
-                //ostani na loginu
+                req.setAttribute("errorMessage", "Login nije uspio!");
+                dispatcher = req.getRequestDispatcher("/Authorization/login.jsp");
+                dispatcher.forward(req, resp);
             } else {
                 if (user.getRole().equals("admin")) {
                     req.getSession().setAttribute("user", user);

@@ -47,7 +47,7 @@
             if(errorMessage != null)
             {
         %>
-        <p class="tc-error"><%= errorMessage.toString() %></p>
+        <p class="tc-error tw-bold"><%= errorMessage.toString() %></p>
         <%
             }
         %>

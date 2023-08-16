@@ -235,3 +235,9 @@ body{
     color: var(--error-color);
 }
 
+
+
+.fw-bold{
+    font-weight: 600;
+}
+
