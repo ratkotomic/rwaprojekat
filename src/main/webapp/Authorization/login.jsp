@@ -40,6 +40,15 @@
 
             <input id="submit" type="submit" value="Login" class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored tc-primary-button" disabled>
         </form>
+        <%
+            Object errorMessage = request.getAttribute("errorMessage");
+            if(errorMessage != null)
+            {
+        %>
+            <p class="tc-error"><%= errorMessage.toString() %></p>
+        <%
+            }
+        %>
 
         <p>Nemate račun? Kliknite <a class="tc-link" href="register"> OVDJE </a> </p>
 

@@ -33,6 +33,12 @@ public class RegisterServlet extends HttpServlet {
         String userName = req.getParameter("username");
         String password = req.getParameter("password");
 
+        if (userName.isEmpty() || password.isEmpty()) {
+            req.setAttribute("errorMessage", "Jedno od polja je prazno!");
+            dispatcher = req.getRequestDispatcher("/Authorization/register.jsp");
+            dispatcher.forward(req, resp);
+        }
+
 
     }
 }

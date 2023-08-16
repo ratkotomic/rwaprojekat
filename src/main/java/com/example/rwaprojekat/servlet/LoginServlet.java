@@ -33,7 +33,9 @@ public class LoginServlet extends HttpServlet {
         String password = req.getParameter("password");
 
         if (userName.isEmpty() || password.isEmpty()) {
-            //ako je potrebno sta
+            req.setAttribute("errorMessage", "Jedno od polja je prazno!");
+            dispatcher = req.getRequestDispatcher("/Authorization/login.jsp");
+            dispatcher.forward(req, resp);
         } else {
             User user = userDao.getUser(userName, password);
 

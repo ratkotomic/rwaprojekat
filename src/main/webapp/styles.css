@@ -6,6 +6,8 @@
     --secondary-color-darker: #c13100;
     --secondary-text-color: #000000;
     --secondary-color-light: #FF855D;
+
+    --error-color: #d50000;
 }
 
 
@@ -226,5 +228,10 @@ body{
 
 .tc-link{
     color: var(--secondary-color-darker);
+}
+
+
+.tc-error{
+    color: var(--error-color);
 }
 
