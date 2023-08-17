@@ -9,6 +9,7 @@
     border-radius: 10px;
     background: #F6F6F6;
     box-shadow: 0px 6px 16px 0px rgba(0, 0, 0, 0.35);
+    margin-bottom: 15rem;
 }
 
 @media(max-width: 500px){

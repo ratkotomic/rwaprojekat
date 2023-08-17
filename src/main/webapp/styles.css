@@ -236,8 +236,16 @@ body{
 }
 
 
+.tc-black{
+    color: black !important;
+}
+
+
 
 .fw-bold{
     font-weight: 600;
 }
+
+
+
 

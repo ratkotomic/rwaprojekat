@@ -18,75 +18,103 @@
 </head>
 <body>
 
+<div class="mdl-layout mdl-js-layout">
 
-<div class="container h-100 flex flex-column flex-center">
+    <header class="mdl-layout__header">
+        <div class="mdl-layout-icon"></div>
+        <div class="mdl-layout__header-row">
+            <span class="mdl-layout__title tc-black fw-bold">QuizTopia</span>
+            <div class="mdl-layout-spacer"></div>
+            <nav class="mdl-navigation">
+                <a class="mdl-navigation__link tc-black fw-bold" href="index">Home</a>
+                <a class="mdl-navigation__link tc-black fw-bold" href="login">Login</a>
+                <a class="mdl-navigation__link tc-black fw-bold" href="register">Registracija</a>
+            </nav>
+        </div>
+    </header>
 
-    <div class="wrapper py-3  mb-1 w-80 px-3 flex flex-column gap-2">
-
-        <h1 class="fs-heading"> Registracija </h1>
-
-        <form method="post" class="flex flex-column gap-2">
-
-            <div class="w-100 mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
-                <label class="mdl-textfield__label" for="username">Korisničko ime</label>
-                <input class="mdl-textfield__input" type="text" id="username" name="username">
-            </div>
-
-            <div class="w-100 mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
-                <label class="mdl-textfield__label" for="password">Šifra</label>
-                <input class="mdl-textfield__input" type="password" id="password" name="password" pattern=".{8,}" title="Šifra mora sadržavati minimalno 8 karaktera.">
-                <span class="mdl-textfield__error"> Šifra mora biti minimalno 8 karaktera! </span>
-            </div>
-
-
-            <input id="submit" type="submit" value="Registruj se" class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored tc-primary-button" disabled>
-        </form>
-
-        <%
-            Object errorMessage = request.getAttribute("errorMessage");
-            if(errorMessage != null)
-            {
-        %>
-        <p class="tc-error tw-bold"><%= errorMessage.toString() %></p>
-        <%
-            }
-        %>
-
-
-        <p>Već imate račun? Kliknite <a class="tc-link" href="login"> OVDJE </a> </p>
-
-
-        <!--
-        Nakon sto se posalje post treba mi neka bool varijabla koja ce mi reci da li je registracija bila uspijesana ili ne.
-        Ako nije bilo uspijesno treba mi razlog zasto nije bilo uspijesno.
-        Ovo bi bilo bolje raditi sa ajax.
-
-        Pseudo kod:
-
-        if(variable != null)
-        {
-        if(variable)
-        {
-        <p> Registracija je uspijesna. Slijedi redirekcija na login. </p>
-        }
-        else
-        {
-        <p> Registracija nije bila uspijesna. ErrorMessage </p>
-        }
-
-        }
-
-        -->
-
-
-
-
-
-
+    <div class="mdl-layout__drawer">
+        <span class="mdl-layout__title  tc-black fw-bold">QuizTopia</span>
+        <nav class="mdl-navigation">
+            <a class="mdl-navigation__link  tc-black fw-bold" href="index">Home</a>
+            <a class="mdl-navigation__link  tc-black fw-bold" href="login">Login</a>
+            <a class="mdl-navigation__link  tc-black fw-bold" href="register">Register</a>
+        </nav>
     </div>
 
+    <main class="mdl-layout__content">
+
+        <div class="container h-100 flex flex-column flex-center">
+
+            <div class="wrapper py-3  mb-1 w-80 px-3 flex flex-column gap-2">
+
+                <h1 class="fs-heading"> Registracija </h1>
+
+                <form method="post" class="flex flex-column gap-2">
+
+                    <div class="w-100 mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+                        <label class="mdl-textfield__label" for="username">Korisničko ime</label>
+                        <input class="mdl-textfield__input" type="text" id="username" name="username">
+                    </div>
+
+                    <div class="w-100 mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+                        <label class="mdl-textfield__label" for="password">Šifra</label>
+                        <input class="mdl-textfield__input" type="password" id="password" name="password" pattern=".{8,}" title="Šifra mora sadržavati minimalno 8 karaktera.">
+                        <span class="mdl-textfield__error"> Šifra mora biti minimalno 8 karaktera! </span>
+                    </div>
 
 
+                    <input id="submit" type="submit" value="Registruj se" class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored tc-primary-button" disabled>
+                </form>
+
+                <%
+                    Object errorMessage = request.getAttribute("errorMessage");
+                    if(errorMessage != null)
+                    {
+                %>
+                <p class="tc-error tw-bold"><%= errorMessage.toString() %></p>
+                <%
+                    }
+                %>
+
+
+                <p>Već imate račun? Kliknite <a class="tc-link" href="login"> OVDJE </a> </p>
+
+
+                <!--
+                Nakon sto se posalje post treba mi neka bool varijabla koja ce mi reci da li je registracija bila uspijesana ili ne.
+                Ako nije bilo uspijesno treba mi razlog zasto nije bilo uspijesno.
+                Ovo bi bilo bolje raditi sa ajax.
+
+                Pseudo kod:
+
+                if(variable != null)
+                {
+                if(variable)
+                {
+                <p> Registracija je uspijesna. Slijedi redirekcija na login. </p>
+                }
+                else
+                {
+                <p> Registracija nije bila uspijesna. ErrorMessage </p>
+                }
+
+                }
+
+                -->
+
+
+
+
+
+
+            </div>
+
+
+
+        </div>
+
+    </main>
 </div>
 
 
