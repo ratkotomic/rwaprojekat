@@ -23,7 +23,7 @@ public class LoginServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        dispatcher = req.getRequestDispatcher("/index.jsp");
+        dispatcher = req.getRequestDispatcher("/Authorization/login.jsp");
         dispatcher.forward(req, resp);
     }
 
@@ -33,12 +33,16 @@ public class LoginServlet extends HttpServlet {
         String password = req.getParameter("password");
 
         if (userName.isEmpty() || password.isEmpty()) {
-            //ako je potrebno sta
+            req.setAttribute("errorMessage", "Jedno od polja je prazno!");
+            dispatcher = req.getRequestDispatcher("/Authorization/login.jsp");
+            dispatcher.forward(req, resp);
         } else {
             User user = userDao.getUser(userName, password);
 
             if (user == null) {
-                //ostani na loginu
+                req.setAttribute("errorMessage", "Login nije uspio!");
+                dispatcher = req.getRequestDispatcher("/Authorization/login.jsp");
+                dispatcher.forward(req, resp);
             } else {
                 if (user.getRole().equals("admin")) {
                     req.getSession().setAttribute("user", user);

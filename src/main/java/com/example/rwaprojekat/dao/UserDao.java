@@ -18,8 +18,17 @@ public class UserDao {
         Query q = em.createQuery("SELECT u FROM User u where u.username=:username and u.password=:password");
         q.setParameter("username", username);
         q.setParameter("password", password);
-        User user = (User) q.setMaxResults(1).getSingleResult();
-        em.close();
+        User user;
+        try {
+            user = (User) q.setMaxResults(1).getSingleResult();
+        }
+        catch(Exception ex)
+        {
+            return null;
+        }
+        finally{
+            em.close();
+        }
         return user;
     }
 
