@@ -8,6 +8,9 @@
     <persistence-unit name="rwaprojekat" transaction-type="RESOURCE_LOCAL">
         <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
         <class>com.example.rwaprojekat.model.User</class>
+        <class>com.example.rwaprojekat.model.Quiz</class>
+        <class>com.example.rwaprojekat.model.Question</class>
+        <class>com.example.rwaprojekat.model.Answer</class>
 
         <properties>
             <property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/rwaprojekat"/>
