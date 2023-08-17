@@ -14,7 +14,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.stream.Collectors;
 
-@WebServlet(name = "/UpdateQuiz", urlPatterns = "/updateQuiz")
+@WebServlet(name = "/UpdateQuiz", urlPatterns = "/admin/updateQuiz")
 public class UpdateQuizServlet extends HttpServlet {
     QuizDao quizDao;
 

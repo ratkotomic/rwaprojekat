@@ -18,7 +18,7 @@ import java.io.IOException;
 import java.util.List;
 import java.util.stream.Collectors;
 
-@WebServlet(name = "/UpdateQuestion", urlPatterns = "/updateQuestion")
+@WebServlet(name = "/UpdateQuestion", urlPatterns = "/admin/updateQuestion")
 public class UpdateQuestionServlet extends HttpServlet {
     QuestionDao questionDao;
     AnswerDao answerDao;

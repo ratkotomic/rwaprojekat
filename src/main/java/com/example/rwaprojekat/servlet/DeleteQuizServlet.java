@@ -9,7 +9,7 @@ import jakarta.servlet.http.HttpServletResponse;
 
 import java.io.IOException;
 
-@WebServlet(name = "/DeleteQuiz", urlPatterns = "/deleteQuiz")
+@WebServlet(name = "/DeleteQuiz", urlPatterns = "/admin/deleteQuiz")
 public class DeleteQuizServlet extends HttpServlet {
     QuizDao quizDao;
 

@@ -10,7 +10,7 @@ import jakarta.servlet.http.HttpServletResponse;
 
 import java.io.IOException;
 
-@WebServlet(name = "/UpdateUser", urlPatterns = "/updateUser")
+@WebServlet(name = "/UpdateUser", urlPatterns = "/admin/updateUser")
 public class UpdateUserServlet extends HttpServlet {
     UserDao userDao;
 

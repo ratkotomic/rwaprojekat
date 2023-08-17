@@ -22,7 +22,7 @@ import java.io.IOException;
 import java.util.List;
 import java.util.stream.Collectors;
 
-@WebServlet(name = "/AddQuiz", urlPatterns = "/addQuiz")
+@WebServlet(name = "/AddQuiz", urlPatterns = "/admin/addQuiz")
 public class AddQuizServlet extends HttpServlet {
     UserDao userDao;
     QuizDao quizDao;
