@@ -9,6 +9,20 @@
 
 }
 
+dialog{
+    position: relative;
+}
+
+.close-dialog-button
+{
+    position: absolute !important;
+    top: 5px;
+    right: 5px;
+    min-width: 35px !important;
+    width: 35px !important;
+}
+
 h1{
     text-align: center;
 }
+

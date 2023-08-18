@@ -47,7 +47,14 @@ public class QuizDao {
     public void updateQuiz(String quizTitle, String imageUrl, String quizId) {
         EntityManagerFactory emf = Persistence.createEntityManagerFactory("rwaprojekat");
         EntityManager em = emf.createEntityManager();
-        Query q = em.createQuery("UPDATE Quiz q SET q.title = :quizTitle, q.image_url = :imageUrl WHERE q.id = :quizId");
+        Query q = null;
+        try {
+            q = em.createQuery("UPDATE Quiz q SET q.title = :quizTitle, q.imageUrl = :imageUrl WHERE q.id = :quizId");
+        }
+        catch(Exception ex)
+        {
+            ex.printStackTrace();
+        }
         q.setParameter("quizTitle", quizTitle);
         q.setParameter("imageUrl", imageUrl);
         q.setParameter("quizId", quizId);

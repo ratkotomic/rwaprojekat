@@ -50,6 +50,10 @@ body{
     flex-wrap: wrap;
 }
 
+.flex-space-between{
+    justify-content: space-between;
+}
+
 
 
 .w-100{
@@ -70,8 +74,12 @@ body{
 }
 
 
+.p-0{
+    padding: 0 !important;
+}
+
 .p-1{
-    padding: 1rem;
+    padding: 1rem !important;
 }
 
 .p-2{
@@ -251,6 +259,11 @@ body{
     font-weight: 600;
 }
 
+
+
+.text-center{
+    text-align: center;
+}
 
 
 

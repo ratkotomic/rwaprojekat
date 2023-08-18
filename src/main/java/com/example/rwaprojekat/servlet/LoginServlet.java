@@ -51,7 +51,7 @@ public class LoginServlet extends HttpServlet {
                 } else if(user.getRole().equals("super-admin")){
                     req.getSession().setAttribute("user", user);
 //                  //prebaciti ga na super admin stranu
-                    resp.sendRedirect("AdminHomeServlet");
+                    resp.sendRedirect("admin/home");
                 }
                 else {
                     req.getSession().setAttribute("user", user);

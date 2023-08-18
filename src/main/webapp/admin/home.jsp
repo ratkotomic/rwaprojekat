@@ -33,10 +33,10 @@
             <span class="mdl-layout__title tc-black fw-bold">Admin Panel</span>
             <div class="mdl-layout-spacer"></div>
             <nav class="mdl-navigation">
-                <a class="mdl-navigation__link tc-black fw-bold" href="admin/home">Kvizovi</a>
+                <a class="mdl-navigation__link tc-black fw-bold" href="home">Kvizovi</a>
 
                 <%
-                    if(userRole.equals("super admin"))
+                    if(userRole.equals("super-admin"))
                     {
                         %>
 
@@ -54,9 +54,9 @@
     <div class="mdl-layout__drawer">
         <span class="mdl-layout__title  tc-black fw-bold">Admin Panel</span>
         <nav class="mdl-navigation">
-            <a class="mdl-navigation__link  tc-black fw-bold" href="admin/home">Kvizovi</a>
+            <a class="mdl-navigation__link  tc-black fw-bold" href="home">Kvizovi</a>
             <%
-                if(userRole.equals("super admin"))
+                if(userRole.equals("super-admin"))
                 {
             %>
                <a class="mdl-navigation__link  tc-black fw-bold" href="admin/users">Korisnici</a>
@@ -78,13 +78,43 @@
                 for (Quiz quiz : quizList)
                 {
             %>
-            <div class="quiz-container flex flex-column flex-center gap-1 p-2">
-                <h2><%= quiz.getTitle() %></h2>
-                <img src="<%= quiz.getImageUrl() %>">
-                <button class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored tc-primary-button w-100">
-                Edit
+            <div class="quiz-container flex flex-column flex-center gap-1 p-2" data-id="<%= quiz.getId()%>">
+                <h2 class="title"><%= quiz.getTitle() %></h2>
+                <img class="image-url" src="<%= quiz.getImageUrl() %>">
+
+                <dialog class="mdl-dialog edit-dialog">
+
+                    <h3 class="mdl-dialog__title text-center">Editovanje</h3>
+
+                    <div class="mdl-dialog__content">
+                        <form class="flex flex-column gap-2">
+
+                            <div class="w-100 mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+                                <label class="mdl-textfield__label">Naziv</label>
+                                <input class="mdl-textfield__input title" type="text" value="<%= quiz.getTitle() %>">
+                            </div>
+
+                            <div class="w-100 mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+                                <label class="mdl-textfield__label">Url Slike</label>
+                                <input class="mdl-textfield__input image-url" type="text" value="<%=quiz.getImageUrl()%>">
+                            </div>
+                        </form>
+
+                        <div class="mdl-dialog__actions flex flex-row flex-space-between p-1">
+                            <button type="button" class="mdl-button p-0 save-changes-button ">Sačuvaj</button>
+                            <button type="button" class="mdl-button p-0 delete-button ">Izbriši</button>
+                        </div>
+
+                    </div>
+
+                    <button type="button" class="mdl-button close close-dialog-button p-0">X</button>
+                </dialog>
+                <button type="button"  class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored tc-primary-button w-100 edit-button">
+                    Edit
                 </button>
-                <button class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored tc-primary-button w-100">
+
+
+                <button type="button" class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored tc-primary-button w-100">
                     Započni
                 </button>
 
@@ -100,6 +130,120 @@
 
 </body>
 
+
+<script>
+
+    const editButtons = document.querySelectorAll(".edit-button");
+    for(let i = 0; i < editButtons.length; ++i)
+    {
+        let dialog;
+        editButtons[i].addEventListener("click", () =>
+        {
+            dialog = editButtons[i].previousElementSibling;
+            dialog.showModal();
+        });
+    }
+
+
+    const closeDialogButtons = document.querySelectorAll(".close-dialog-button");
+
+    for(let i = 0; i < closeDialogButtons.length; ++i)
+    {
+        let dialog;
+        closeDialogButtons[i].addEventListener("click", () =>
+        {
+            dialog = closeDialogButtons[i].parentElement;
+            dialog.close();
+        });
+    }
+
+
+
+    const saveChangesButtons = document.querySelectorAll(".save-changes-button");
+    for(let i = 0; i < saveChangesButtons.length; ++i)
+    {
+        saveChangesButtons[i].addEventListener("click", (event) =>
+        {
+            event.target.disabled = true;
+
+            const dialog = saveChangesButtons[i].parentElement.parentElement.parentElement;
+            const quizContainer = dialog.parentElement;
+            const title = dialog.querySelector(".title").value;
+            const imageUrl = dialog.querySelector(".image-url").value;
+
+            let quizRequest = {
+                id: quizContainer.getAttribute("data-id"),
+                title: title,
+                imageUrl: imageUrl
+            };
+
+            let quizRequestString = JSON.stringify(quizRequest);
+
+
+            fetch("http://localhost:8080/rwaprojekat_war_exploded/admin/updateQuiz", {
+                method: 'post',
+                body: quizRequestString
+
+            })
+            .then(() =>
+            {
+                dialog.close();
+                quizContainer.querySelector(".title").innerText = title;
+                quizContainer.querySelector(".image-url").setAttribute("src", imageUrl);
+
+            })
+            .catch((error) => {
+                console.log(error)
+            })
+
+
+            event.target.disabled = false;
+
+        });
+    }
+
+
+
+    const deleteButtons = document.querySelectorAll(".delete-button");
+    for(let i = 0; i < deleteButtons.length; ++i)
+    {
+        let dialog;
+        deleteButtons[i].addEventListener("click", () =>
+        {
+            const userChoice = confirm("Da li sigurno želite izbrisati ovaj kviz?");
+            if(!userChoice)
+            {
+                return;
+            }
+
+            const dialog = deleteButtons[i].parentElement.parentElement.parentElement;
+            const quizContainer = dialog.parentElement;
+
+
+            let params = new URLSearchParams({
+                id: quizContainer.getAttribute("data-id")
+            });
+
+            fetch("http://localhost:8080/rwaprojekat_war_exploded/admin/deleteQuiz", {
+                method: 'post',
+                body: params
+            })
+            .then(() =>
+            {
+                dialog.close();
+                quizContainer.remove();
+
+            })
+            .catch((error) => {
+                console.log(error)
+            })
+
+
+        });
+    }
+
+
+</script>
 
 <script defer src="https://code.getmdl.io/1.3.0/material.min.js"></script>
 
