@@ -2,7 +2,6 @@ package com.example.rwaprojekat.servlet;
 
 import com.example.rwaprojekat.dao.QuizDao;
 import com.example.rwaprojekat.model.Quiz;
-import com.example.rwaprojekat.model.User;
 import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -19,8 +18,7 @@ public class AdminHomeServlet extends HttpServlet {
     RequestDispatcher dispatcher = null;
     QuizDao quizDao;
 
-    public AdminHomeServlet()
-    {
+    public AdminHomeServlet() {
         quizDao = new QuizDao();
     }
 
@@ -30,7 +28,7 @@ public class AdminHomeServlet extends HttpServlet {
         List<Quiz> quizList = quizDao.findAllQuizzes();
         req.setAttribute("quizList", quizList);
 
-        dispatcher = req.getRequestDispatcher("/Admin/home.jsp");
+        dispatcher = req.getRequestDispatcher("/admin/home.jsp");
         dispatcher.forward(req, resp);
 
     }

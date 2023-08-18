@@ -14,7 +14,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="../styles.css">
     <link rel="stylesheet" href="../reset.css">
-    <link rel="stylesheet" href="../Admin/home.css">
+    <link rel="stylesheet" href="../admin/home.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
     <link rel="stylesheet" href="https://code.getmdl.io/1.3.0/material.cyan-deep_orange.min.css" />
 </head>
@@ -46,7 +46,7 @@
                     }
                 %>
 
-                <a class="mdl-navigation__link tc-black fw-bold" href="admin">Log out</a>
+                <a class="mdl-navigation__link tc-black fw-bold" href="/rwaprojekat/admin/logout">Log out</a>
             </nav>
         </div>
     </header>
@@ -63,7 +63,7 @@
             <%
                 }
             %>
-            <a class="mdl-navigation__link  tc-black fw-bold" href="admin">Log out</a>
+            <a class="mdl-navigation__link  tc-black fw-bold" href="/rwaprojekat/admin/logout">Log out</a>
         </nav>
     </div>
 
