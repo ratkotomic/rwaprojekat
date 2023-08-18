@@ -72,3 +72,10 @@ select {
         scroll-behavior: auto !important;
     }
 }
+
+
+.material-icons{
+    position: absolute;
+    top: 10px;
+    left: 15px;
+}

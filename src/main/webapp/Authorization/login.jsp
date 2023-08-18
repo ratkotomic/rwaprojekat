@@ -11,6 +11,7 @@
     <title>Login</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="reset.css">
     <link rel="stylesheet" href="Authorization/login.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
     <link rel="stylesheet" href="https://code.getmdl.io/1.3.0/material.cyan-deep_orange.min.css" />
@@ -46,7 +47,7 @@
 
             <div class="wrapper py-3  w-80 px-3 flex flex-column gap-2">
 
-                <h1 class="fs-heading"> Login </h1>
+                <h1 class="fs-heading"> Admin Login </h1>
 
                 <form method="post"  class="flex flex-column gap-2">
 
@@ -73,7 +74,7 @@
                     }
                 %>
 
-                <p>Nemate račun? Kliknite <a class="tc-link" href="register"> OVDJE </a> </p>
+                <p>Nemate admin račun? Kliknite <a class="tc-link" href="register"> OVDJE </a> </p>
 
             </div>
         </div>

@@ -12,6 +12,7 @@
     <title>Registracija</title>
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="reset.css">
     <link rel="stylesheet" href="Authorization/register.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
     <link rel="stylesheet" href="https://code.getmdl.io/1.3.0/material.cyan-deep_orange.min.css" />
@@ -48,7 +49,7 @@
 
             <div class="wrapper py-3  mb-1 w-80 px-3 flex flex-column gap-2">
 
-                <h1 class="fs-heading"> Registracija </h1>
+                <h1 class="fs-heading"> Kreiranje admin profila  </h1>
 
                 <form method="post" class="flex flex-column gap-2">
 
@@ -64,7 +65,7 @@
                     </div>
 
 
-                    <input id="submit" type="submit" value="Registruj se" class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored tc-primary-button" disabled>
+                    <input id="submit" type="submit" value="Pošalji zahtjev za registraciju" class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored tc-primary-button" disabled>
                 </form>
 
                 <%

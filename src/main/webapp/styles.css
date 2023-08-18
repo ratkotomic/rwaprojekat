@@ -46,6 +46,11 @@ body{
 }
 
 
+.flex-wrap{
+    flex-wrap: wrap;
+}
+
+
 
 .w-100{
     width:100% !important;
