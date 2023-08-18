@@ -75,30 +75,48 @@
         <!-- NEW QUIZ -->
 
         <dialog id="new-quiz-dialog" class="mdl-dialog">
-
             <h3 class="mdl-dialog__title text-center">Novi kviz</h3>
 
-            <div class="mdl-dialog__content">
-                <form class="flex flex-column gap-2">
+            <div class="mdl-dialog__content flex flex-column flex-center">
 
-                    <div class="w-100 mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
-                        <label class="mdl-textfield__label">Naziv</label>
-                        <input class="mdl-textfield__input title" type="text">
-                    </div>
-
-                    <div class="w-100 mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
-                        <label class="mdl-textfield__label">Url Slike</label>
-                        <input class="mdl-textfield__input image-url" type="text">
-                    </div>
-                </form>
-
-                <div class="mdl-dialog__actions flex flex-center">
-                    <button id="add-quiz-button" type="button" class="mdl-button p-0 ">Dodaj</button>
+                <div class="w-100 mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+                    <label class="mdl-textfield__label">Naziv</label>
+                    <input class="mdl-textfield__input title" type="text">
                 </div>
+
+                <div class="w-100 mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+                    <label class="mdl-textfield__label">Url Slike</label>
+                    <input class="mdl-textfield__input image-url" type="text">
+                </div>
+
+                <p> Pitanja </p>
+                <table class="mdl-data-table mdl-js-data-table mdl-shadow--2dp">
+                    <thead>
+                    <tr>
+                        <th class="mdl-data-table__cell--non-numeric">Tekst</th>
+                        <th>Vrijeme</th>
+                        <th>Poeni</th>
+                        <th>Edit</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    </tbody>
+                </table>
+
+                <button type="button" class=" new-question-button mdl-button mdl-js-button m-2">
+                    Novo pitanje
+                </button>
+
+
+                <button type="button" id="add-quiz-button" class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored tc-primary-button">
+                    Sačuvaj kviz
+                </button>
+
 
             </div>
 
             <button type="button" class="mdl-button close close-dialog-button p-0">X</button>
+
         </dialog>
 
 
@@ -171,6 +189,36 @@
     </main>
 </div>
 
+
+<dialog class="mdl-dialog" id="question-dialog">
+    <h3 class="mdl-dialog__title text-center title"></h3>
+
+    <div class="mdl-dialog__content flex flex-column flex-center">
+        <form class="flex flex-column gap-2">
+
+            <div class="w-100 mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+                <label class="mdl-textfield__label">Tekst</label>
+                <input class="mdl-textfield__input text" type="text">
+            </div>
+
+            <div class="w-100 mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+                <label class="mdl-textfield__label">Vrijeme za odgovor</label>
+                <input class="mdl-textfield__input time-to-answer" type="number">
+            </div>
+
+            <div class="w-100 mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+                <label class="mdl-textfield__label">Poeni</label>
+                <input class="mdl-textfield__input points" type="number">
+            </div>
+        </form>
+
+        <button type="button" class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored tc-primary-button action-button"></button>
+
+    </div>
+    <button type="button" class="mdl-button close close-dialog-button p-0">X</button>
+</dialog>
+
+
 </body>
 
 
@@ -182,13 +230,12 @@
     const closeDialogButtons = document.querySelectorAll(".close-dialog-button");
     for(let i = 0; i < closeDialogButtons.length; ++i)
     {
-        let dialog;
         closeDialogButtons[i].addEventListener("click", (event) => closeDialog(event.currentTarget));
     }
 
     function closeDialog(button)
     {
-        dialog = button.parentElement;
+        let dialog = button.parentElement;
         dialog.close();
     }
 
@@ -311,63 +358,153 @@
 
         /* NEW QUIZ */
 
-        const newQuizButton = document.getElementById("new-quiz-button");
         const newQuizDialog = document.getElementById("new-quiz-dialog");
+        const questionDialog = document.getElementById("question-dialog");
+
+        const newQuizButton = document.getElementById("new-quiz-button");
         const addQuizButton = document.getElementById("add-quiz-button");
 
         newQuizButton.addEventListener("click", () => newQuizDialog.showModal());
 
-        addQuizButton.addEventListener("click", (event) =>
+        // we the user click the new question button we use the question dialog
+        // we set all the necessary things here
+        const newQuestionButton = newQuizDialog.querySelector(".new-question-button");
+        newQuestionButton.addEventListener("click", () =>
         {
-            const button = event.currentTarget;
+            questionDialog.querySelector(".title").innerText = "Novo pitanje";
+            questionDialog.querySelector(".text").value = "";
+            questionDialog.querySelector(".points").value = "";
+            questionDialog.querySelector(".time-to-answer").value = "";
+
+            let oldActionButton = questionDialog.querySelector(".action-button");
+            let newActionButton = oldActionButton.cloneNode(true);
+            oldActionButton.parentNode.replaceChild(newActionButton, oldActionButton);
+            newActionButton.innerText = "Dodaj";
+            newActionButton.addEventListener("click", (event) => addQuestionToTable(event.currentTarget));
+
+            questionDialog.showModal();
+        });
+
+        const tableOfQuestions = newQuizDialog.querySelector("table");
+
+        /* adding a new question to the table */
+        function addQuestionToTable(button) {
             button.disabled = true;
+            const questionDialog = button.parentElement.parentElement;
 
-            const dialog = event.target.parentElement.parentElement.parentElement;
-            const title = dialog.querySelector(".title").value;
-            const imageUrl = dialog.querySelector(".image-url").value;
-            const quizzesContainer = document.querySelector(".quizzes-container");
+            let row = tableOfQuestions.insertRow(-1);
+            let c1 = row.insertCell(0);
+            let c2 = row.insertCell(1);
+            let c3 = row.insertCell(2);
+            let c4 = row.insertCell(3);
 
-            let quizRequest = {
-                title: title,
-                imageUrl: imageUrl,
-                creator: "1",
-                questions: []
-            };
+            c1.innerText = questionDialog.querySelector(".text").value;
+            c2.innerText = questionDialog.querySelector(".time-to-answer").value;
+            c3.innerText = questionDialog.querySelector(".points").value;
 
-            let quizRequestString = JSON.stringify(quizRequest);
+            let editButton = document.createElement("button");
+            editButton.classList.add("mdl-button");
+            editButton.classList.add("mdl-js-button");
+            editButton.innerText = "Edit";
+            editButton.addEventListener("click", (event) => questionEditButton(event.currentTarget, row));
+            c4.appendChild(editButton);
 
-            let url = window.location.href;
-            url = url.replace("home", "addQuiz");
+            questionDialog.close();
+            button.disabled = false;
+        }
 
-            fetch(url, {
-                method: 'post',
-                body: quizRequestString
+
+    function questionEditButton(button, row)
+    {
+        questionDialog.querySelector(".title").innerText = "Pitanje edit";
+        questionDialog.querySelector(".text").value = row.cells[0].innerText;
+        questionDialog.querySelector(".points").value = row.cells[1].innerText;
+        questionDialog.querySelector(".time-to-answer").value = row.cells[2].innerText;
+
+        /* we have to do this to remove all event listeners ,
+        they were added when were adding a question
+         */
+        let oldActionButton = questionDialog.querySelector(".action-button");
+        let newActionButton = oldActionButton.cloneNode(true);
+        oldActionButton.parentNode.replaceChild(newActionButton, oldActionButton);
+        newActionButton.innerText = "Sačuvaj";
+        newActionButton.addEventListener("click", (event) => editQuestionInTable(event.currentTarget, row));
+
+        questionDialog.showModal();
+    }
+
+    function editQuestionInTable(button, row)
+    {
+        const questionDialog = button.parentElement.parentElement;
+        row.cells[0].innerText = questionDialog.querySelector(".text").value;
+        row.cells[1].innerText = questionDialog.querySelector(".points").value;
+        row.cells[2].innerText = questionDialog.querySelector(".time-to-answer").value;
+
+        questionDialog.close();
+
+    }
+
+    addQuizButton.addEventListener("click", (event) =>
+    {
+        const button = event.currentTarget;
+        button.disabled = true;
+
+        const dialog = event.target.parentElement.parentElement;
+        const title = dialog.querySelector(".title").value;
+        const imageUrl = dialog.querySelector(".image-url").value;
+        const quizzesContainer = document.querySelector(".quizzes-container");
+
+        const questions = [];
+        let row;
+        for(let i = 1; i < tableOfQuestions.rows.length; ++i){
+            row = tableOfQuestions.rows[i];
+            questions.push({text: row.cells[0].innerText, timeToAnswer: row.cells[1].innerText,
+                points: row.cells[2].innerText, answerRequests: []});
+        }
+
+        let quizRequest = {
+            title: title,
+            imageUrl: imageUrl,
+            creator: "1",
+            questions: questions
+        };
+
+
+
+        let quizRequestString = JSON.stringify(quizRequest);
+
+        let url = window.location.href;
+        url = url.replace("home", "addQuiz");
+
+        fetch(url, {
+            method: 'post',
+            body: quizRequestString
+
+        })
+            .then(() =>
+            {
+                dialog.close();
+
+                const quizContainer = document.querySelector(".quiz-container");
+                const newQuizContainer = quizContainer.cloneNode(true);
+
+                newQuizContainer.querySelector(".title").innerText = title;
+                newQuizContainer.querySelector(".image-url").setAttribute("src", imageUrl);
+
+                newQuizContainer.querySelector(".edit-button").addEventListener("click", (event) => showEditDialog(event.currentTarget));
+                newQuizContainer.querySelector(".close-dialog-button").addEventListener("click", (event) => closeDialog(event.currentTarget));
+                newQuizContainer.querySelector(".save-changes-button").addEventListener("click", (event) => saveQuizChanges(event.currentTarget));
+                newQuizContainer.querySelector(".delete-button").addEventListener("click", (event) => deleteQuiz(event.currentTarget));
+
+                quizzesContainer.appendChild(newQuizContainer);
+
+
+                button.disabled = false;
 
             })
-                .then(() =>
-                {
-                    dialog.close();
-
-                    const quizContainer = document.querySelector(".quiz-container");
-                    const newQuizContainer = quizContainer.cloneNode(true);
-
-                    newQuizContainer.querySelector(".title").innerText = title;
-                    newQuizContainer.querySelector(".image-url").setAttribute("src", imageUrl);
-
-                    newQuizContainer.querySelector(".edit-button").addEventListener("click", (event) => showEditDialog(event.currentTarget));
-                    newQuizContainer.querySelector(".close-dialog-button").addEventListener("click", (event) => closeDialog(event.currentTarget));
-                    newQuizContainer.querySelector(".save-changes-button").addEventListener("click", (event) => saveQuizChanges(event.currentTarget));
-                    newQuizContainer.querySelector(".delete-button").addEventListener("click", (event) => deleteQuiz(event.currentTarget));
-
-                    quizzesContainer.appendChild(newQuizContainer);
-
-
-                    button.disabled = false;
-
-                })
-                .catch((error) => {
-                    console.log(error)
-                })
+            .catch((error) => {
+                console.log(error)
+            })
 
 
         });

@@ -26,3 +26,8 @@ h1{
     text-align: center;
 }
 
+
+th, td{
+    text-align: center !important;
+}
+

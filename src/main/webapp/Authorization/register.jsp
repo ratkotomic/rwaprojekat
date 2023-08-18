@@ -47,7 +47,7 @@
 
         <div class="container h-100 flex flex-column flex-center">
 
-            <div class="wrapper py-3  mb-1 w-80 px-3 flex flex-column gap-2">
+            <div class="wrapper py-3  w-80 px-3 flex flex-column gap-2">
 
                 <h1 class="fs-heading"> Kreiranje admin profila  </h1>
 

@@ -79,3 +79,8 @@ select {
     top: 10px;
     left: 15px;
 }
+
+.mdl-dialog{
+    width: fit-content !important;
+    min-width: 300px !important;
+}
