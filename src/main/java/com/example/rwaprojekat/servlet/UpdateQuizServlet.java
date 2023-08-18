@@ -26,7 +26,7 @@ public class UpdateQuizServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-            String quizId = req.getParameter("id");
+        String quizId = req.getParameter("id");
         String requestData = req.getReader().lines().collect(Collectors.joining());
         QuizRequest quizRequest = objectMapper.readValue(requestData, QuizRequest.class);
         Quiz quiz = quizDao.findQuizById(quizRequest.getId());
