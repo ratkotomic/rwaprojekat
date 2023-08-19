@@ -3,6 +3,7 @@ package com.example.rwaprojekat.dto;
 import java.util.List;
 
 public class QuestionRequest {
+    private String id;
 
     private String text;
 
@@ -11,6 +12,14 @@ public class QuestionRequest {
     private int points;
 
     private List<AnswerRequest> answerRequests;
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
 
     public String getText() {
         return text;
