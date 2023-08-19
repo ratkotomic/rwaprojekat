@@ -11,7 +11,7 @@ import jakarta.servlet.http.HttpServletResponse;
 
 import java.io.IOException;
 
-@WebServlet(name = "/GetQuiz", urlPatterns = "/getQuiz")
+@WebServlet(name = "/GetQuiz", urlPatterns = "/admin/getQuiz")
 public class GetQuizServlet extends HttpServlet {
     QuizDao quizDao;
 

@@ -1,6 +1,7 @@
 <%@ page import="com.example.rwaprojekat.model.User" %>
 <%@ page import="com.example.rwaprojekat.model.Quiz" %>
-<%@ page import="java.util.List" %><%--
+<%@ page import="java.util.List" %>
+<%@ page import="com.fasterxml.jackson.databind.ObjectMapper" %><%--
   Created by IntelliJ IDEA.
   User: PC
   Date: 8/17/2023
@@ -71,59 +72,9 @@
 
         <h1 class="mb-3">Kvizovi</h1>
 
-
-        <!-- NEW QUIZ -->
-
-        <dialog id="new-quiz-dialog" class="mdl-dialog">
-            <h3 class="mdl-dialog__title text-center">Novi kviz</h3>
-
-            <div class="mdl-dialog__content flex flex-column flex-center">
-
-                <div class="w-100 mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
-                    <label class="mdl-textfield__label">Naziv</label>
-                    <input class="mdl-textfield__input title" type="text">
-                </div>
-
-                <div class="w-100 mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
-                    <label class="mdl-textfield__label">Url Slike</label>
-                    <input class="mdl-textfield__input image-url" type="text">
-                </div>
-
-                <p> Pitanja </p>
-                <table class="mdl-data-table mdl-js-data-table mdl-shadow--2dp">
-                    <thead>
-                    <tr>
-                        <th class="mdl-data-table__cell--non-numeric">Tekst</th>
-                        <th>Vrijeme</th>
-                        <th>Poeni</th>
-                        <th>Edit</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    </tbody>
-                </table>
-
-                <button type="button" class=" new-question-button mdl-button mdl-js-button m-2">
-                    Novo pitanje
-                </button>
-
-
-                <button type="button" id="add-quiz-button" class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored tc-primary-button">
-                    Sačuvaj kviz
-                </button>
-
-
-            </div>
-
-            <button type="button" class="mdl-button close close-dialog-button p-0">X</button>
-
-        </dialog>
-
-
         <button type="button"  id="new-quiz-button" class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored tc-primary-button mb-2">
             Novi kviz
         </button>
-
 
 
         <!-- ALL QUIZZES -->
@@ -137,50 +88,19 @@
                 for (Quiz quiz : quizList)
                 {
             %>
-            <div class="quiz-container flex flex-column flex-center gap-1 p-2" data-id="<%= quiz.getId()%>">
-                <h2 class="title"><%= quiz.getTitle() %></h2>
-                <img class="image-url" src="<%= quiz.getImageUrl() %>">
+                <div class="quiz-container flex flex-column flex-center gap-1 p-2" data-id="<%= quiz.getId()%>">
+                    <h2 class="title"><%= quiz.getTitle() %></h2>
+                    <img class="image-url" src="<%= quiz.getImageUrl() %>">
 
+                    <button type="button"  class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored tc-primary-button w-100 edit-quiz-button">
+                        Edit
+                    </button>
 
-                <!-- EDIT WINDOW -->
+                    <button type="button" class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored tc-primary-button w-100 start-quiz-button">
+                        Započni
+                    </button>
 
-                <dialog class="mdl-dialog edit-dialog">
-
-                    <h3 class="mdl-dialog__title text-center">Editovanje</h3>
-
-                    <div class="mdl-dialog__content">
-                        <form class="flex flex-column gap-2">
-
-                            <div class="w-100 mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
-                                <label class="mdl-textfield__label">Naziv</label>
-                                <input class="mdl-textfield__input title" type="text" value="<%= quiz.getTitle() %>">
-                            </div>
-
-                            <div class="w-100 mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
-                                <label class="mdl-textfield__label">Url Slike</label>
-                                <input class="mdl-textfield__input image-url" type="text" value="<%=quiz.getImageUrl()%>">
-                            </div>
-                        </form>
-
-                        <div class="mdl-dialog__actions flex flex-row flex-space-between p-1">
-                            <button type="button" class="mdl-button p-0 save-changes-button ">Sačuvaj</button>
-                            <button type="button" class="mdl-button p-0 delete-button ">Izbriši</button>
-                        </div>
-
-                    </div>
-
-                    <button type="button" class="mdl-button close close-dialog-button p-0">X</button>
-                </dialog>
-                <button type="button"  class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored tc-primary-button w-100 edit-button">
-                    Edit
-                </button>
-
-
-                <button type="button" class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored tc-primary-button w-100">
-                    Započni
-                </button>
-
-            </div>
+                </div>
 
             <%
                 }
@@ -189,6 +109,62 @@
     </main>
 </div>
 
+
+<!-- QUIZ DIALOG
+Used when adding a new quiz or when editing an existing quiz -->
+
+<dialog id="quiz-dialog" class="mdl-dialog">
+
+    <h3 class="mdl-dialog__title text-center"></h3>
+
+    <div class="mdl-dialog__content">
+        <form class="flex flex-column gap-2">
+
+            <div class="w-100 mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+                <label class="mdl-textfield__label">Naziv</label>
+                <input class="mdl-textfield__input title" type="text">
+            </div>
+
+            <div class="w-100 mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+                <label class="mdl-textfield__label">Url Slike</label>
+                <input class="mdl-textfield__input image-url" type="text">
+            </div>
+        </form>
+
+
+        <p> Pitanja </p>
+        <table class="mdl-data-table mdl-js-data-table mdl-shadow--2dp">
+            <thead>
+            <tr>
+                <th class="mdl-data-table__cell--non-numeric">Tekst</th>
+                <th>Vrijeme</th>
+                <th>Poeni</th>
+                <th>Edit</th>
+            </tr>
+            </thead>
+            <tbody>
+            </tbody>
+        </table>
+
+        <button id="new-question-button" type="button" class="mdl-button mdl-js-button m-0 mt-1">
+            Novo pitanje
+        </button>
+
+
+        <div class="mdl-dialog__actions flex flex-row flex-space-between p-1 mt-2">
+            <button type="button" class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored tc-primary-button action-button-one "></button>
+            <button type="button" class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored tc-primary-button action-button-two "></button>
+        </div>
+
+    </div>
+
+    <button type="button" class="mdl-button close close-dialog-button p-0">X</button>
+</dialog>
+
+
+
+<!-- QUESTION DIALOG
+It's when adding a new question or editing an existing question -->
 
 <dialog class="mdl-dialog" id="question-dialog">
     <h3 class="mdl-dialog__title text-center title"></h3>
@@ -212,8 +188,13 @@
             </div>
         </form>
 
-        <button type="button" class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored tc-primary-button action-button"></button>
+        <button type="button" class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored tc-primary-button action-button-one mb-2">
 
+        </button>
+
+        <button type="button" class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored tc-primary-button action-button-two">
+
+        </button>
     </div>
     <button type="button" class="mdl-button close close-dialog-button p-0">X</button>
 </dialog>
@@ -225,65 +206,208 @@
 <script>
 
 
-    /* CLOSING DIALOG */
-
-    const closeDialogButtons = document.querySelectorAll(".close-dialog-button");
-    for(let i = 0; i < closeDialogButtons.length; ++i)
-    {
-        closeDialogButtons[i].addEventListener("click", (event) => closeDialog(event.currentTarget));
-    }
-
-    function closeDialog(button)
-    {
-        let dialog = button.parentElement;
-        dialog.close();
-    }
+    const questionDialog = document.getElementById("question-dialog");
+    const quizDialog = document.getElementById("quiz-dialog");
 
 
-    /* EDITING */
+    /* QUIZ DIALOG */
 
-    const editButtons = document.querySelectorAll(".edit-button");
-    for(let i = 0; i < editButtons.length; ++i)
-    {
-        editButtons[i].addEventListener("click", (event) => showEditDialog(event.currentTarget));
-    }
 
-    function showEditDialog(button)
-    {
+    /*
+        This part is for when the quiz dialog is used when the edit button,
+        of an already existing quiz, is clicked
+        we make a fetch call to get the quiz and then we fill out the dialog
+     */
+
+    const editQuizButtons = document.querySelectorAll(".edit-quiz-button");
+    editQuizButtons.forEach((button) => button.addEventListener("click", (event) => showEditQuizDialog((button))));
+
+
+    document.getElementById("new-question-button").addEventListener("click", (event) => showNewQuestionDialog(event.currentTarget));
+
+     function showEditQuizDialog(button) {
+
         const quizContainer = button.parentElement;
-        const dialog = button.previousElementSibling;
+        const quizId = quizContainer.getAttribute("data-id");
 
-        /* we have to do this here because when we make a new quiz container the values in the edit dialog
-        remain the same as the old quiz container that we cloned
-        so we just make sure that when the edit button is clicked we set the values to their correct value
-         */
-        dialog.querySelector(".title").value = quizContainer.querySelector(".title").innerText
-        dialog.querySelector(".image-url").value =  quizContainer.querySelector(".image-url").getAttribute("src");
-        dialog.showModal();
+        let url = window.location.href;
+        url = url.replace("home", "getQuiz");
+        const params = new URLSearchParams({id: quizId});
+
+        fetch(url + "?" + params)
+            .then((response) =>
+            {
+                return response.json();
+            })
+            .then((data) => {
+                let quizObject = data;
+
+                quizDialog.querySelector("h3").innerText = "Editovanje";
+                const titleInput = quizDialog.querySelector(".title");
+                titleInput.value = quizObject.title;
+                titleInput.parentElement.classList.add("is-dirty");
+                titleInput.parentElement.classList.add("is-upgraded");
+
+                const imageUrlInput = quizDialog.querySelector(".image-url");
+                imageUrlInput.value = quizObject.imageUrl;
+                imageUrlInput.parentElement.classList.add("is-dirty");
+                imageUrlInput.parentElement.classList.add("is-upgraded");
+
+                const tableOfQuestions = quizDialog.querySelector("table");
+                while(tableOfQuestions.rows.length > 1)
+                {
+                    tableOfQuestions.deleteRow(tableOfQuestions.rows.length-1);
+                }
+
+                let question;
+                for(let i = 0; i < quizObject.questions.length; ++i) {
+                    question = quizObject.questions[i];
+                    let row = tableOfQuestions.insertRow(-1);
+                    row.setAttribute("question-id", question.id);
+                    let c1 = row.insertCell(0);
+                    let c2 = row.insertCell(1);
+                    let c3 = row.insertCell(2);
+                    let c4 = row.insertCell(3);
+
+                    c1.innerText = question.questionText;
+                    c2.innerText = question.timeToAnswer;
+                    c3.innerText = question.points;
+
+                    let editButton = document.createElement("button");
+                    editButton.classList.add("mdl-button");
+                    editButton.classList.add("mdl-js-button");
+                    editButton.innerText = "Edit";
+                    editButton.addEventListener("click", (event) => showEditQuestionDialog(event.currentTarget, row));
+                    c4.appendChild(editButton);
+                }
+
+
+                const oldActionButtonOne = quizDialog.querySelector(".action-button-one");
+                const oldActionButtonTwo = quizDialog.querySelector(".action-button-two");
+
+                let newActionButtonOne = oldActionButtonOne.cloneNode(true);
+                oldActionButtonOne.parentNode.replaceChild(newActionButtonOne, oldActionButtonOne);
+                newActionButtonOne.innerText = "Sačuvaj";
+                newActionButtonOne.addEventListener("click", (event) => saveQuizChanges(event.currentTarget, quizContainer));
+
+                oldActionButtonTwo.style.display = "block";
+                let newActionButtonTwo = oldActionButtonTwo.cloneNode(true);
+                oldActionButtonTwo.parentNode.replaceChild(newActionButtonTwo, oldActionButtonTwo);
+                newActionButtonTwo.innerText = "Izbriši";
+                newActionButtonTwo.addEventListener("click", (event) => deleteQuiz(event.currentTarget, quizContainer));
+
+
+
+                quizDialog.showModal();
+            })
+            .catch(() => {
+                throw new Error("Get quiz failed!");
+            })
 
     }
 
 
-    const saveChangesButtons = document.querySelectorAll(".save-changes-button");
-    for(let i = 0; i < saveChangesButtons.length; ++i)
+
+    /* while editing a quiz the user might decide to edit a question */
+
+    function showEditQuestionDialog(button, row)
     {
-        saveChangesButtons[i].addEventListener("click", (event) => saveQuizChanges(event.currentTarget));
+        questionDialog.querySelector(".title").innerText = "Pitanje edit";
+        const textInput = questionDialog.querySelector(".text");
+        textInput.value = row.cells[0].innerText;
+        textInput.parentElement.classList.add("is-dirty")
+        textInput.parentElement.classList.add("is-upgraded");
+
+        const timeToAnswerInput = questionDialog.querySelector(".time-to-answer");
+        timeToAnswerInput.value = row.cells[1].innerText;
+        timeToAnswerInput.parentElement.classList.add("is-dirty");
+        timeToAnswerInput.parentElement.classList.add("is-upgraded");
+
+        const pointsInput = questionDialog.querySelector(".points");
+        pointsInput.value = row.cells[2].innerText;
+        pointsInput.parentElement.classList.add("is-dirty");
+        pointsInput.parentElement.classList.add("is-upgraded");
+
+
+
+        /*
+            we have to do this to remove all event listeners ,
+            they might be added when were adding a question
+         */
+
+        let oldActionButtonOne = questionDialog.querySelector(".action-button-one");
+        let newActionButtonOne = oldActionButtonOne.cloneNode(true);
+        oldActionButtonOne.parentNode.replaceChild(newActionButtonOne, oldActionButtonOne);
+        newActionButtonOne.innerText = "Sačuvaj";
+        newActionButtonOne.addEventListener("click", (event) => editQuestionInTable(event.currentTarget, row));
+        newActionButtonOne.style.display="block";
+
+
+        let oldActionButtonTwo = questionDialog.querySelector(".action-button-two");
+        oldActionButtonTwo.style.display= "block";
+        let newActionButtonTwo = oldActionButtonTwo.cloneNode(true);
+        oldActionButtonTwo.parentNode.replaceChild(newActionButtonTwo, oldActionButtonTwo);
+        newActionButtonTwo.innerText = "Izbriši";
+        newActionButtonTwo.addEventListener("click", (event) => {
+            quizDialog.querySelector("table").deleteRow(row.rowIndex);
+            questionDialog.close();
+        });
+
+        questionDialog.showModal();
     }
 
 
-    function saveQuizChanges(button)
+    function showNewQuestionDialog()
+    {
+        questionDialog.querySelector(".title").innerText = "Novo pitanje";
+        questionDialog.querySelector(".text").value = "";
+        questionDialog.querySelector(".points").value = ""
+        questionDialog.querySelector(".time-to-answer").value = "";
+
+
+        /*
+            we have to do this to remove all event listeners ,
+            they might be added when were adding a question
+         */
+
+        let oldActionButtonOne = questionDialog.querySelector(".action-button-one");
+        let newActionButtonOne = oldActionButtonOne.cloneNode(true);
+        oldActionButtonOne.parentNode.replaceChild(newActionButtonOne, oldActionButtonOne);
+        newActionButtonOne.innerText = "Dodaj";
+        newActionButtonOne.addEventListener("click", (event) => addQuestionToTable(event.currentTarget));
+        newActionButtonOne.style.display = "block";
+
+
+        let oldActionButtonTwo = questionDialog.querySelector(".action-button-two");
+        let newActionButtonTwo = oldActionButtonTwo.cloneNode(true);
+        oldActionButtonTwo.parentNode.replaceChild(newActionButtonTwo, oldActionButtonTwo);
+        newActionButtonTwo.innerText = "";
+        newActionButtonTwo.style.display = "none";
+
+        questionDialog.showModal();
+    }
+
+
+    function saveQuizChanges(button, quizContainer)
     {
         button.disabled = true;
 
-        const dialog = button.parentElement.parentElement.parentElement;
-        const quizContainer = dialog.parentElement;
-        const title = dialog.querySelector(".title").value;
-        const imageUrl = dialog.querySelector(".image-url").value;
+        const title = quizDialog.querySelector(".title").value;
+        const imageUrl = quizDialog.querySelector(".image-url").value;
+        const questions = [];
+        let row;
+        const table = quizDialog.querySelector("table");
+        for(let i = 1; i < table.rows.length; ++i)
+        {
+            row = table.rows[i];
+            questions.push({text: row.cells[0].innerText, timeToAnswer: row.cells[1].innerText, points: row.cells[2].innerText});
+        }
 
         let quizRequest = {
             id: quizContainer.getAttribute("data-id"),
             title: title,
-            imageUrl: imageUrl
+            imageUrl: imageUrl,
+            questions : questions
         };
 
         let quizRequestString = JSON.stringify(quizRequest);
@@ -298,7 +422,7 @@
         })
             .then(() =>
             {
-                dialog.close();
+                quizDialog.close();
                 quizContainer.querySelector(".title").innerText = title;
                 quizContainer.querySelector(".image-url").setAttribute("src", imageUrl);
 
@@ -312,24 +436,51 @@
     }
 
 
+    function editQuestionInTable(button, row)
+    {
+        const questionDialog = button.parentElement.parentElement;
+        row.cells[0].innerText = questionDialog.querySelector(".text").value;
+        row.cells[1].innerText = questionDialog.querySelector(".time-to-answer").value;
+        row.cells[2].innerText = questionDialog.querySelector(".points").value;
 
-    /* DELETING */
+        questionDialog.close();
+    }
 
-    const deleteButtons = document.querySelectorAll(".delete-button");
-    for(let i = 0; i < deleteButtons.length; ++i) {
-        deleteButtons[i].addEventListener("click", (event) => deleteQuiz(event.currentTarget));
+    function addQuestionToTable(button) {
+
+        button.disabled = true;
+
+        const table = quizDialog.querySelector("table");
+
+        let row = table.insertRow(-1);
+        let c1 = row.insertCell(0);
+        let c2 = row.insertCell(1);
+        let c3 = row.insertCell(2);
+        let c4 = row.insertCell(3);
+
+        c1.innerText = questionDialog.querySelector(".text").value;
+        c2.innerText = questionDialog.querySelector(".time-to-answer").value;
+        c3.innerText = questionDialog.querySelector(".points").value;
+
+        let editButton = document.createElement("button");
+        editButton.classList.add("mdl-button");
+        editButton.classList.add("mdl-js-button");
+        editButton.innerText = "Edit";
+        editButton.addEventListener("click", (event) => showEditQuestionDialog(event.currentTarget, row));
+        c4.appendChild(editButton);
+
+        questionDialog.close();
+        button.disabled = false;
     }
 
 
-    function deleteQuiz(button)
+
+    function deleteQuiz(button, quizContainer)
     {
         const userChoice = confirm("Da li sigurno želite izbrisati ovaj kviz?");
         if (!userChoice) {
             return;
         }
-
-        const dialog = button.parentElement.parentElement.parentElement;
-        const quizContainer = dialog.parentElement;
 
 
         let params = new URLSearchParams({
@@ -344,7 +495,7 @@
             body: params
         })
             .then(() => {
-                dialog.close();
+                quizDialog.close();
                 quizContainer.remove();
 
             })
@@ -358,106 +509,54 @@
 
         /* NEW QUIZ */
 
-        const newQuizDialog = document.getElementById("new-quiz-dialog");
-        const questionDialog = document.getElementById("question-dialog");
-
         const newQuizButton = document.getElementById("new-quiz-button");
-        const addQuizButton = document.getElementById("add-quiz-button");
+        newQuizButton.addEventListener("click", (event) => showNewQuizDialog(event.currentTarget));
 
-        newQuizButton.addEventListener("click", () => newQuizDialog.showModal());
 
-        // we the user click the new question button we use the question dialog
-        // we set all the necessary things here
-        const newQuestionButton = newQuizDialog.querySelector(".new-question-button");
-        newQuestionButton.addEventListener("click", () =>
-        {
-            questionDialog.querySelector(".title").innerText = "Novo pitanje";
-            questionDialog.querySelector(".text").value = "";
-            questionDialog.querySelector(".points").value = "";
-            questionDialog.querySelector(".time-to-answer").value = "";
+        function showNewQuizDialog(button) {
 
-            let oldActionButton = questionDialog.querySelector(".action-button");
-            let newActionButton = oldActionButton.cloneNode(true);
-            oldActionButton.parentNode.replaceChild(newActionButton, oldActionButton);
-            newActionButton.innerText = "Dodaj";
-            newActionButton.addEventListener("click", (event) => addQuestionToTable(event.currentTarget));
+            quizDialog.querySelector("h3").innerText = "Novi kviz";
+            quizDialog.querySelector(".title").value = "";
+            quizDialog.querySelector(".image-url").value = "";
 
-            questionDialog.showModal();
-        });
+            const tableOfQuestions = quizDialog.querySelector("table");
+            while(tableOfQuestions.rows.length > 1)
+            {
+                tableOfQuestions.deleteRow(tableOfQuestions.rows.length-1);
+            }
 
-        const tableOfQuestions = newQuizDialog.querySelector("table");
+            const oldActionButtonOne = quizDialog.querySelector(".action-button-one");
+            const oldActionButtonTwo = quizDialog.querySelector(".action-button-two");
 
-        /* adding a new question to the table */
-        function addQuestionToTable(button) {
-            button.disabled = true;
-            const questionDialog = button.parentElement.parentElement;
+            let newActionButtonOne = oldActionButtonOne.cloneNode(true);
+            oldActionButtonOne.parentNode.replaceChild(newActionButtonOne, oldActionButtonOne);
+            newActionButtonOne.innerText = "Dodaj";
+            newActionButtonOne.addEventListener("click", (event) => addNewQuiz(event.currentTarget));
 
-            let row = tableOfQuestions.insertRow(-1);
-            let c1 = row.insertCell(0);
-            let c2 = row.insertCell(1);
-            let c3 = row.insertCell(2);
-            let c4 = row.insertCell(3);
+            let newActionButtonTwo = oldActionButtonTwo.cloneNode(true);
+            oldActionButtonTwo.parentNode.replaceChild(newActionButtonTwo, oldActionButtonTwo);
+            newActionButtonTwo.innerText = "";
+            newActionButtonTwo.style.display = "none";
 
-            c1.innerText = questionDialog.querySelector(".text").value;
-            c2.innerText = questionDialog.querySelector(".time-to-answer").value;
-            c3.innerText = questionDialog.querySelector(".points").value;
+            quizDialog.showModal();
 
-            let editButton = document.createElement("button");
-            editButton.classList.add("mdl-button");
-            editButton.classList.add("mdl-js-button");
-            editButton.innerText = "Edit";
-            editButton.addEventListener("click", (event) => questionEditButton(event.currentTarget, row));
-            c4.appendChild(editButton);
 
-            questionDialog.close();
-            button.disabled = false;
         }
 
 
-    function questionEditButton(button, row)
+    function addNewQuiz(button)
     {
-        questionDialog.querySelector(".title").innerText = "Pitanje edit";
-        questionDialog.querySelector(".text").value = row.cells[0].innerText;
-        questionDialog.querySelector(".points").value = row.cells[1].innerText;
-        questionDialog.querySelector(".time-to-answer").value = row.cells[2].innerText;
-
-        /* we have to do this to remove all event listeners ,
-        they were added when were adding a question
-         */
-        let oldActionButton = questionDialog.querySelector(".action-button");
-        let newActionButton = oldActionButton.cloneNode(true);
-        oldActionButton.parentNode.replaceChild(newActionButton, oldActionButton);
-        newActionButton.innerText = "Sačuvaj";
-        newActionButton.addEventListener("click", (event) => editQuestionInTable(event.currentTarget, row));
-
-        questionDialog.showModal();
-    }
-
-    function editQuestionInTable(button, row)
-    {
-        const questionDialog = button.parentElement.parentElement;
-        row.cells[0].innerText = questionDialog.querySelector(".text").value;
-        row.cells[1].innerText = questionDialog.querySelector(".points").value;
-        row.cells[2].innerText = questionDialog.querySelector(".time-to-answer").value;
-
-        questionDialog.close();
-
-    }
-
-    addQuizButton.addEventListener("click", (event) =>
-    {
-        const button = event.currentTarget;
         button.disabled = true;
 
-        const dialog = event.target.parentElement.parentElement;
-        const title = dialog.querySelector(".title").value;
-        const imageUrl = dialog.querySelector(".image-url").value;
+        const title = quizDialog.querySelector(".title").value;
+        const imageUrl = quizDialog.querySelector(".image-url").value;
         const quizzesContainer = document.querySelector(".quizzes-container");
 
         const questions = [];
         let row;
-        for(let i = 1; i < tableOfQuestions.rows.length; ++i){
-            row = tableOfQuestions.rows[i];
+        const table = quizDialog.querySelector("table");
+        for(let i = 1; i < table.rows.length; ++i){
+            row = table.rows[i];
             questions.push({text: row.cells[0].innerText, timeToAnswer: row.cells[1].innerText,
                 points: row.cells[2].innerText, answerRequests: []});
         }
@@ -469,8 +568,6 @@
             questions: questions
         };
 
-
-
         let quizRequestString = JSON.stringify(quizRequest);
 
         let url = window.location.href;
@@ -481,34 +578,47 @@
             body: quizRequestString
 
         })
-            .then(() =>
-            {
-                dialog.close();
-
-                const quizContainer = document.querySelector(".quiz-container");
-                const newQuizContainer = quizContainer.cloneNode(true);
-
-                newQuizContainer.querySelector(".title").innerText = title;
-                newQuizContainer.querySelector(".image-url").setAttribute("src", imageUrl);
-
-                newQuizContainer.querySelector(".edit-button").addEventListener("click", (event) => showEditDialog(event.currentTarget));
-                newQuizContainer.querySelector(".close-dialog-button").addEventListener("click", (event) => closeDialog(event.currentTarget));
-                newQuizContainer.querySelector(".save-changes-button").addEventListener("click", (event) => saveQuizChanges(event.currentTarget));
-                newQuizContainer.querySelector(".delete-button").addEventListener("click", (event) => deleteQuiz(event.currentTarget));
-
-                quizzesContainer.appendChild(newQuizContainer);
-
-
-                button.disabled = false;
-
+            .then((response) => {
+                return response.json();
             })
-            .catch((error) => {
-                console.log(error)
-            })
+        .then((data) =>
+        {
+            const quizContainer = document.querySelector(".quiz-container");
+            const newQuizContainer = quizContainer.cloneNode(true);
+            newQuizContainer.setAttribute("data-id", data.id);
+
+            newQuizContainer.querySelector(".title").innerText = title;
+            newQuizContainer.querySelector(".image-url").setAttribute("src", imageUrl);
+
+            newQuizContainer.querySelector(".edit-quiz-button").addEventListener("click", (event) => showEditQuizDialog(event.currentTarget));
+
+            quizzesContainer.appendChild(newQuizContainer);
 
 
-        });
+            quizDialog.close();
+            button.disabled = false;
 
+        })
+        .catch((error) => {
+            console.log(error)
+        })
+
+
+        }
+
+    /* CLOSING DIALOG */
+
+    const closeDialogButtons = document.querySelectorAll(".close-dialog-button");
+    for(let i = 0; i < closeDialogButtons.length; ++i)
+    {
+        closeDialogButtons[i].addEventListener("click", (event) => closeDialog(event.currentTarget));
+    }
+
+    function closeDialog(button)
+    {
+        let dialog = button.parentElement;
+        dialog.close();
+    }
 
 
 </script>
