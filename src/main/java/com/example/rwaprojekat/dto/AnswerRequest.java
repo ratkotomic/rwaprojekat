@@ -1,10 +1,20 @@
 package com.example.rwaprojekat.dto;
 
 public class AnswerRequest {
+
+    private String id;
+
     private String text;
 
     private boolean correct;
 
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
     public String getText() {
         return text;
     }

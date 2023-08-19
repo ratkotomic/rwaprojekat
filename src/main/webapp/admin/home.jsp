@@ -15,7 +15,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="../styles.css">
     <link rel="stylesheet" href="../reset.css">
-    <link rel="stylesheet" href="../admin/home.css">
+    <link rel="stylesheet" href="home.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
     <link rel="stylesheet" href="https://code.getmdl.io/1.3.0/material.cyan-deep_orange.min.css" />
 </head>
@@ -184,7 +184,7 @@ Used when adding a new quiz or when editing an existing quiz -->
 
     <h3 class="mdl-dialog__title text-center"></h3>
 
-    <div class="mdl-dialog__content">
+    <div class="mdl-dialog__content flex flex-column gap-1">
         <form class="flex flex-column gap-2">
 
             <div class="w-100 mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
@@ -199,7 +199,7 @@ Used when adding a new quiz or when editing an existing quiz -->
         </form>
 
 
-        <p> Pitanja </p>
+        <p class="mb-0"> Pitanja </p>
         <table class="mdl-data-table mdl-js-data-table mdl-shadow--2dp">
             <thead>
             <tr>
@@ -207,18 +207,19 @@ Used when adding a new quiz or when editing an existing quiz -->
                 <th>Vrijeme</th>
                 <th>Poeni</th>
                 <th>Edit</th>
+                <th style="display: none"></th>
             </tr>
             </thead>
             <tbody>
             </tbody>
         </table>
 
-        <button id="new-question-button" type="button" class="mdl-button mdl-js-button m-0 mt-1">
+        <button id="new-question-button" type="button" class="mdl-button mdl-js-button">
             Novo pitanje
         </button>
 
 
-        <div class="mdl-dialog__actions flex flex-row flex-space-between p-1 mt-2">
+        <div class="mdl-dialog__actions flex flex-row flex-space-between p-0 mt-2 ">
             <button type="button" class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored tc-primary-button action-button-one "></button>
             <button type="button" class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored tc-primary-button action-button-two "></button>
         </div>
@@ -236,8 +237,8 @@ It's when adding a new question or editing an existing question -->
 <dialog class="mdl-dialog" id="question-dialog">
     <h3 class="mdl-dialog__title text-center title"></h3>
 
-    <div class="mdl-dialog__content flex flex-column flex-center">
-        <form class="flex flex-column gap-2">
+    <div class="mdl-dialog__content flex flex-column gap-1">
+        <form class="flex flex-column gap-2 w-100">
 
             <div class="w-100 mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
                 <label class="mdl-textfield__label">Tekst</label>
@@ -255,13 +256,63 @@ It's when adding a new question or editing an existing question -->
             </div>
         </form>
 
-        <button type="button" class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored tc-primary-button action-button-one mb-2">
 
+        <p> Odgovori </p>
+        <table class="mdl-data-table mdl-js-data-table mdl-shadow--2dp w-100">
+            <thead>
+            <tr>
+                <th class="mdl-data-table__cell--non-numeric">Tekst</th>
+                <th class="mdl-data-table__cell--non-numeric">Tačan</th>
+                <th>Edit</th>
+            </tr>
+            </thead>
+            <tbody>
+            </tbody>
+        </table>
+
+        <button id="new-answer-button" type="button" class="mdl-button mdl-js-button m-0 mt-1">
+            Novi odgovor
+        </button>
+
+        <div class="mdl-dialog__actions flex flex-row flex-space-between p-0 mt-2 ">
+            <button type="button" class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored tc-primary-button action-button-one mb-2">
+            </button>
+
+            <button type="button" class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored tc-primary-button action-button-two">
+            </button>
+        </div>
+
+    </div>
+    <button type="button" class="mdl-button close close-dialog-button p-0">X</button>
+</dialog>
+
+
+<!-- answer dialog -->
+
+<dialog class="mdl-dialog" id="answer-dialog">
+    <h3 class="mdl-dialog__title text-center title"></h3>
+
+    <div class="mdl-dialog__content flex flex-column gap-1">
+        <form class="flex flex-column gap-2 w-100">
+
+            <div class="w-100 mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+                <label class="mdl-textfield__label">Tekst</label>
+                <input class="mdl-textfield__input text" type="text">
+            </div>
+
+            <div class="flex">
+                <label class=" mr-1">Da li je odogovor tačan?</label>
+                <input type="checkbox"  class="is-correct">
+            </div>
+        </form>
+
+        <div class="mdl-dialog__actions flex flex-row flex-space-between p-0 mt-2">
+        <button type="button" class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored tc-primary-button action-button-one mb-2">
         </button>
 
         <button type="button" class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored tc-primary-button action-button-two">
-
         </button>
+        </div>
     </div>
     <button type="button" class="mdl-button close close-dialog-button p-0">X</button>
 </dialog>
@@ -291,8 +342,9 @@ It's when adding a new question or editing an existing question -->
     });
 
 
-    const questionDialog = document.getElementById("question-dialog");
     const quizDialog = document.getElementById("quiz-dialog");
+    const questionDialog = document.getElementById("question-dialog");
+    const answerDialog = document.getElementById("answer-dialog");
     const userDialog = document.getElementById("new-user-dialog");
 
 
@@ -310,8 +362,9 @@ It's when adding a new question or editing an existing question -->
 
 
     document.getElementById("new-question-button").addEventListener("click", (event) => showNewQuestionDialog(event.currentTarget));
+    document.getElementById("new-answer-button").addEventListener("click", (event) => showNewAnswerDialog(event.currentTarget));
 
-     function showEditQuizDialog(button) {
+    function showEditQuizDialog(button) {
 
         const quizContainer = button.parentElement;
         const quizId = quizContainer.getAttribute("data-id");
@@ -328,7 +381,7 @@ It's when adding a new question or editing an existing question -->
             .then((data) => {
                 let quizObject = data;
 
-                quizDialog.querySelector("h3").innerText = "Editovanje";
+                quizDialog.querySelector("h3").innerText = "Kviz Edit";
                 const titleInput = quizDialog.querySelector(".title");
                 titleInput.value = quizObject.title;
                 titleInput.parentElement.classList.add("is-dirty");
@@ -354,10 +407,13 @@ It's when adding a new question or editing an existing question -->
                     let c2 = row.insertCell(1);
                     let c3 = row.insertCell(2);
                     let c4 = row.insertCell(3);
+                    let c5 = row.insertCell(4);
 
                     c1.innerText = question.questionText;
                     c2.innerText = question.timeToAnswer;
                     c3.innerText = question.points;
+
+
 
                     let editButton = document.createElement("button");
                     editButton.classList.add("mdl-button");
@@ -365,6 +421,41 @@ It's when adding a new question or editing an existing question -->
                     editButton.innerText = "Edit";
                     editButton.addEventListener("click", (event) => showEditQuestionDialog(event.currentTarget, row));
                     c4.appendChild(editButton);
+
+                    let answersTable = questionDialog.querySelector("table").cloneNode(true);
+                    while(answersTable.rows.length > 1)
+                    {
+                        answersTable.deleteRow(answersTable.rows.length-1);
+                    }
+                    let answers = question.answers;
+                    let answer;
+                    for(let j = 0; j < answers.length; ++j)
+                    {
+                        answer = answers[j];
+                        let row = answersTable.insertRow(-1);
+                        row.setAttribute("answer-id", answer.id);
+                        let c1 = row.insertCell(0);
+                        let c2 = row.insertCell(1);
+                        let c3 = row.insertCell(2);
+
+                        let editButton = document.createElement("button");
+                        editButton.classList.add("mdl-button");
+                        editButton.classList.add("mdl-js-button");
+                        editButton.innerText = "Edit";
+                        editButton.addEventListener("click", (event) => showEditAnswerDialog(event.currentTarget, event.currentTarget.parentElement.parentElement));
+                        c3.appendChild(editButton);
+
+                        c1.innerText = answer.answerText;
+                        let checkbox = document.createElement("INPUT");
+                        checkbox.setAttribute("type", "checkbox");
+                        checkbox.checked = answer.correct;
+                        c2.appendChild(checkbox);
+                    }
+
+                    c5.append(answersTable);
+                    answersTable.style.display = "none";
+                    c5.style.display = "none";
+
                 }
 
 
@@ -439,7 +530,57 @@ It's when adding a new question or editing an existing question -->
             questionDialog.close();
         });
 
+        const orgTable = row.cells[4].firstElementChild;
+        const newTable = orgTable.cloneNode(true);
+        newTable.style.display = "block";
+
+        const oldTable = questionDialog.querySelector("table");
+        oldTable.parentElement.replaceChild(newTable, oldTable);
+        const editButtons = newTable.querySelectorAll("button");
+        if(editButtons != null) {
+            for (let i = 0; i < editButtons.length; ++i)
+                editButtons[i].addEventListener("click", (event) => showEditAnswerDialog(event.currentTarget, event.currentTarget.parentElement.parentElement));
+        }
         questionDialog.showModal();
+    }
+
+    function showEditAnswerDialog(button, row)
+    {
+        answerDialog.querySelector(".title").innerText = "Odgovor edit";
+        const textInput = answerDialog.querySelector(".text");
+        textInput.value = row.cells[0].innerText;
+        textInput.parentElement.classList.add("is-dirty")
+        textInput.parentElement.classList.add("is-upgraded");
+
+
+        const checkbox = answerDialog.querySelector(".is-correct");
+        checkbox.checked = row.cells[1].firstElementChild.checked;
+
+
+        /*
+            we have to do this to remove all event listeners ,
+            they might be added when were adding a question
+         */
+
+        let oldActionButtonOne = answerDialog.querySelector(".action-button-one");
+        let newActionButtonOne = oldActionButtonOne.cloneNode(true);
+        oldActionButtonOne.parentNode.replaceChild(newActionButtonOne, oldActionButtonOne);
+        newActionButtonOne.innerText = "Sačuvaj";
+        newActionButtonOne.addEventListener("click", (event) => editAnswerInTable(event.currentTarget, row));
+        newActionButtonOne.style.display="block";
+
+
+        let oldActionButtonTwo = answerDialog.querySelector(".action-button-two");
+        oldActionButtonTwo.style.display= "block";
+        let newActionButtonTwo = oldActionButtonTwo.cloneNode(true);
+        oldActionButtonTwo.parentNode.replaceChild(newActionButtonTwo, oldActionButtonTwo);
+        newActionButtonTwo.innerText = "Izbriši";
+        newActionButtonTwo.addEventListener("click", (event) => {
+            questionDialog.querySelector("table").deleteRow(row.rowIndex);
+            answerDialog.close();
+        });
+
+        answerDialog.showModal();
     }
 
 
@@ -450,6 +591,11 @@ It's when adding a new question or editing an existing question -->
         questionDialog.querySelector(".points").value = ""
         questionDialog.querySelector(".time-to-answer").value = "";
 
+        const table = questionDialog.querySelector("table");
+        while(table.rows.length > 1)
+        {
+            table.deleteRow(table.rows.length-1);
+        }
 
         /*
             we have to do this to remove all event listeners ,
@@ -473,6 +619,34 @@ It's when adding a new question or editing an existing question -->
         questionDialog.showModal();
     }
 
+    function showNewAnswerDialog()
+    {
+        answerDialog.querySelector(".title").innerText = "Novi odgovor";
+        answerDialog.querySelector(".text").value = "";
+        answerDialog.querySelector(".is-correct").checked = false;
+
+        /*
+            we have to do this to remove all event listeners ,
+            they might be added when were adding a question
+         */
+
+        let oldActionButtonOne = answerDialog.querySelector(".action-button-one");
+        let newActionButtonOne = oldActionButtonOne.cloneNode(true);
+        oldActionButtonOne.parentNode.replaceChild(newActionButtonOne, oldActionButtonOne);
+        newActionButtonOne.innerText = "Dodaj";
+        newActionButtonOne.addEventListener("click", (event) => addAnswerToTable(event.currentTarget));
+        newActionButtonOne.style.display = "block";
+
+
+        let oldActionButtonTwo = answerDialog.querySelector(".action-button-two");
+        let newActionButtonTwo = oldActionButtonTwo.cloneNode(true);
+        oldActionButtonTwo.parentNode.replaceChild(newActionButtonTwo, oldActionButtonTwo);
+        newActionButtonTwo.innerText = "";
+        newActionButtonTwo.style.display = "none";
+
+        answerDialog.showModal();
+    }
+
 
     function saveQuizChanges(button, quizContainer)
     {
@@ -482,11 +656,23 @@ It's when adding a new question or editing an existing question -->
         const imageUrl = quizDialog.querySelector(".image-url").value;
         const questions = [];
         let row;
-        const table = quizDialog.querySelector("table");
-        for(let i = 1; i < table.rows.length; ++i)
+        const questionsTable = quizDialog.querySelector("table");
+
+        let answersTable;
+        let answerRow;
+        let answers = [];
+        for(let i = 1; i < questionsTable.rows.length; ++i)
         {
-            row = table.rows[i];
-            questions.push({id: row.getAttribute("question-id"), text: row.cells[0].innerText, timeToAnswer: row.cells[1].innerText, points: row.cells[2].innerText});
+            answers = [];
+            row = questionsTable.rows[i];
+            answersTable = questionsTable.rows[i].cells[4].firstElementChild;
+            for(let j = 1; j < answersTable.rows.length; ++j)
+            {
+                answerRow = answersTable.rows[j];
+                answers.push({id: answerRow.getAttribute("answer-id"), text: answerRow.cells[0].innerText, correct: answerRow.cells[1].firstElementChild.checked});
+            }
+            questions.push({id: row.getAttribute("question-id"), text: row.cells[0].innerText, timeToAnswer: row.cells[1].innerText, points: row.cells[2].innerText,
+                answerRequests: answers});
         }
 
         let quizRequest = {
@@ -524,12 +710,25 @@ It's when adding a new question or editing an existing question -->
 
     function editQuestionInTable(button, row)
     {
-        const questionDialog = button.parentElement.parentElement;
+        button.disabled = true;
         row.cells[0].innerText = questionDialog.querySelector(".text").value;
         row.cells[1].innerText = questionDialog.querySelector(".time-to-answer").value;
         row.cells[2].innerText = questionDialog.querySelector(".points").value;
-
+        row.cells[4].firstElementChild.remove();
+        row.cells[4].appendChild(questionDialog.querySelector("table").cloneNode(true));
         questionDialog.close();
+        button.disabled = false;
+    }
+
+
+
+    function editAnswerInTable(button, row)
+    {
+        button.disabled = true;
+        row.cells[0].innerText = answerDialog.querySelector(".text").value;
+        row.cells[1].firstElementChild.checked = answerDialog.querySelector(".is-correct").checked;
+        answerDialog.close();
+        button.disabled = false;
     }
 
     function addQuestionToTable(button) {
@@ -543,10 +742,15 @@ It's when adding a new question or editing an existing question -->
         let c2 = row.insertCell(1);
         let c3 = row.insertCell(2);
         let c4 = row.insertCell(3);
+        let c5 = row.insertCell(4);
 
         c1.innerText = questionDialog.querySelector(".text").value;
         c2.innerText = questionDialog.querySelector(".time-to-answer").value;
         c3.innerText = questionDialog.querySelector(".points").value;
+        let answersTable = questionDialog.querySelector("table").cloneNode(true);
+        answersTable.style.display = "none";
+        c5.appendChild(answersTable);
+        c5.style.display="none";
 
         let editButton = document.createElement("button");
         editButton.classList.add("mdl-button");
@@ -560,9 +764,37 @@ It's when adding a new question or editing an existing question -->
     }
 
 
+    function addAnswerToTable(button)
+    {
+        button.disabled = true;
+
+        const answerTable = questionDialog.querySelector("table");
+
+        let row = answerTable.insertRow(-1);
+        let c1 = row.insertCell(0);
+        let c2 = row.insertCell(1);
+        let c3 = row.insertCell(2);
+
+        c1.innerText = answerDialog.querySelector(".text").value;
+        c2.appendChild(answerDialog.querySelector(".is-correct").cloneNode());
+
+        let editButton = document.createElement("button");
+        editButton.classList.add("mdl-button");
+        editButton.classList.add("mdl-js-button");
+        editButton.innerText = "Edit";
+        editButton.addEventListener("click", (event) => showEditAnswerDialog(event.currentTarget, row));
+        c3.appendChild(editButton);
+
+        answerDialog.close();
+
+        button.disabled = false;
+    }
+
+
 
     function deleteQuiz(button, quizContainer)
     {
+        button.disabled=true;
         const userChoice = confirm("Da li sigurno želite izbrisati ovaj kviz?");
         if (!userChoice) {
             return;
@@ -588,7 +820,7 @@ It's when adding a new question or editing an existing question -->
             .catch((error) => {
                 console.log(error)
             })
-
+        button.disabled = false;
     }
 
 
@@ -599,7 +831,7 @@ It's when adding a new question or editing an existing question -->
         newQuizButton.addEventListener("click", (event) => showNewQuizDialog(event.currentTarget));
 
 
-        function showNewQuizDialog(button) {
+        function showNewQuizDialog() {
 
             quizDialog.querySelector("h3").innerText = "Novi kviz";
             quizDialog.querySelector(".title").value = "";
@@ -639,13 +871,26 @@ It's when adding a new question or editing an existing question -->
         const quizzesContainer = document.querySelector(".quizzes-container");
 
         const questions = [];
+        let answers = [];
+        let answer;
         let row;
+
         const table = quizDialog.querySelector("table");
         for(let i = 1; i < table.rows.length; ++i){
             row = table.rows[i];
+            answers = [];
+            for(let j = 1; j < row.cells[4].firstElementChild.rows.length; ++j)
+            {
+                answer = row.cells[4].firstElementChild.rows[j];
+                answers.push({text: answer.cells[0].innerText, correct: answer.cells[1].firstElementChild.checked});
+            }
+
+
             questions.push({text: row.cells[0].innerText, timeToAnswer: row.cells[1].innerText,
-                points: row.cells[2].innerText, answerRequests: []});
+                points: row.cells[2].innerText, answerRequests: answers});
         }
+
+
 
         let quizRequest = {
             title: title,
@@ -670,6 +915,10 @@ It's when adding a new question or editing an existing question -->
         .then((data) =>
         {
             const quizContainer = document.querySelector(".quiz-container");
+
+            /* todo */
+            /* bug here when there are not quizzess we can't just clone a quiz container */
+
             const newQuizContainer = quizContainer.cloneNode(true);
             newQuizContainer.setAttribute("data-id", data.id);
 
