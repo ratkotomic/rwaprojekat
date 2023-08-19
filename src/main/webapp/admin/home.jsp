@@ -17,12 +17,12 @@
     <link rel="stylesheet" href="../reset.css">
     <link rel="stylesheet" href="../admin/home.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
-    <link rel="stylesheet" href="https://code.getmdl.io/1.3.0/material.cyan-deep_orange.min.css" />
+    <link rel="stylesheet" href="https://code.getmdl.io/1.3.0/material.cyan-deep_orange.min.css"/>
 </head>
 <body>
 
 <%
-    User user = (User)request.getSession().getAttribute("user");
+    User user = (User) request.getSession().getAttribute("user");
     String userRole = user.getRole();
 %>
 
@@ -37,13 +37,12 @@
                 <a class="mdl-navigation__link tc-black fw-bold" href="#quizzes">Kvizovi</a>
 
                 <%
-                    if(userRole.equals("super-admin"))
-                    {
-                        %>
+                    if (userRole.equals("super-admin")) {
+                %>
 
-                            <a class="mdl-navigation__link tc-black fw-bold" href="#users">Korisnici</a>
+                <a class="mdl-navigation__link tc-black fw-bold" href="#users">Korisnici</a>
 
-                        <%
+                <%
                     }
                 %>
 
@@ -59,10 +58,9 @@
         <nav class="mdl-navigation">
             <a class="mdl-navigation__link  tc-black fw-bold" href="#quizzes">Kvizovi</a>
             <%
-                if(userRole.equals("super-admin"))
-                {
+                if (userRole.equals("super-admin")) {
             %>
-               <a class="mdl-navigation__link  tc-black fw-bold" href="#users">Korisnici</a>
+            <a class="mdl-navigation__link  tc-black fw-bold" href="#users">Korisnici</a>
             <%
                 }
             %>
@@ -76,7 +74,8 @@
 
         <h1 class="mb-3">Kvizovi</h1>
 
-        <button type="button"  id="new-quiz-button" class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored tc-primary-button mb-2">
+        <button type="button" id="new-quiz-button"
+                class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored tc-primary-button mb-2">
             Novi kviz
         </button>
 
@@ -87,24 +86,26 @@
         <div class="quizzes-container flex flex-row flex-wrap gap-2">
             <%
 
-                List<Quiz> quizList = (List<Quiz>)request.getAttribute("quizList");
+                List<Quiz> quizList = (List<Quiz>) request.getAttribute("quizList");
 
-                for (Quiz quiz : quizList)
-                {
+                for (Quiz quiz : quizList) {
             %>
-                <div class="quiz-container flex flex-column flex-center gap-1 p-2" data-id="<%= quiz.getId()%>">
-                    <h2 class="title"><%= quiz.getTitle() %></h2>
-                    <img class="image-url" src="<%= quiz.getImageUrl() %>">
+            <div class="quiz-container flex flex-column flex-center gap-1 p-2" data-id="<%= quiz.getId()%>">
+                <h2 class="title"><%= quiz.getTitle() %>
+                </h2>
+                <img class="image-url" src="<%= quiz.getImageUrl() %>">
 
-                    <button type="button"  class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored tc-primary-button w-100 edit-quiz-button">
-                        Edit
-                    </button>
+                <button type="button"
+                        class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored tc-primary-button w-100 edit-quiz-button">
+                    Edit
+                </button>
 
-                    <button type="button" class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored tc-primary-button w-100 start-quiz-button">
-                        Započni
-                    </button>
+                <button type="button"
+                        class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored tc-primary-button w-100 start-quiz-button">
+                    Započni
+                </button>
 
-                </div>
+            </div>
 
             <%
                 }
@@ -114,7 +115,8 @@
     <main id="users" class="tab-content mdl-layout__content p-3">
         <!-- NEW USER -->
         <h1 class="mb-3">Useri</h1>
-        <button type="button"  id="new-user-button" class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored tc-primary-button mb-2">
+        <button type="button" id="new-user-button"
+                class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored tc-primary-button mb-2">
             Novi korisnik
         </button>
 
@@ -125,15 +127,16 @@
 
                 for (User user1 : userList) {
             %>
-            <div class="quiz-container flex flex-column flex-center gap-1 p-2" id="<%= user1.getId()%>"
+            <div class="user-container flex flex-column flex-center gap-1 p-2" id="<%= user1.getId()%>"
                  username="<%= user1.getUsername()%>">
-                <h5 class="title">Username: <%= user1.getUsername() %>
+                <h5 class="username">Username: <%= user1.getUsername() %>
                 </h5>
-                <h5 class="title">Password: <%= user1.getPassword() %>
+                <h5 class="password">Password: <%= user1.getPassword() %>
                 </h5>
-                <h5 class="title">Role: <%= user1.getRole() %>
+                <h5 class="role">Role: <%= user1.getRole() %>
                 </h5>
-                <button type="button"  class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored tc-primary-button w-100 edit-user-button">
+                <button type="button"
+                        class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored tc-primary-button w-100 edit-user-button">
                     Edit
                 </button>
             </div>
@@ -166,8 +169,10 @@
         </div>
 
         <div class="mdl-dialog__actions flex flex-row flex-space-between p-1 mt-2">
-            <button type="button" class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored tc-primary-button action-button-one "></button>
-            <button type="button" class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored tc-primary-button action-button-two "></button>
+            <button type="button"
+                    class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored tc-primary-button action-button-one "></button>
+            <button type="button"
+                    class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored tc-primary-button action-button-two "></button>
         </div>
 
     </div>
@@ -219,15 +224,16 @@ Used when adding a new quiz or when editing an existing quiz -->
 
 
         <div class="mdl-dialog__actions flex flex-row flex-space-between p-1 mt-2">
-            <button type="button" class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored tc-primary-button action-button-one "></button>
-            <button type="button" class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored tc-primary-button action-button-two "></button>
+            <button type="button"
+                    class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored tc-primary-button action-button-one "></button>
+            <button type="button"
+                    class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored tc-primary-button action-button-two "></button>
         </div>
 
     </div>
 
     <button type="button" class="mdl-button close close-dialog-button p-0">X</button>
 </dialog>
-
 
 
 <!-- QUESTION DIALOG
@@ -255,11 +261,13 @@ It's when adding a new question or editing an existing question -->
             </div>
         </form>
 
-        <button type="button" class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored tc-primary-button action-button-one mb-2">
+        <button type="button"
+                class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored tc-primary-button action-button-one mb-2">
 
         </button>
 
-        <button type="button" class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored tc-primary-button action-button-two">
+        <button type="button"
+                class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored tc-primary-button action-button-two">
 
         </button>
     </div>
@@ -311,7 +319,7 @@ It's when adding a new question or editing an existing question -->
 
     document.getElementById("new-question-button").addEventListener("click", (event) => showNewQuestionDialog(event.currentTarget));
 
-     function showEditQuizDialog(button) {
+    function showEditQuizDialog(button) {
 
         const quizContainer = button.parentElement;
         const quizId = quizContainer.getAttribute("data-id");
@@ -321,8 +329,7 @@ It's when adding a new question or editing an existing question -->
         const params = new URLSearchParams({id: quizId});
 
         fetch(url + "?" + params)
-            .then((response) =>
-            {
+            .then((response) => {
                 return response.json();
             })
             .then((data) => {
@@ -340,13 +347,12 @@ It's when adding a new question or editing an existing question -->
                 imageUrlInput.parentElement.classList.add("is-upgraded");
 
                 const tableOfQuestions = quizDialog.querySelector("table");
-                while(tableOfQuestions.rows.length > 1)
-                {
-                    tableOfQuestions.deleteRow(tableOfQuestions.rows.length-1);
+                while (tableOfQuestions.rows.length > 1) {
+                    tableOfQuestions.deleteRow(tableOfQuestions.rows.length - 1);
                 }
 
                 let question;
-                for(let i = 0; i < quizObject.questions.length; ++i) {
+                for (let i = 0; i < quizObject.questions.length; ++i) {
                     question = quizObject.questions[i];
                     let row = tableOfQuestions.insertRow(-1);
                     row.setAttribute("question-id", question.id);
@@ -383,7 +389,6 @@ It's when adding a new question or editing an existing question -->
                 newActionButtonTwo.addEventListener("click", (event) => deleteQuiz(event.currentTarget, quizContainer));
 
 
-
                 quizDialog.showModal();
             })
             .catch(() => {
@@ -393,11 +398,9 @@ It's when adding a new question or editing an existing question -->
     }
 
 
-
     /* while editing a quiz the user might decide to edit a question */
 
-    function showEditQuestionDialog(button, row)
-    {
+    function showEditQuestionDialog(button, row) {
         questionDialog.querySelector(".title").innerText = "Pitanje edit";
         const textInput = questionDialog.querySelector(".text");
         textInput.value = row.cells[0].innerText;
@@ -415,7 +418,6 @@ It's when adding a new question or editing an existing question -->
         pointsInput.parentElement.classList.add("is-upgraded");
 
 
-
         /*
             we have to do this to remove all event listeners ,
             they might be added when were adding a question
@@ -426,11 +428,11 @@ It's when adding a new question or editing an existing question -->
         oldActionButtonOne.parentNode.replaceChild(newActionButtonOne, oldActionButtonOne);
         newActionButtonOne.innerText = "Sačuvaj";
         newActionButtonOne.addEventListener("click", (event) => editQuestionInTable(event.currentTarget, row));
-        newActionButtonOne.style.display="block";
+        newActionButtonOne.style.display = "block";
 
 
         let oldActionButtonTwo = questionDialog.querySelector(".action-button-two");
-        oldActionButtonTwo.style.display= "block";
+        oldActionButtonTwo.style.display = "block";
         let newActionButtonTwo = oldActionButtonTwo.cloneNode(true);
         oldActionButtonTwo.parentNode.replaceChild(newActionButtonTwo, oldActionButtonTwo);
         newActionButtonTwo.innerText = "Izbriši";
@@ -443,8 +445,7 @@ It's when adding a new question or editing an existing question -->
     }
 
 
-    function showNewQuestionDialog()
-    {
+    function showNewQuestionDialog() {
         questionDialog.querySelector(".title").innerText = "Novo pitanje";
         questionDialog.querySelector(".text").value = "";
         questionDialog.querySelector(".points").value = ""
@@ -474,8 +475,7 @@ It's when adding a new question or editing an existing question -->
     }
 
 
-    function saveQuizChanges(button, quizContainer)
-    {
+    function saveQuizChanges(button, quizContainer) {
         button.disabled = true;
 
         const title = quizDialog.querySelector(".title").value;
@@ -483,17 +483,21 @@ It's when adding a new question or editing an existing question -->
         const questions = [];
         let row;
         const table = quizDialog.querySelector("table");
-        for(let i = 1; i < table.rows.length; ++i)
-        {
+        for (let i = 1; i < table.rows.length; ++i) {
             row = table.rows[i];
-            questions.push({id: row.getAttribute("question-id"), text: row.cells[0].innerText, timeToAnswer: row.cells[1].innerText, points: row.cells[2].innerText});
+            questions.push({
+                id: row.getAttribute("question-id"),
+                text: row.cells[0].innerText,
+                timeToAnswer: row.cells[1].innerText,
+                points: row.cells[2].innerText
+            });
         }
 
         let quizRequest = {
             id: quizContainer.getAttribute("data-id"),
             title: title,
             imageUrl: imageUrl,
-            questions : questions
+            questions: questions
         };
 
         let quizRequestString = JSON.stringify(quizRequest);
@@ -506,8 +510,7 @@ It's when adding a new question or editing an existing question -->
             body: quizRequestString
 
         })
-            .then(() =>
-            {
+            .then(() => {
                 quizDialog.close();
                 quizContainer.querySelector(".title").innerText = title;
                 quizContainer.querySelector(".image-url").setAttribute("src", imageUrl);
@@ -522,8 +525,7 @@ It's when adding a new question or editing an existing question -->
     }
 
 
-    function editQuestionInTable(button, row)
-    {
+    function editQuestionInTable(button, row) {
         const questionDialog = button.parentElement.parentElement;
         row.cells[0].innerText = questionDialog.querySelector(".text").value;
         row.cells[1].innerText = questionDialog.querySelector(".time-to-answer").value;
@@ -560,9 +562,7 @@ It's when adding a new question or editing an existing question -->
     }
 
 
-
-    function deleteQuiz(button, quizContainer)
-    {
+    function deleteQuiz(button, quizContainer) {
         const userChoice = confirm("Da li sigurno želite izbrisati ovaj kviz?");
         if (!userChoice) {
             return;
@@ -592,46 +592,43 @@ It's when adding a new question or editing an existing question -->
     }
 
 
+    /* NEW QUIZ */
 
-        /* NEW QUIZ */
-
-        const newQuizButton = document.getElementById("new-quiz-button");
-        newQuizButton.addEventListener("click", (event) => showNewQuizDialog(event.currentTarget));
-
-
-        function showNewQuizDialog(button) {
-
-            quizDialog.querySelector("h3").innerText = "Novi kviz";
-            quizDialog.querySelector(".title").value = "";
-            quizDialog.querySelector(".image-url").value = "";
-
-            const tableOfQuestions = quizDialog.querySelector("table");
-            while(tableOfQuestions.rows.length > 1)
-            {
-                tableOfQuestions.deleteRow(tableOfQuestions.rows.length-1);
-            }
-
-            const oldActionButtonOne = quizDialog.querySelector(".action-button-one");
-            const oldActionButtonTwo = quizDialog.querySelector(".action-button-two");
-
-            let newActionButtonOne = oldActionButtonOne.cloneNode(true);
-            oldActionButtonOne.parentNode.replaceChild(newActionButtonOne, oldActionButtonOne);
-            newActionButtonOne.innerText = "Dodaj";
-            newActionButtonOne.addEventListener("click", (event) => addNewQuiz(event.currentTarget));
-
-            let newActionButtonTwo = oldActionButtonTwo.cloneNode(true);
-            oldActionButtonTwo.parentNode.replaceChild(newActionButtonTwo, oldActionButtonTwo);
-            newActionButtonTwo.innerText = "";
-            newActionButtonTwo.style.display = "none";
-
-            quizDialog.showModal();
+    const newQuizButton = document.getElementById("new-quiz-button");
+    newQuizButton.addEventListener("click", (event) => showNewQuizDialog(event.currentTarget));
 
 
+    function showNewQuizDialog(button) {
+
+        quizDialog.querySelector("h3").innerText = "Novi kviz";
+        quizDialog.querySelector(".title").value = "";
+        quizDialog.querySelector(".image-url").value = "";
+
+        const tableOfQuestions = quizDialog.querySelector("table");
+        while (tableOfQuestions.rows.length > 1) {
+            tableOfQuestions.deleteRow(tableOfQuestions.rows.length - 1);
         }
 
+        const oldActionButtonOne = quizDialog.querySelector(".action-button-one");
+        const oldActionButtonTwo = quizDialog.querySelector(".action-button-two");
 
-    function addNewQuiz(button)
-    {
+        let newActionButtonOne = oldActionButtonOne.cloneNode(true);
+        oldActionButtonOne.parentNode.replaceChild(newActionButtonOne, oldActionButtonOne);
+        newActionButtonOne.innerText = "Dodaj";
+        newActionButtonOne.addEventListener("click", (event) => addNewQuiz(event.currentTarget));
+
+        let newActionButtonTwo = oldActionButtonTwo.cloneNode(true);
+        oldActionButtonTwo.parentNode.replaceChild(newActionButtonTwo, oldActionButtonTwo);
+        newActionButtonTwo.innerText = "";
+        newActionButtonTwo.style.display = "none";
+
+        quizDialog.showModal();
+
+
+    }
+
+
+    function addNewQuiz(button) {
         button.disabled = true;
 
         const title = quizDialog.querySelector(".title").value;
@@ -641,10 +638,12 @@ It's when adding a new question or editing an existing question -->
         const questions = [];
         let row;
         const table = quizDialog.querySelector("table");
-        for(let i = 1; i < table.rows.length; ++i){
+        for (let i = 1; i < table.rows.length; ++i) {
             row = table.rows[i];
-            questions.push({text: row.cells[0].innerText, timeToAnswer: row.cells[1].innerText,
-                points: row.cells[2].innerText, answerRequests: []});
+            questions.push({
+                text: row.cells[0].innerText, timeToAnswer: row.cells[1].innerText,
+                points: row.cells[2].innerText, answerRequests: []
+            });
         }
 
         let quizRequest = {
@@ -667,45 +666,41 @@ It's when adding a new question or editing an existing question -->
             .then((response) => {
                 return response.json();
             })
-        .then((data) =>
-        {
-            const quizContainer = document.querySelector(".quiz-container");
-            const newQuizContainer = quizContainer.cloneNode(true);
-            newQuizContainer.setAttribute("data-id", data.id);
+            .then((data) => {
+                const quizContainer = document.querySelector(".quiz-container");
+                const newQuizContainer = quizContainer.cloneNode(true);
+                newQuizContainer.setAttribute("data-id", data.id);
 
-            newQuizContainer.querySelector(".title").innerText = title;
-            newQuizContainer.querySelector(".image-url").setAttribute("src", imageUrl);
+                newQuizContainer.querySelector(".title").innerText = title;
+                newQuizContainer.querySelector(".image-url").setAttribute("src", imageUrl);
 
-            newQuizContainer.querySelector(".edit-quiz-button").addEventListener("click", (event) => showEditQuizDialog(event.currentTarget));
+                newQuizContainer.querySelector(".edit-quiz-button").addEventListener("click", (event) => showEditQuizDialog(event.currentTarget));
 
-            quizzesContainer.appendChild(newQuizContainer);
-
-
-            quizDialog.close();
-            button.disabled = false;
-
-        })
-        .catch((error) => {
-            console.log(error)
-        })
+                quizzesContainer.appendChild(newQuizContainer);
 
 
-        }
+                quizDialog.close();
+                button.disabled = false;
+
+            })
+            .catch((error) => {
+                console.log(error)
+            })
+
+
+    }
 
     /* CLOSING DIALOG */
 
     const closeDialogButtons = document.querySelectorAll(".close-dialog-button");
-    for(let i = 0; i < closeDialogButtons.length; ++i)
-    {
+    for (let i = 0; i < closeDialogButtons.length; ++i) {
         closeDialogButtons[i].addEventListener("click", (event) => closeDialog(event.currentTarget));
     }
 
-    function closeDialog(button)
-    {
+    function closeDialog(button) {
         let dialog = button.parentElement;
         dialog.close();
     }
-
 
 
     const newUserButton = document.getElementById("new-user-button");
@@ -736,8 +731,7 @@ It's when adding a new question or editing an existing question -->
     }
 
 
-    function addNewUser(button)
-    {
+    function addNewUser(button) {
         button.disabled = true;
 
         const username = userDialog.querySelector(".username").value;
@@ -753,24 +747,27 @@ It's when adding a new question or editing an existing question -->
             method: 'POST'
         })
             .then((response) => {
-                return response.json();
-            })
-            .then((data) =>
-            {
-                const quizContainer = document.querySelector(".quiz-container");
-                const newQuizContainer = quizContainer.cloneNode(true);
+                if (response.ok) {
+                    const userContainer = document.querySelector(".user-container");
+                    const newUserContainer = userContainer.cloneNode(true);
 
-                newQuizContainer.querySelector(".username").innerText = username;
-                newQuizContainer.querySelector(".password").innerText = password;
-                newQuizContainer.querySelector(".role").innerText = role;
+                    console.log(newUserContainer)
 
-                newQuizContainer.querySelector(".edit-user-button").addEventListener("click", (event) => showEditUserDialog(event.currentTarget));
+                    newUserContainer.querySelector(".username").innerText = username;
+                    newUserContainer.querySelector(".password").innerText = password;
+                    newUserContainer.querySelector(".role").innerText = role;
 
-                quizzesContainer.appendChild(newQuizContainer);
+                    newUserContainer.querySelector(".edit-user-button").addEventListener("click", (event) => showEditUserDialog(event.currentTarget));
 
-                userDialog.close();
-                button.disabled = false;
+                    quizzesContainer.appendChild(newUserContainer);
 
+                    userDialog.close();
+                    button.disabled = false;
+
+                } else {
+                    // Handle non-successful response, e.g., network error, server error, etc.
+                    console.log("Request was not successful:", response.status, response.statusText);
+                }
             })
             .catch((error) => {
                 console.log(error)
@@ -791,8 +788,7 @@ It's when adding a new question or editing an existing question -->
         const params = new URLSearchParams({id: userId});
 
         fetch(url + "?" + params)
-            .then((response) =>
-            {
+            .then((response) => {
                 return response.json();
             })
             .then((data) => {
@@ -837,8 +833,7 @@ It's when adding a new question or editing an existing question -->
     }
 
 
-    function deleteUser(button, quizContainer)
-    {
+    function deleteUser(button, quizContainer) {
         const userChoice = confirm("Da li sigurno želite izbrisati ovog usera?");
         if (!userChoice) {
             return;
@@ -866,8 +861,7 @@ It's when adding a new question or editing an existing question -->
     }
 
 
-    function saveUserChanges(button, quizContainer)
-    {
+    function saveUserChanges(button, quizContainer) {
         button.disabled = true;
 
         const id = quizContainer.getAttribute("id")
@@ -881,8 +875,7 @@ It's when adding a new question or editing an existing question -->
         fetch(url, {
             method: 'post',
         })
-            .then(() =>
-            {
+            .then(() => {
                 userDialog.close();
                 quizContainer.querySelector(".username").innerText = username;
                 quizContainer.querySelector(".password").innerText = password;
