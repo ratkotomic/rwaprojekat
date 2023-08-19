@@ -1,5 +1,6 @@
 package com.example.rwaprojekat.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
@@ -24,9 +25,10 @@ public class Question {
 
     @ManyToOne
     @JoinColumn(name = "quiz_id")
+    @JsonIgnore
     private Quiz quiz;
 
-    @OneToMany(mappedBy = "question", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "question", cascade = CascadeType.ALL,fetch = FetchType.EAGER)
     private List<Answer> answers;
 
     public String getId() {

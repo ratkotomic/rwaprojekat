@@ -24,7 +24,7 @@ public class Quiz {
     @JoinColumn(name = "owner_id", referencedColumnName = "id")
     private User owner;
 
-    @OneToMany(mappedBy = "quiz", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "quiz", cascade = CascadeType.ALL,fetch = FetchType.EAGER)
     private List<Question> questions;
 
     public String getId() {

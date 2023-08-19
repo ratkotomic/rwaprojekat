@@ -2,6 +2,7 @@ package com.example.rwaprojekat.servlet;
 
 import com.example.rwaprojekat.dao.QuizDao;
 import com.example.rwaprojekat.model.Quiz;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -9,7 +10,6 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
 import java.io.IOException;
-import java.io.PrintWriter;
 
 @WebServlet(name = "/GetQuiz", urlPatterns = "/getQuiz")
 public class GetQuizServlet extends HttpServlet {
@@ -21,14 +21,13 @@ public class GetQuizServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        resp.setContentType("text/html");
+        resp.setContentType("application/json");
         String quizId = req.getParameter("id");
         Quiz quiz = quizDao.findQuizById(quizId);
-        PrintWriter out = resp.getWriter();
-        out.print("<tr>"
-                + "<td>"
-                + "<div align='center' class='text'>" + quiz.getTitle() + "</div>"
-                + "</td>");
-        out.close();
+
+        ObjectMapper objectMapper = new ObjectMapper();
+        String quizJson = objectMapper.writeValueAsString(quiz);
+
+        resp.getWriter().write(quizJson);
     }
 }
