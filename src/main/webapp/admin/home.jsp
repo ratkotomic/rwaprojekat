@@ -400,7 +400,7 @@ It's when adding a new question or editing an existing question -->
         for(let i = 1; i < table.rows.length; ++i)
         {
             row = table.rows[i];
-            questions.push({text: row.cells[0].innerText, timeToAnswer: row.cells[1].innerText, points: row.cells[2].innerText});
+            questions.push({id: row.getAttribute("question-id"), text: row.cells[0].innerText, timeToAnswer: row.cells[1].innerText, points: row.cells[2].innerText});
         }
 
         let quizRequest = {
