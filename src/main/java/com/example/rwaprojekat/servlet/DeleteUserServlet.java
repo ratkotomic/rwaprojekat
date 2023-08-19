@@ -13,12 +13,12 @@ import java.io.IOException;
 public class DeleteUserServlet extends HttpServlet {
     UserDao userDao;
 
-    public DeleteUserServlet( ) {
+    public DeleteUserServlet() {
         userDao = new UserDao();
     }
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        userDao.deleteUser(req.getParameter("username"));
+        userDao.deleteUser(req.getParameter("id"));
     }
 }

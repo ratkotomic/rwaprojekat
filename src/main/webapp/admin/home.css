@@ -31,3 +31,24 @@ th, td{
     text-align: center !important;
 }
 
+.tabs {
+    display: flex;
+}
+
+.tab {
+    padding: 10px 20px;
+    cursor: pointer;
+    border: 1px solid #ccc;
+    background-color: #f2f2f2;
+}
+
+.tab-content {
+    display: none;
+    padding: 20px;
+    border: 1px solid #ccc;
+    background-color: #fff;
+}
+
+.tab-content:not(#quizzes) {
+    display: none;
+}

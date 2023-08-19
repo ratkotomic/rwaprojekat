@@ -6,6 +6,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 import javax.persistence.Query;
+import java.util.List;
 
 public class UserDao {
 
@@ -61,11 +62,11 @@ public class UserDao {
         em.close();
     }
 
-    public void deleteUser(String username) {
+    public void deleteUser(String id) {
         EntityManagerFactory emf = Persistence.createEntityManagerFactory("rwaprojekat");
         EntityManager em = emf.createEntityManager();
-        Query q = em.createQuery("DELETE FROM User u WHERE u.username = :username");
-        q.setParameter("username", username);
+        Query q = em.createQuery("DELETE FROM User u WHERE u.id = :id");
+        q.setParameter("id", id);
         em.getTransaction().begin();
         q.executeUpdate();
         em.getTransaction().commit();
@@ -75,7 +76,14 @@ public class UserDao {
     public void updateUser(String id, String username, String password, String role) {
         EntityManagerFactory emf = Persistence.createEntityManagerFactory("rwaprojekat");
         EntityManager em = emf.createEntityManager();
-        Query q = em.createQuery("UPDATE User u SET u.username = :username, u.password = :password, u.role = :role WHERE u.id = :id");
+        Query q = null;
+        try {
+            q = em.createQuery("UPDATE User u SET u.username = :username, u.password = :password, u.role = :role WHERE u.id = :id");
+        }
+        catch(Exception ex)
+        {
+            ex.printStackTrace();
+        }
         q.setParameter("username", username);
         q.setParameter("password", password);
         q.setParameter("role", role);
@@ -84,5 +92,14 @@ public class UserDao {
         q.executeUpdate();
         em.getTransaction().commit();
         em.close();
+    }
+
+    public List<User> findAllUsers() {
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory("rwaprojekat");
+        EntityManager em = emf.createEntityManager();
+        Query q = em.createQuery("SELECT u FROM User u");
+        List<User> users = q.getResultList();
+        em.close();
+        return users;
     }
 }

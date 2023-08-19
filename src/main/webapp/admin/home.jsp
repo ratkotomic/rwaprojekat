@@ -34,20 +34,22 @@
             <span class="mdl-layout__title tc-black fw-bold">Admin Panel</span>
             <div class="mdl-layout-spacer"></div>
             <nav class="mdl-navigation">
-                <a class="mdl-navigation__link tc-black fw-bold" href="home">Kvizovi</a>
+                <a class="mdl-navigation__link tc-black fw-bold" href="#quizzes">Kvizovi</a>
 
                 <%
                     if(userRole.equals("super-admin"))
                     {
                         %>
 
-                            <a class="mdl-navigation__link tc-black fw-bold" href="admin/users">Korisnici</a>
+                            <a class="mdl-navigation__link tc-black fw-bold" href="#users">Korisnici</a>
 
                         <%
                     }
                 %>
 
-                <a class="mdl-navigation__link tc-black fw-bold" href="/rwaprojekat/admin/logout">Log out</a>
+                <a class=" tc-black fw-bold" href="/rwaprojekat/admin/logout">
+                    <button class="mdl-button mdl-js-button mdl-button--raised">Log out</button>
+                </a>
             </nav>
         </div>
     </header>
@@ -55,20 +57,22 @@
     <div class="mdl-layout__drawer">
         <span class="mdl-layout__title  tc-black fw-bold">Admin Panel</span>
         <nav class="mdl-navigation">
-            <a class="mdl-navigation__link  tc-black fw-bold" href="home">Kvizovi</a>
+            <a class="mdl-navigation__link  tc-black fw-bold" href="#quizzes">Kvizovi</a>
             <%
                 if(userRole.equals("super-admin"))
                 {
             %>
-               <a class="mdl-navigation__link  tc-black fw-bold" href="admin/users">Korisnici</a>
+               <a class="mdl-navigation__link  tc-black fw-bold" href="#users">Korisnici</a>
             <%
                 }
             %>
-            <a class="mdl-navigation__link  tc-black fw-bold" href="/rwaprojekat/admin/logout">Log out</a>
+            <a class=" tc-black fw-bold" href="/rwaprojekat/admin/logout">
+                <button class="mdl-button mdl-js-button mdl-button--raised">Log out</button>
+            </a>
         </nav>
     </div>
 
-    <main class="mdl-layout__content p-3">
+    <main id="quizzes" class="tab-content mdl-layout__content p-3">
 
         <h1 class="mb-3">Kvizovi</h1>
 
@@ -107,7 +111,70 @@
             %>
         </div>
     </main>
+    <main id="users" class="tab-content mdl-layout__content p-3">
+        <!-- NEW USER -->
+        <h1 class="mb-3">Useri</h1>
+        <button type="button"  id="new-user-button" class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored tc-primary-button mb-2">
+            Novi korisnik
+        </button>
+
+        <div class="quizzes-container flex flex-row flex-wrap gap-2">
+            <%
+
+                List<User> userList = (List<User>) request.getAttribute("userList");
+
+                for (User user1 : userList) {
+            %>
+            <div class="quiz-container flex flex-column flex-center gap-1 p-2" id="<%= user1.getId()%>"
+                 username="<%= user1.getUsername()%>">
+                <h5 class="title">Username: <%= user1.getUsername() %>
+                </h5>
+                <h5 class="title">Password: <%= user1.getPassword() %>
+                </h5>
+                <h5 class="title">Role: <%= user1.getRole() %>
+                </h5>
+                <button type="button"  class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored tc-primary-button w-100 edit-user-button">
+                    Edit
+                </button>
+            </div>
+            <%
+                }
+            %>
+        </div>
+    </main>
 </div>
+
+<!-- USER DIALOG-->
+<dialog id="new-user-dialog" class="mdl-dialog">
+    <h3 class="mdl-dialog__title text-center">Novi korisnik</h3>
+
+    <div class="mdl-dialog__content flex flex-column flex-center">
+
+        <div class="w-100 mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+            <label class="mdl-textfield__label">username</label>
+            <input class="mdl-textfield__input username" type="text">
+        </div>
+
+        <div class="w-100 mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+            <label class="mdl-textfield__label">password</label>
+            <input class="mdl-textfield__input password" type="text">
+        </div>
+
+        <div class="w-100 mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+            <label class="mdl-textfield__label">role</label>
+            <input class="mdl-textfield__input role" type="text">
+        </div>
+
+        <div class="mdl-dialog__actions flex flex-row flex-space-between p-1 mt-2">
+            <button type="button" class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored tc-primary-button action-button-one "></button>
+            <button type="button" class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored tc-primary-button action-button-two "></button>
+        </div>
+
+    </div>
+
+    <button type="button" class="mdl-button close close-dialog-button p-0">X</button>
+
+</dialog>
 
 
 <!-- QUIZ DIALOG
@@ -205,9 +272,28 @@ It's when adding a new question or editing an existing question -->
 
 <script>
 
+    const tabLinks = document.querySelectorAll('.mdl-navigation__link');
+    const tabContents = document.querySelectorAll('.tab-content');
+
+    tabLinks.forEach(tabLink => {
+        tabLink.addEventListener('click', event => {
+            event.preventDefault();
+            const targetId = event.target.getAttribute('href').substring(1);
+
+            tabContents.forEach(tabContent => {
+                if (tabContent.id === targetId) {
+                    tabContent.style.display = 'block';
+                } else {
+                    tabContent.style.display = 'none';
+                }
+            });
+        });
+    });
+
 
     const questionDialog = document.getElementById("question-dialog");
     const quizDialog = document.getElementById("quiz-dialog");
+    const userDialog = document.getElementById("new-user-dialog");
 
 
     /* QUIZ DIALOG */
@@ -620,6 +706,194 @@ It's when adding a new question or editing an existing question -->
         dialog.close();
     }
 
+
+
+    const newUserButton = document.getElementById("new-user-button");
+    newUserButton.addEventListener("click", (event) => showNewUserDialog(event.currentTarget));
+
+
+    function showNewUserDialog(button) {
+
+        userDialog.querySelector("h3").innerText = "Novi korisnik";
+        userDialog.querySelector(".username").value = "";
+        userDialog.querySelector(".password").value = "";
+        userDialog.querySelector(".role").value = "";
+
+        const oldActionButtonOne = userDialog.querySelector(".action-button-one");
+        const oldActionButtonTwo = userDialog.querySelector(".action-button-two");
+
+        let newActionButtonOne = oldActionButtonOne.cloneNode(true);
+        oldActionButtonOne.parentNode.replaceChild(newActionButtonOne, oldActionButtonOne);
+        newActionButtonOne.innerText = "Dodaj";
+        newActionButtonOne.addEventListener("click", (event) => addNewUser(event.currentTarget));
+
+        let newActionButtonTwo = oldActionButtonTwo.cloneNode(true);
+        oldActionButtonTwo.parentNode.replaceChild(newActionButtonTwo, oldActionButtonTwo);
+        newActionButtonTwo.innerText = "";
+        newActionButtonTwo.style.display = "none";
+
+        userDialog.showModal();
+    }
+
+
+    function addNewUser(button)
+    {
+        button.disabled = true;
+
+        const username = userDialog.querySelector(".username").value;
+        const password = userDialog.querySelector(".password").value;
+        const role = userDialog.querySelector(".role").value;
+        const quizzesContainer = document.querySelector(".quizzes-container");
+
+
+        let url = window.location.href;
+        url = url.replace("home", "addUser") + "?username=" + username + "&password=" + password + "&role=" + role;
+
+        fetch(url, {
+            method: 'POST'
+        })
+            .then((response) => {
+                return response.json();
+            })
+            .then((data) =>
+            {
+                const quizContainer = document.querySelector(".quiz-container");
+                const newQuizContainer = quizContainer.cloneNode(true);
+
+                newQuizContainer.querySelector(".username").innerText = username;
+                newQuizContainer.querySelector(".password").innerText = password;
+                newQuizContainer.querySelector(".role").innerText = role;
+
+                newQuizContainer.querySelector(".edit-user-button").addEventListener("click", (event) => showEditUserDialog(event.currentTarget));
+
+                quizzesContainer.appendChild(newQuizContainer);
+
+                userDialog.close();
+                button.disabled = false;
+
+            })
+            .catch((error) => {
+                console.log(error)
+            })
+    }
+
+    const editUserButtons = document.querySelectorAll(".edit-user-button");
+    editUserButtons.forEach((button) => button.addEventListener("click", (event) => showEditUserDialog((button))));
+
+
+    function showEditUserDialog(button) {
+
+        const quizContainer = button.parentElement;
+        const userId = quizContainer.getAttribute("id");
+
+        let url = window.location.href;
+        url = url.replace("home", "getUser");
+        const params = new URLSearchParams({id: userId});
+
+        fetch(url + "?" + params)
+            .then((response) =>
+            {
+                return response.json();
+            })
+            .then((data) => {
+                let userObject = data;
+
+                userDialog.querySelector("h3").innerText = "Editovanje";
+                const usernameInput = userDialog.querySelector(".username");
+                usernameInput.value = userObject.username;
+                usernameInput.parentElement.classList.add("is-dirty");
+                usernameInput.parentElement.classList.add("is-upgraded");
+
+                const passwordInput = userDialog.querySelector(".password");
+                passwordInput.value = userObject.password;
+                passwordInput.parentElement.classList.add("is-dirty");
+                passwordInput.parentElement.classList.add("is-upgraded");
+
+                const roleInput = userDialog.querySelector(".role");
+                roleInput.value = userObject.role;
+                roleInput.parentElement.classList.add("is-dirty");
+                roleInput.parentElement.classList.add("is-upgraded");
+
+
+                const oldActionButtonOne = userDialog.querySelector(".action-button-one");
+                const oldActionButtonTwo = userDialog.querySelector(".action-button-two");
+
+                let newActionButtonOne = oldActionButtonOne.cloneNode(true);
+                oldActionButtonOne.parentNode.replaceChild(newActionButtonOne, oldActionButtonOne);
+                newActionButtonOne.innerText = "Sačuvaj";
+                newActionButtonOne.addEventListener("click", (event) => saveUserChanges(event.currentTarget, quizContainer));
+
+                oldActionButtonTwo.style.display = "block";
+                let newActionButtonTwo = oldActionButtonTwo.cloneNode(true);
+                oldActionButtonTwo.parentNode.replaceChild(newActionButtonTwo, oldActionButtonTwo);
+                newActionButtonTwo.innerText = "Izbriši";
+                newActionButtonTwo.addEventListener("click", (event) => deleteUser(event.currentTarget, quizContainer));
+
+                userDialog.showModal();
+            })
+            .catch(() => {
+                throw new Error("Get user failed!");
+            })
+    }
+
+
+    function deleteUser(button, quizContainer)
+    {
+        const userChoice = confirm("Da li sigurno želite izbrisati ovog usera?");
+        if (!userChoice) {
+            return;
+        }
+
+        let params = new URLSearchParams({
+            id: quizContainer.getAttribute("id")
+        });
+
+        let url = window.location.href;
+        url = url.replace("home", "deleteUser");
+
+        fetch(url, {
+            method: 'post',
+            body: params
+        })
+            .then(() => {
+                userDialog.close();
+                quizContainer.remove();
+
+            })
+            .catch((error) => {
+                console.log(error)
+            })
+    }
+
+
+    function saveUserChanges(button, quizContainer)
+    {
+        button.disabled = true;
+
+        const id = quizContainer.getAttribute("id")
+        const username = userDialog.querySelector(".username").value;
+        const password = userDialog.querySelector(".password").value;
+        const role = userDialog.querySelector(".role").value;
+
+        let url = window.location.href;
+        url = url.replace("home", "updateUser") + "?id=" + id + "&username=" + username + "&password=" + password + "&role=" + role;
+
+        fetch(url, {
+            method: 'post',
+        })
+            .then(() =>
+            {
+                userDialog.close();
+                quizContainer.querySelector(".username").innerText = username;
+                quizContainer.querySelector(".password").innerText = password;
+                quizContainer.querySelector(".role").innerText = role;
+
+            })
+            .catch((error) => {
+                console.log(error)
+            })
+        button.disabled = false;
+    }
 
 </script>
 
