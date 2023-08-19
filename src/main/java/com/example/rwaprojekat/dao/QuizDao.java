@@ -14,13 +14,14 @@ public class QuizDao {
     }
 
     @Transactional
-    public void createQuiz(Quiz quiz) {
+    public Quiz createQuiz(Quiz quiz) {
         EntityManagerFactory emf = Persistence.createEntityManagerFactory("rwaprojekat");
         EntityManager em = emf.createEntityManager();
         em.getTransaction().begin();
         em.persist(quiz);
         em.getTransaction().commit();
         em.close();
+        return quiz;
     }
 
     public void deleteQuiz(String id) {

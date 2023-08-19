@@ -49,7 +49,7 @@ public class AddQuizServlet extends HttpServlet {
         quiz.setTitle(quizRequest.getTitle());
         quiz.setImageUrl(quizRequest.getImageUrl());
         quiz.setOwner(user);
-        quizDao.createQuiz(quiz);
+        Quiz createdQuiz = quizDao.createQuiz(quiz);
 
         List<QuestionRequest> questionRequests = quizRequest.getQuestions();
         questionRequests.forEach(questionRequest -> {
@@ -69,5 +69,8 @@ public class AddQuizServlet extends HttpServlet {
                 answerDao.createAnswer(answer);
             });
         });
+        resp.setContentType("application/json");
+        String jsonResponse = objectMapper.writeValueAsString(createdQuiz);
+        resp.getWriter().write(jsonResponse);
     }
 }
