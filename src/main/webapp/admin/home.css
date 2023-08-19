@@ -1,4 +1,4 @@
-.quizzes-container{
+.quizzes-container, .users-container{
     justify-content: center;
 }
 
