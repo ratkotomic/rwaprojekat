@@ -195,43 +195,44 @@ Used when adding a new quiz or when editing an existing quiz -->
     <h3 class="mdl-dialog__title text-center"></h3>
 
     <div class="mdl-dialog__content flex flex-column gap-1">
-        <form class="flex flex-column gap-2">
 
-            <div class="w-100 mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
-                <label class="mdl-textfield__label">Naziv</label>
-                <input class="mdl-textfield__input title" type="text">
-            </div>
+        <div class="w-100 mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+            <label class="mdl-textfield__label" >Naziv</label>
+            <input class="mdl-textfield__input title" pattern=".{4,}">
+            <span class="mdl-textfield__error"> Naziv kviza minimalno 4 karaktera! </span>
+        </div>
 
-            <div class="w-100 mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
-                <label class="mdl-textfield__label">Url Slike</label>
-                <input class="mdl-textfield__input image-url" type="text">
-            </div>
-        </form>
+        <div class="w-100 mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+            <label class="mdl-textfield__label" >Url Slike</label>
+            <input class="mdl-textfield__input image-url">
+            <span class="mdl-textfield__error"> Url nije validan! </span>
+        </div>
 
-
-        <p class="mb-0"> Pitanja </p>
-        <table class="mdl-data-table mdl-js-data-table mdl-shadow--2dp">
-            <thead>
-            <tr>
-                <th class="mdl-data-table__cell--non-numeric">Tekst</th>
-                <th>Vrijeme</th>
-                <th>Poeni</th>
-                <th>Edit</th>
-                <th style="display: none"></th>
-            </tr>
-            </thead>
-            <tbody>
-            </tbody>
-        </table>
-
-        <button id="new-question-button" type="button" class="mdl-button mdl-js-button">
+        <div>
+            <p class="mb-0"> Pitanja </p>
+            <table class="mdl-data-table mdl-js-data-table mdl-shadow--2dp w-100">
+                <thead>
+                <tr>
+                    <th class="mdl-data-table__cell--non-numeric">Tekst</th>
+                    <th>Vrijeme</th>
+                    <th>Poeni</th>
+                    <th>Edit</th>
+                    <th style="display: none"></th>
+                </tr>
+                </thead>
+                <tbody>
+                </tbody>
+            </table>
+            <span class="mdl-textfield__error"> Kviz nema dovoljno pitanja! </span>
+        </div>
+        <button id="new-question-button" type="button" class="mdl-button mdl-js-button mt-1">
             Novo pitanje
         </button>
 
-
-        <div class="mdl-dialog__actions flex flex-row flex-space-between p-0 mt-2 ">
+        <p class="m-0">Kviz mora imati validan naziv, sliku i minimalno 10 pitanja.</p>
+        <div class="mdl-dialog__actions flex flex-row flex-space-between p-0 ">
             <button type="button"
-                    class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored tc-primary-button action-button-one "></button>
+                    class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored tc-primary-button action-button-one" disabled></button>
             <button type="button"
                     class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored tc-primary-button action-button-two "></button>
         </div>
@@ -400,11 +401,13 @@ It's when adding a new question or editing an existing question -->
                 titleInput.value = quizObject.title;
                 titleInput.parentElement.classList.add("is-dirty");
                 titleInput.parentElement.classList.add("is-upgraded");
+                titleInput.parentElement.classList.remove("is-invalid");
 
                 const imageUrlInput = quizDialog.querySelector(".image-url");
                 imageUrlInput.value = quizObject.imageUrl;
                 imageUrlInput.parentElement.classList.add("is-dirty");
                 imageUrlInput.parentElement.classList.add("is-upgraded");
+                imageUrlInput.parentElement.classList.remove("is-invalid");
 
                 const tableOfQuestions = quizDialog.querySelector("table");
                 while (tableOfQuestions.rows.length > 1) {
@@ -483,7 +486,7 @@ It's when adding a new question or editing an existing question -->
                 newActionButtonTwo.innerText = "Izbriši";
                 newActionButtonTwo.addEventListener("click", (event) => deleteQuiz(event.currentTarget, quizContainer));
 
-
+                setupValidation();
                 quizDialog.showModal();
             })
             .catch(() => {
@@ -834,8 +837,13 @@ It's when adding a new question or editing an existing question -->
     function showNewQuizDialog() {
 
         quizDialog.querySelector("h3").innerText = "Novi kviz";
-        quizDialog.querySelector(".title").value = "";
-        quizDialog.querySelector(".image-url").value = "";
+        const titleInput = quizDialog.querySelector(".title");
+        titleInput.value = "";
+        titleInput.parentElement.classList.remove("is-invalid");
+
+        const imageUrlInput = quizDialog.querySelector(".image-url");
+        imageUrlInput.value = "";
+        imageUrlInput.parentElement.classList.remove("is-invalid");
 
         const tableOfQuestions = quizDialog.querySelector("table");
         while (tableOfQuestions.rows.length > 1) {
@@ -846,8 +854,8 @@ It's when adding a new question or editing an existing question -->
         const oldActionButtonTwo = quizDialog.querySelector(".action-button-two");
 
         let newActionButtonOne = oldActionButtonOne.cloneNode(true);
-        oldActionButtonOne.parentNode.replaceChild(newActionButtonOne, oldActionButtonOne);
         newActionButtonOne.innerText = "Dodaj";
+        oldActionButtonOne.parentNode.replaceChild(newActionButtonOne, oldActionButtonOne);
         newActionButtonOne.addEventListener("click", (event) => addNewQuiz(event.currentTarget));
 
         let newActionButtonTwo = oldActionButtonTwo.cloneNode(true);
@@ -855,6 +863,7 @@ It's when adding a new question or editing an existing question -->
         newActionButtonTwo.innerText = "";
         newActionButtonTwo.style.display = "none";
 
+        setupValidation();
         quizDialog.showModal();
 
 
@@ -1139,5 +1148,6 @@ It's when adding a new question or editing an existing question -->
 </script>
 
 <script defer src="https://code.getmdl.io/1.3.0/material.min.js"></script>
+<script src="quizValidation.js"></script>
 
 </html>
