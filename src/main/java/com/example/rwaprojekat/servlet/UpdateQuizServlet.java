@@ -98,6 +98,7 @@ public class UpdateQuizServlet extends HttpServlet {
         question.setQuestionText(questionRequest.getText());
         question.setTimeToAnswer(questionRequest.getTimeToAnswer());
         question.setPoints(questionRequest.getPoints());
+        question.setQuestionNumber(questionRequest.getQuestionNumber());
 
         List<Answer> answers = new ArrayList<>();
         if (questionRequest.getAnswerRequests() != null) {

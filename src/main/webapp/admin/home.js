@@ -1,6 +1,7 @@
 import {setupValidation as setupQuizValidation} from "./quizValidation.js";
 import {setupValidation as setupQuestionValidation} from "./questionValidation.js";
 import {setupValidation as setupAnswerValidation} from "./answerValidation.js";
+import {addDropAndDragToRow} from "./dragAndDrop.js";
 
 const tabLinks = document.querySelectorAll('.mdl-navigation__link');
 const tabContents = document.querySelectorAll('.tab-content');
@@ -82,6 +83,8 @@ function showEditQuizDialog(button) {
                 question = quizObject.questions[i];
                 let row = tableOfQuestions.insertRow(-1);
                 row.setAttribute("question-id", question.id);
+                addDropAndDragToRow(row);
+
                 let c1 = row.insertCell(0);
                 let c2 = row.insertCell(1);
                 let c3 = row.insertCell(2);
@@ -377,14 +380,15 @@ function saveQuizChanges(button, quizContainer) {
             quizDialog.close();
             quizContainer.querySelector(".title").innerText = title;
             quizContainer.querySelector(".image-url").setAttribute("src", imageUrl);
+            button.disabled = false;
 
         })
         .catch((error) => {
             console.log(error)
+            button.disabled = false;
         })
 
 
-    button.disabled = false;
 }
 
 
@@ -419,6 +423,7 @@ function addQuestionToTable(button) {
     const table = quizDialog.querySelector("table");
 
     let row = table.insertRow(-1);
+    addDropAndDragToRow(row);
     let c1 = row.insertCell(0);
     let c2 = row.insertCell(1);
     let c3 = row.insertCell(2);

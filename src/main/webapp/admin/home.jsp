@@ -350,5 +350,6 @@ It's when adding a new question or editing an existing question -->
 <script type="module" src="./questionValidation.js"></script>
 <script type="module" src="./answerValidation.js"></script>
 <script type="module" src="./home.js"></script>
+<script type="module" src="./dragAndDrop.js"></script>
 
 </html>
