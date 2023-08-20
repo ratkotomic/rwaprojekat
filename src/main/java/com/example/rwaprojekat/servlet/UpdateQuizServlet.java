@@ -60,6 +60,7 @@ public class UpdateQuizServlet extends HttpServlet {
                 questionForAdd.setQuestionText(question.getQuestionText());
                 questionForAdd.setTimeToAnswer(question.getTimeToAnswer());
                 questionForAdd.setPoints(question.getPoints());
+                questionForAdd.setQuestionNumber(question.getQuestionNumber());
                 questionDao.createQuestion(questionForAdd);
 
                 question.getAnswers().forEach(answerRequest -> {
@@ -83,7 +84,7 @@ public class UpdateQuizServlet extends HttpServlet {
                     answer1.setQuestion(editQuestion);
                     answerDao.createAnswer(answer1);
                 });
-                questionDao.updateQuestion(editQuestion.getQuestionText(), editQuestion.getPoints(), editQuestion.getTimeToAnswer(), editQuestion.getId());
+                questionDao.updateQuestion(editQuestion.getQuestionText(), editQuestion.getPoints(), editQuestion.getTimeToAnswer(), editQuestion.getQuestionNumber(), editQuestion.getId());
 
             });
             quizDao.updateQuiz(quizRequest.getTitle(), quizRequest.getImageUrl(), quizRequest.getId());

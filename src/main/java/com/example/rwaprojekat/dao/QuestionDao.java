@@ -11,6 +11,7 @@ import javax.persistence.Query;
 public class QuestionDao {
     public QuestionDao() {
     }
+
     @Transactional
     public void createQuestion(Question question) {
         EntityManagerFactory emf = Persistence.createEntityManagerFactory("rwaprojekat");
@@ -31,13 +32,14 @@ public class QuestionDao {
         return question;
     }
 
-    public void updateQuestion(String text, int points, int timeToAnswer, String questionId) {
+    public void updateQuestion(String text, int points, int timeToAnswer, int questionNumber, String questionId) {
         EntityManagerFactory emf = Persistence.createEntityManagerFactory("rwaprojekat");
         EntityManager em = emf.createEntityManager();
-        Query q = em.createQuery("UPDATE Question q SET q.questionText = :questionText, q.points = :points, q.timeToAnswer = :timeToAnswer WHERE q.id = :questionId");
+        Query q = em.createQuery("UPDATE Question q SET q.questionText = :questionText, q.points = :points, q.timeToAnswer = :timeToAnswer, q.questionNumber = :questionNumber WHERE q.id = :questionId");
         q.setParameter("questionText", text);
         q.setParameter("timeToAnswer", timeToAnswer);
         q.setParameter("points", points);
+        q.setParameter("questionNumber", questionNumber);
         q.setParameter("questionId", questionId);
         em.getTransaction().begin();
         q.executeUpdate();

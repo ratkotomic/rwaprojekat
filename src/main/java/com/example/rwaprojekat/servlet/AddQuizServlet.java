@@ -28,12 +28,14 @@ public class AddQuizServlet extends HttpServlet {
     QuizDao quizDao;
     QuestionDao questionDao;
     AnswerDao answerDao;
+
     public AddQuizServlet() {
         userDao = new UserDao();
         quizDao = new QuizDao();
         questionDao = new QuestionDao();
         answerDao = new AnswerDao();
     }
+
     private final ObjectMapper objectMapper = new ObjectMapper();
 
 
@@ -53,11 +55,12 @@ public class AddQuizServlet extends HttpServlet {
 
         List<QuestionRequest> questionRequests = quizRequest.getQuestions();
         questionRequests.forEach(questionRequest -> {
-            List<AnswerRequest> answerRequests= questionRequest.getAnswerRequests();
+            List<AnswerRequest> answerRequests = questionRequest.getAnswerRequests();
             Question question = new Question();
             question.setQuestionText(questionRequest.getText());
             question.setPoints(questionRequest.getPoints());
             question.setTimeToAnswer(questionRequest.getTimeToAnswer());
+            question.setQuestionNumber(questionRequest.getQuestionNumber());
             question.setQuiz(quiz);
             questionDao.createQuestion(question);
 

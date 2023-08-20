@@ -11,6 +11,8 @@ public class QuestionRequest {
 
     private int points;
 
+    private int questionNumber;
+
     private List<AnswerRequest> answerRequests;
 
     public String getId() {
@@ -51,5 +53,13 @@ public class QuestionRequest {
 
     public void setAnswerRequests(List<AnswerRequest> answerRequests) {
         this.answerRequests = answerRequests;
+    }
+
+    public int getQuestionNumber() {
+        return questionNumber;
+    }
+
+    public void setQuestionNumber(int questionNumber) {
+        this.questionNumber = questionNumber;
     }
 }

@@ -23,12 +23,15 @@ public class Question {
     @Column(name = "points")
     private int points;
 
+    @Column(name = "question_number")
+    private int questionNumber;
+
     @ManyToOne
     @JoinColumn(name = "quiz_id")
     @JsonIgnore
     private Quiz quiz;
 
-    @OneToMany(mappedBy = "question", cascade = CascadeType.ALL,fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "question", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<Answer> answers;
 
     public String getId() {
@@ -77,5 +80,13 @@ public class Question {
 
     public void setAnswers(List<Answer> answers) {
         this.answers = answers;
+    }
+
+    public int getQuestionNumber() {
+        return questionNumber;
+    }
+
+    public void setQuestionNumber(int questionNumber) {
+        this.questionNumber = questionNumber;
     }
 }
