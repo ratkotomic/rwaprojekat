@@ -1,6 +1,6 @@
 import {setupValidation as setupQuizValidation} from "./quizValidation.js";
 import {setupValidation as setupQuestionValidation} from "./questionValidation.js";
-import{setupValidation as setupAnswerValidation} from "./answerValidation.js";
+import {setupValidation as setupAnswerValidation} from "./answerValidation.js";
 
 const tabLinks = document.querySelectorAll('.mdl-navigation__link');
 const tabContents = document.querySelectorAll('.tab-content');
@@ -351,6 +351,7 @@ function saveQuizChanges(button, quizContainer) {
             text: row.cells[0].innerText,
             timeToAnswer: row.cells[1].innerText,
             points: row.cells[2].innerText,
+            questionNumber: i,
             answerRequests: answers
         });
     }
@@ -402,12 +403,9 @@ function editQuestionInTable(button, row) {
 function editAnswerInTable(button, row) {
     button.disabled = true;
     row.cells[0].innerText = answerDialog.querySelector(".text").value;
-    if( answerDialog.querySelector(".is-correct").checked)
-    {
+    if (answerDialog.querySelector(".is-correct").checked) {
         row.cells[1].innerText = "Tačan";
-    }
-    else
-    {
+    } else {
         row.cells[1].innerText = "Netačan";
     }
     answerDialog.close();
@@ -458,11 +456,9 @@ function addAnswerToTable(button) {
     let c3 = row.insertCell(2);
 
     c1.innerText = answerDialog.querySelector(".text").value;
-    if(answerDialog.querySelector(".is-correct").checked)
-    {
+    if (answerDialog.querySelector(".is-correct").checked) {
         c2.innerText = "Tačan";
-    }
-    else{
+    } else {
         c2.innerText = "Netačan";
     }
 
@@ -576,7 +572,7 @@ function addNewQuiz(button) {
 
         questions.push({
             text: row.cells[0].innerText, timeToAnswer: row.cells[1].innerText,
-            points: row.cells[2].innerText, answerRequests: answers
+            points: row.cells[2].innerText, questionNumber: i, answerRequests: answers
         });
     }
 
@@ -604,18 +600,70 @@ function addNewQuiz(button) {
         .then((data) => {
             const quizContainer = document.querySelector(".quiz-container");
 
-            /* todo */
-            /* bug here when there are not quizzess we can't just clone a quiz container */
+            /* if the quiz container is null we have to make a brand new one */
+            if(quizContainer != null)
+            {
+                const newQuizContainer = quizContainer.cloneNode(true);
+                newQuizContainer.setAttribute("data-id", data.id);
 
-            const newQuizContainer = quizContainer.cloneNode(true);
-            newQuizContainer.setAttribute("data-id", data.id);
+                newQuizContainer.querySelector(".title").innerText = title;
+                newQuizContainer.querySelector(".image-url").setAttribute("src", imageUrl);
 
-            newQuizContainer.querySelector(".title").innerText = title;
-            newQuizContainer.querySelector(".image-url").setAttribute("src", imageUrl);
+                newQuizContainer.querySelector(".edit-quiz-button").addEventListener("click", (event) => showEditQuizDialog(event.currentTarget));
 
-            newQuizContainer.querySelector(".edit-quiz-button").addEventListener("click", (event) => showEditQuizDialog(event.currentTarget));
+                quizzesContainer.appendChild(newQuizContainer);
+            }
+            else
+            {
+                const quizContainer = document.createElement("DIV");
+                quizContainer.classList.add("quiz-container");
+                quizContainer.classList.add("flex");
+                quizContainer.classList.add("flex-column");
+                quizContainer.classList.add("flex-center");
+                quizContainer.classList.add("gap-1");
+                quizContainer.classList.add("p-2");
+                quizContainer.setAttribute("data-id", data.id);
 
-            quizzesContainer.appendChild(newQuizContainer);
+                const h2 = document.createElement("H2");
+                h2.classList.add("title");
+                h2.innerText = title;
+                quizContainer.appendChild(h2);
+
+                const img = document.createElement("IMG");
+                img.classList.add("image-url");
+                img.setAttribute("src", imageUrl);
+                quizContainer.appendChild(img);
+
+                const editQuizButton = document.createElement("BUTTON");
+                editQuizButton.classList.add("mdl-button");
+                editQuizButton.classList.add("mdl-js-button");
+                editQuizButton.classList.add("mdl-button--raised");
+                editQuizButton.classList.add("mdl-button--colored");
+                editQuizButton.classList.add("tc-primary-button");
+                editQuizButton.classList.add("w-100");
+                editQuizButton.classList.add("edit-quiz-button");
+                editQuizButton.setAttribute("type", "button");
+                editQuizButton.innerText = "Edit";
+                editQuizButton.addEventListener("click", (event) => showEditQuizDialog(event.currentTarget));
+                quizContainer.appendChild(editQuizButton);
+
+                const startQuizButton = document.createElement("BUTTON");
+                startQuizButton.classList.add("mdl-button");
+                startQuizButton.classList.add("mdl-js-button");
+                startQuizButton.classList.add("mdl-button--raised");
+                startQuizButton.classList.add("mdl-button--colored");
+                startQuizButton.classList.add("tc-primary-button");
+                startQuizButton.classList.add("w-100");
+                startQuizButton.classList.add("start-quiz-button");
+                startQuizButton.setAttribute("type", "button");
+                startQuizButton.innerText = "Započni";
+                quizContainer.appendChild(startQuizButton);
+
+                /* todo */
+                /* when we add the start functinoality we need to add the event listener here as well */
+
+                quizzesContainer.appendChild(quizContainer);
+            }
 
 
             quizDialog.close();

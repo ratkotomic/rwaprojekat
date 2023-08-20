@@ -1,20 +1,19 @@
-.quizzes-container, .users-container{
+.quizzes-container, .users-container {
     justify-content: center;
 }
 
-.quiz-container, .user-container{
+.quiz-container, .user-container {
     box-shadow: 0px 5px 15px 0px rgba(0, 0, 0, 0.35);
     border-radius: 5px;
     max-width: 300px;
 
 }
 
-dialog{
+dialog {
     position: relative;
 }
 
-.close-dialog-button
-{
+.close-dialog-button {
     position: absolute !important;
     top: 5px;
     right: 5px;
@@ -22,20 +21,20 @@ dialog{
     width: 35px !important;
 }
 
-h1{
+h1 {
     text-align: center;
 }
 
 
-th, td{
+th, td {
     text-align: center !important;
 }
 
-th{
+th {
     width: 100%;
 }
 
-.mdl-dialog{
+.mdl-dialog {
     width: 60% !important;
     max-width: 700px !important;
 }

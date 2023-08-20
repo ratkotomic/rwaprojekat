@@ -47,7 +47,7 @@ public class UpdateQuestionServlet extends HttpServlet {
                 answer.setQuestion(question);
                 answerDao.createAnswer(answer);
             });
-            questionDao.updateQuestion(questionRequest.getText(),questionRequest.getPoints(),questionRequest.getTimeToAnswer(),questionId);
+            questionDao.updateQuestion(questionRequest.getText(),questionRequest.getPoints(),questionRequest.getTimeToAnswer(), questionRequest.getQuestionNumber() ,questionId);
         } else {
             throw new EntityNotFoundException("Quiz with id " + questionId + " is not found.");
         }

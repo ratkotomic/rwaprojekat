@@ -85,6 +85,10 @@
         <!-- ALL QUIZZES -->
 
 
+        <!-- very careful changing this quiz-container and all it's children
+        there is a part of code that creates this entire container using this html as a template
+        so if you change this change the javascript as well -->
+
         <div class="quizzes-container flex flex-row flex-wrap gap-2">
             <%
 
@@ -92,6 +96,7 @@
 
                 for (Quiz quiz : quizList) {
             %>
+
             <div class="quiz-container flex flex-column flex-center gap-1 p-2" data-id="<%= quiz.getId()%>">
                 <h2 class="title"><%= quiz.getTitle() %>
                 </h2>
@@ -197,13 +202,13 @@ Used when adding a new quiz or when editing an existing quiz -->
     <div class="mdl-dialog__content flex flex-column gap-1">
 
         <div class="w-100 mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
-            <label class="mdl-textfield__label" >Naziv</label>
+            <label class="mdl-textfield__label">Naziv</label>
             <input class="mdl-textfield__input title" pattern=".{4,}">
             <span class="mdl-textfield__error"> Naziv kviza minimalno 4 karaktera! </span>
         </div>
 
         <div class="w-100 mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
-            <label class="mdl-textfield__label" >Url Slike</label>
+            <label class="mdl-textfield__label">Url Slike</label>
             <input class="mdl-textfield__input image-url">
             <span class="mdl-textfield__error"> Url nije validan! </span>
         </div>
@@ -252,25 +257,25 @@ It's when adding a new question or editing an existing question -->
     <div class="mdl-dialog__content flex flex-column gap-1">
 
         <div class="w-100 mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
-            <label class="mdl-textfield__label" >Tekst</label>
+            <label class="mdl-textfield__label">Tekst</label>
             <input type="text" class="mdl-textfield__input text" pattern=".{10,}">
             <span class="mdl-textfield__error"> Tekst pitanja minimalno 10 karaktera! </span>
         </div>
 
         <div class="w-100 mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
-            <label class="mdl-textfield__label" >Vrijeme za odgovor</label>
+            <label class="mdl-textfield__label">Vrijeme za odgovor</label>
             <input type="text" class="mdl-textfield__input time-to-answer" pattern="[0-9]+">
             <span class="mdl-textfield__error"></span>
         </div>
 
         <div class="w-100 mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
-            <label class="mdl-textfield__label" >Poeni</label>
+            <label class="mdl-textfield__label">Poeni</label>
             <input type="text" class="mdl-textfield__input points" pattern="[0-9]+">
             <span class="mdl-textfield__error"> Broj poena koje pitanje nosi mora biti broj! </span>
         </div>
 
         <div>
-        <p> Odgovori </p>
+            <p> Odgovori </p>
             <table class="mdl-data-table mdl-js-data-table mdl-shadow--2dp w-100">
                 <thead>
                 <tr>
@@ -313,7 +318,7 @@ It's when adding a new question or editing an existing question -->
     <div class="mdl-dialog__content flex flex-column gap-1">
 
         <div class="w-100 mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
-            <label class="mdl-textfield__label" >Tekst</label>
+            <label class="mdl-textfield__label">Tekst</label>
             <input type="text" class="mdl-textfield__input text" pattern=".{10,}">
             <span class="mdl-textfield__error"> Tekst odgovora minimalno 10 karaktera! </span>
         </div>
