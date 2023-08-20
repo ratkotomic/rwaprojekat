@@ -65,7 +65,7 @@
                 }
             %>
             <a class=" tc-black fw-bold" href="/rwaprojekat/admin/logout">
-                <button class="mdl-button mdl-js-button mdl-button--raised">Log out</button>
+                <button class="mdl-button mdl-js-button mdl-button--raised" style="margin-left: 40px; margin-top: 5px">Log out</button>
             </a>
         </nav>
     </div>
@@ -154,23 +154,26 @@
     <div class="mdl-dialog__content flex flex-column flex-center">
 
         <div class="w-100 mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
-            <label class="mdl-textfield__label">username</label>
+            <label class="mdl-textfield__label">Korisnicko ime</label>
             <input class="mdl-textfield__input username" type="text">
         </div>
 
         <div class="w-100 mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
-            <label class="mdl-textfield__label">password</label>
+            <label class="mdl-textfield__label">Sifra</label>
             <input class="mdl-textfield__input password" type="text">
         </div>
 
         <div class="w-100 mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
-            <label class="mdl-textfield__label">role</label>
-            <input class="mdl-textfield__input role" type="text">
+            <label class="mdl-textfield__label">Uloga</label>
+            <select class="mdl-textfield__input role" id="role-select">
+                <option value="admin">Admin</option>
+                <option value="super-admin">Super Admin</option>
+            </select>
         </div>
 
-        <div class="mdl-dialog__actions flex flex-row flex-space-between p-1 mt-2">
+        <div class="mdl-dialog__actions flex flex-row flex-space-between p-0 mt-2">
             <button type="button"
-                    class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored tc-primary-button action-button-one "></button>
+                    class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored tc-primary-button action-button-one mr-1"></button>
             <button type="button"
                     class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored tc-primary-button action-button-two "></button>
         </div>
