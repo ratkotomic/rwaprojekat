@@ -14,7 +14,7 @@ let isTableValid = false;
 titleInput.addEventListener("input", checkTitleValidity);
 imageUrlInput.addEventListener("input", checkImageUrlValidity);
 
-function setupValidation()
+export function setupValidation()
 {
     actionButton = quizDialogCurr.querySelector(".action-button-one");
 
@@ -29,6 +29,7 @@ function setupValidation()
     }
     else{
         actionButton.disabled = true;
+        table.nextElementSibling.style.visibility = "hidden";
     }
 }
 
