@@ -223,7 +223,7 @@ Used when adding a new quiz or when editing an existing quiz -->
                 <tbody>
                 </tbody>
             </table>
-            <span class="mdl-textfield__error"> Kviz nema dovoljno pitanja! </span>
+            <span class="mdl-textfield__error" style="visibility: hidden;"> Kviz nema dovoljno pitanja! </span>
         </div>
         <button id="new-question-button" type="button" class="mdl-button mdl-js-button mt-1">
             Novo pitanje
@@ -232,7 +232,7 @@ Used when adding a new quiz or when editing an existing quiz -->
         <p class="m-0">Kviz mora imati validan naziv, sliku i minimalno 10 pitanja.</p>
         <div class="mdl-dialog__actions flex flex-row flex-space-between p-0 ">
             <button type="button"
-                    class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored tc-primary-button action-button-one" disabled></button>
+                    class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored tc-primary-button action-button-one"></button>
             <button type="button"
                     class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored tc-primary-button action-button-two "></button>
         </div>

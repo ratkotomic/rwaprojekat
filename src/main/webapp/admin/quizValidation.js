@@ -17,6 +17,19 @@ imageUrlInput.addEventListener("input", checkImageUrlValidity);
 function setupValidation()
 {
     actionButton = quizDialogCurr.querySelector(".action-button-one");
+
+    /* if we are editing just check all the fields */
+    /* if we aren't it means we are creating a new one so action button should be disabled */
+    if(actionButton.innerText == "Sačuvaj")
+    {
+        checkImageUrlValidity();
+        checkTableValidity();
+        checkTitleValidity();
+        checkQuizValidity();
+    }
+    else{
+        actionButton.disabled = true;
+    }
 }
 
 const observer = new MutationObserver(() => {
