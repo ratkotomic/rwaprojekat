@@ -158,7 +158,7 @@
 <dialog id="new-user-dialog" class="mdl-dialog">
     <h3 class="mdl-dialog__title text-center">Novi korisnik</h3>
 
-    <div class="mdl-dialog__content flex flex-column flex-center">
+    <div class="mdl-dialog__content flex flex-column flex-center gap-3">
 
         <div class="w-100 mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
             <label class="mdl-textfield__label">Korisnicko ime</label>
@@ -167,7 +167,8 @@
 
         <div class="w-100 mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
             <label class="mdl-textfield__label">Sifra</label>
-            <input class="mdl-textfield__input password" type="text">
+            <input class="mdl-textfield__input password" type="text" pattern=".{8,}">
+            <span class="mdl-textfield__error"> Šifra mora biti minimalno 8 karaktera! </span>
         </div>
 
         <div class="w-100 mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
@@ -351,5 +352,6 @@ It's when adding a new question or editing an existing question -->
 <script type="module" src="./answerValidation.js"></script>
 <script type="module" src="./home.js"></script>
 <script type="module" src="./dragAndDrop.js"></script>
+<script type="module" src="./userValidation.js"></script>
 
 </html>

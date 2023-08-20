@@ -1,6 +1,7 @@
 import {setupValidation as setupQuizValidation} from "./quizValidation.js";
 import {setupValidation as setupQuestionValidation} from "./questionValidation.js";
 import {setupValidation as setupAnswerValidation} from "./answerValidation.js";
+import {setupValidation as setupUserValidation} from "./userValidation.js";
 import {addDropAndDragToRow} from "./dragAndDrop.js";
 
 const tabLinks = document.querySelectorAll('.mdl-navigation__link');
@@ -719,6 +720,7 @@ function showNewUserDialog(button) {
     newActionButtonTwo.innerText = "";
     newActionButtonTwo.style.display = "none";
 
+    setupUserValidation();
     userDialog.showModal();
 }
 
@@ -817,6 +819,7 @@ function showEditUserDialog(button) {
             newActionButtonTwo.innerText = "Izbriši";
             newActionButtonTwo.addEventListener("click", (event) => deleteUser(event.currentTarget, quizContainer));
 
+            setupUserValidation();
             userDialog.showModal();
         })
         .catch(() => {
