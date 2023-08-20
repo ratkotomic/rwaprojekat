@@ -1,7 +1,5 @@
 package com.example.rwaprojekat.servlet;
 
-import com.example.rwaprojekat.dao.UserDao;
-import com.example.rwaprojekat.model.User;
 import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -29,9 +27,15 @@ public class IndexServlet extends HttpServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String pin = req.getParameter("pin");
 
-        if (pin.isEmpty()) {
-            req.setAttribute("errorMessage", "Pin je prazan prazno!");
-            dispatcher = req.getRequestDispatcher("/Authorization/login.jsp");
+        if (pin == null || pin.isEmpty()) {
+            req.setAttribute("errorMessage", "Polje za pin je prazno!");
+            dispatcher = req.getRequestDispatcher("/index.jsp");
+            dispatcher.forward(req, resp);
+        } else if (pin.equals("123")) {
+            resp.sendRedirect("o_vama.jsp");
+        } else {
+            req.setAttribute("errorMessage", "Pogrešan PIN!");
+            dispatcher = req.getRequestDispatcher("/index.jsp");
             dispatcher.forward(req, resp);
         }
     }
