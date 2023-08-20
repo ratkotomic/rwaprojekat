@@ -22,12 +22,9 @@ public class UserDao {
         User user;
         try {
             user = (User) q.setMaxResults(1).getSingleResult();
-        }
-        catch(Exception ex)
-        {
+        } catch (Exception ex) {
             return null;
-        }
-        finally{
+        } finally {
             em.close();
         }
         return user;
@@ -53,13 +50,14 @@ public class UserDao {
         return user;
     }
 
-    public void createUser(User user) {
+    public User createUser(User user) {
         EntityManagerFactory emf = Persistence.createEntityManagerFactory("rwaprojekat");
         EntityManager em = emf.createEntityManager();
         em.getTransaction().begin();
         em.persist(user);
         em.getTransaction().commit();
         em.close();
+        return user;
     }
 
     public void deleteUser(String id) {
@@ -79,9 +77,7 @@ public class UserDao {
         Query q = null;
         try {
             q = em.createQuery("UPDATE User u SET u.username = :username, u.password = :password, u.role = :role WHERE u.id = :id");
-        }
-        catch(Exception ex)
-        {
+        } catch (Exception ex) {
             ex.printStackTrace();
         }
         q.setParameter("username", username);

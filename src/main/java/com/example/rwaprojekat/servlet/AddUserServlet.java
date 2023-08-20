@@ -2,6 +2,7 @@ package com.example.rwaprojekat.servlet;
 
 import com.example.rwaprojekat.dao.UserDao;
 import com.example.rwaprojekat.model.User;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -14,9 +15,11 @@ import java.io.IOException;
 public class AddUserServlet extends HttpServlet {
     UserDao userDao;
 
-    public AddUserServlet( ) {
+    public AddUserServlet() {
         userDao = new UserDao();
     }
+
+    private final ObjectMapper objectMapper = new ObjectMapper();
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -31,8 +34,10 @@ public class AddUserServlet extends HttpServlet {
             if (existingUser != null) {
 //                ("User with username already exists", request, response);
             } else {
-                userDao.createUser(new User(userName, password, role));
-//                response.sendRedirect("");
+                User user = userDao.createUser(new User(userName, password, role));
+                resp.setContentType("application/json");
+                String jsonResponse = objectMapper.writeValueAsString(user);
+                resp.getWriter().write(jsonResponse);
             }
         }
     }

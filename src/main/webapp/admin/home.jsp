@@ -65,7 +65,9 @@
                 }
             %>
             <a class=" tc-black fw-bold" href="/rwaprojekat/admin/logout">
-                <button class="mdl-button mdl-js-button mdl-button--raised" style="margin-left: 40px; margin-top: 5px">Log out</button>
+                <button class="mdl-button mdl-js-button mdl-button--raised" style="margin-left: 40px; margin-top: 5px">
+                    Log out
+                </button>
             </a>
         </nav>
     </div>
@@ -993,27 +995,27 @@ It's when adding a new question or editing an existing question -->
             method: 'POST'
         })
             .then((response) => {
-                if (response.ok) {
-                    const userContainer = document.querySelector(".user-container");
-                    const newUserContainer = userContainer.cloneNode(true);
+                return response.json();
+            })
+            .then((data) => {
+                const userContainer = document.querySelector(".user-container");
+                const newUserContainer = userContainer.cloneNode(true);
 
-                    console.log(newUserContainer)
+                console.log(newUserContainer)
 
-                    newUserContainer.querySelector(".username").innerText = 'Username: ' + username;
-                    newUserContainer.querySelector(".password").innerText = 'Password: ' + password;
-                    newUserContainer.querySelector(".role").innerText = 'Role: ' + role;
+                newUserContainer.setAttribute("id", data.id)
+                newUserContainer.setAttribute("username", data.username)
+                newUserContainer.querySelector(".username").innerText = 'Username: ' + username;
+                newUserContainer.querySelector(".password").innerText = 'Password: ' + password;
+                newUserContainer.querySelector(".role").innerText = 'Role: ' + role;
 
-                    newUserContainer.querySelector(".edit-user-button").addEventListener("click", (event) => showEditUserDialog(event.currentTarget));
+                newUserContainer.querySelector(".edit-user-button").addEventListener("click", (event) => showEditUserDialog(event.currentTarget));
 
-                    quizzesContainer.appendChild(newUserContainer);
+                quizzesContainer.appendChild(newUserContainer);
 
-                    userDialog.close();
-                    button.disabled = false;
+                userDialog.close();
+                button.disabled = false;
 
-                } else {
-                    // Handle non-successful response, e.g., network error, server error, etc.
-                    console.log("Request was not successful:", response.status, response.statusText);
-                }
             })
             .catch((error) => {
                 console.log(error)
