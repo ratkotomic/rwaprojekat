@@ -44,8 +44,6 @@
 
                 <h1 class="fs-heading"> Dobrodošli u Kviz aplikaciju</h1>
 
-                <form method="post" action="/rwaprojekat/index" class="flex flex-column gap-2 w-100">
-
                     <div class="w-100 mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
                         <label class="mdl-textfield__label" for="pin">Unesite pin za početak kviza.</label>
                         <input class="mdl-textfield__input" type="text" pattern="-?[0-9]*(\.[0-9]+)?" id="pin"
@@ -55,7 +53,6 @@
 
                     <input type="submit" id="submit" value="Potvrdi pin"
                            class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored  tc-primary-button">
-                </form>
                 <p>${errorMessage}</p>
 
             </div>
@@ -67,6 +64,7 @@
 <script>
 
     const submit = document.getElementById("submit");
+    submit.addEventListener("click", showQuiz);
     document.getElementById("pin").addEventListener("input", inputModified);
 
     function inputModified(e) {
@@ -75,6 +73,11 @@
 
     function redirectToNewPage() {
         window.location.href = "o_vama.jsp";
+    }
+
+
+    function showQuiz(){
+        window.location.href = "quiz/quiz.jsp";
     }
 
 </script>
