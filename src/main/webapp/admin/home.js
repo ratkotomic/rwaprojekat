@@ -51,6 +51,7 @@ function showEditQuizDialog(button) {
     const quizId = quizContainer.getAttribute("data-id");
 
     let url = window.location.href;
+    url = url.replace("#quizzes", "");
     url = url.replace("home", "getQuiz");
     const params = new URLSearchParams({id: quizId});
 
@@ -735,6 +736,7 @@ function addNewUser(button) {
 
 
     let url = window.location.href;
+    url = url.replace("#users", "");
     url = url.replace("home", "addUser") + "?username=" + username + "&password=" + password + "&role=" + role;
 
     fetch(url, {
@@ -778,6 +780,7 @@ function showEditUserDialog(button) {
     const userId = quizContainer.getAttribute("id");
 
     let url = window.location.href;
+    url = url.replace("#users", "");
     url = url.replace("home", "getUser");
     const params = new URLSearchParams({id: userId});
 
@@ -839,6 +842,7 @@ function deleteUser(button, quizContainer) {
     });
 
     let url = window.location.href;
+    url = url.replace("#quizzes", "");
     url = url.replace("home", "deleteUser");
 
     fetch(url, {
@@ -865,6 +869,7 @@ function saveUserChanges(button, quizContainer) {
     const role = userDialog.querySelector(".role").value;
 
     let url = window.location.href;
+    url = url.replace("#quizzes", "");
     url = url.replace("home", "updateUser") + "?id=" + id + "&username=" + username + "&password=" + password + "&role=" + role;
 
     fetch(url, {
