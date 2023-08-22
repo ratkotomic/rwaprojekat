@@ -45,6 +45,10 @@ body{
     justify-content: center !important;
 }
 
+.flex-left{
+    justify-content: start !important;
+}
+
 
 .flex-wrap{
     flex-wrap: wrap !important;

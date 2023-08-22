@@ -46,13 +46,13 @@
 
                     <div class="w-100 mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
                         <label class="mdl-textfield__label" for="pin">Unesite pin za početak kviza.</label>
-                        <input class="mdl-textfield__input" type="text" pattern="-?[0-9]*(\.[0-9]+)?" id="pin"
+                        <input class="mdl-textfield__input" type="text" pattern="[0-9]+" id="pin"
                                name="pin" title="Unos mora biti broj!">
                         <span class="mdl-textfield__error">Unos nije broj!</span>
                     </div>
 
                     <input type="submit" id="submit" value="Potvrdi pin"
-                           class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored  tc-primary-button">
+                           class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored  tc-primary-button" disabled>
                 <p>${errorMessage}</p>
 
             </div>
@@ -64,20 +64,30 @@
 <script>
 
     const submit = document.getElementById("submit");
+    const pinInput = document.getElementById("pin");
+
     submit.addEventListener("click", showQuiz);
-    document.getElementById("pin").addEventListener("input", inputModified);
+    pinInput.addEventListener("input", inputModified);
 
-    function inputModified(e) {
-        submit.disabled = e.target.value === "" || !e.target.checkValidity();
+    function inputModified() {
+        submit.disabled = !isPinValid();
     }
 
-    function redirectToNewPage() {
-        window.location.href = "o_vama.jsp";
-    }
 
 
     function showQuiz(){
-        window.location.href = "quiz/quiz.jsp";
+
+        if(!isPinValid())
+            return;
+
+        window.location.href = "quiz";
+    }
+
+    function isPinValid ()
+    {
+        const a = pinInput.value !== "";
+        const b = pinInput.checkValidity();
+        return pinInput.value !== "" && pinInput.checkValidity();
     }
 
 </script>

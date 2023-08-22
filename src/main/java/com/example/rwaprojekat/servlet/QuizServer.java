@@ -13,7 +13,7 @@ import java.util.List;
 
 
 @ServerEndpoint(
-        value = "/quiz")
+        value = "/quizServer")
 public class QuizServer {
     private final static ArrayList<Session> sessions = new ArrayList<>();
     private Quiz quiz;
@@ -32,7 +32,7 @@ public class QuizServer {
 
 
     @OnMessage
-    public String handleTextMessage(String message) {
+    public void handleTextMessage(String message) {
 
         sessions.forEach(s -> {
             try {
@@ -42,20 +42,8 @@ public class QuizServer {
                 e.printStackTrace();
             }
         });
-        return message;
     }
 
-    public Quiz sendQuizToClient(Quiz quiz, Session session)
-    {
-        try {
-            session.getBasicRemote().sendObject(quiz);
-        } catch (Exception e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
-
-        return quiz;
-    }
 
     @OnClose
     public void onClose(Session session) throws IOException {
