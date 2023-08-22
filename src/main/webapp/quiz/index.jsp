@@ -89,7 +89,6 @@
                 <h2 class="title"></h2>
                 <h3 class="text"></h3>
                 <div class="options flex flex-row flex-center gap-3 flex-wrap p-2 m-2">
-
                 </div>
 
                 <div class="action flex flex-row flex-center flex-wrap gap-3">
@@ -302,6 +301,8 @@
         questionContainerElements.continueButton.disabled = true;
     }
 
+
+    let questionTimeoutId;
     function updateQuestionContainer(question)
     {
         questionContainerElements.title.innerText = "Pitanje " + (sessionInfo.currentQuestion + 1);
@@ -315,7 +316,7 @@
             i * 1000);
         }
 
-        setTimeout(() => {
+        questionTimeoutId = setTimeout(() => {
             alert("Vrijeme je isteklo!");
             showInbetweenQuestions();
         }, question.timeToAnswer * 1000);
@@ -326,7 +327,7 @@
         for(let i = 0; i < question.answers.length; ++i)
         {
             button = document.createElement("BUTTON");
-            button.classList.add("mdl-button", "mdl-js-button", "mdl-button--raised");
+            button.classList.add("mdl-button", "mdl-js-button", "mdl-button--raised", "tc-primary-button");
             button.addEventListener("click", (event) => selectAnswer(event));
             button.innerText = question.answers[i].answerText;
             options.appendChild(button);
@@ -398,7 +399,6 @@
 
     function updateUserCount()
     {
-
         quizBeginsSoonElements.currentParticipants.innerText = "Trenutni broj učesnika: " + sessionInfo.users;
         questionContainerElements.currentParticipants.innerText = "Trenutni broj učesnika: " + sessionInfo.users;
     }
@@ -429,6 +429,7 @@
 
     function checkUserAnswer()
     {
+        clearTimeout(questionTimeoutId);
         const button = getSelectedAnswer();
         const answerIndex = Array.from(button.parentElement.children).indexOf(button);
 
