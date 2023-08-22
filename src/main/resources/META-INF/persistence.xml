@@ -11,6 +11,8 @@
         <class>com.example.rwaprojekat.model.Quiz</class>
         <class>com.example.rwaprojekat.model.Question</class>
         <class>com.example.rwaprojekat.model.Answer</class>
+        <class>com.example.rwaprojekat.model.Game</class>
+        <class>com.example.rwaprojekat.model.Player</class>
 
         <properties>
             <property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/rwaprojekat"/>

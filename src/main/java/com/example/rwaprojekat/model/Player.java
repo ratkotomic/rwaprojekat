@@ -1,5 +1,6 @@
 package com.example.rwaprojekat.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
@@ -13,6 +14,7 @@ public class Player {
     private String id;
 
     @ManyToOne
+    @JsonIgnore
     @JoinColumn(name = "game_id", referencedColumnName = "pin")
     private Game game;
 
