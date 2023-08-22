@@ -81,7 +81,10 @@
         </div>
 
         <div class="container h-100 flex-column flex-center question-container ">
+
             <div class="wrapper py-1 w-80 px-2 flex flex-column flex-center gap-2">
+                <div id="p1" class="mdl-progress mdl-js-progress">
+                </div>
                 <p class="current-participants w-100 m-0"></p>
                 <h2 class="title"></h2>
                 <h3 class="text"></h3>
@@ -185,7 +188,8 @@
         options: questionContainer.querySelector(".options"),
         currentParticipants: questionContainer.querySelector(".current-participants"),
         checkButton: questionContainer.querySelector(".check-button"),
-        continueButton: questionContainer.querySelector(".continue-button")
+        continueButton: questionContainer.querySelector(".continue-button"),
+        limit: questionContainer.querySelector(".mdl-progress")
     }
 
     questionContainerElements.checkButton.addEventListener("click", () => checkUserAnswer());
@@ -302,6 +306,19 @@
     {
         questionContainerElements.title.innerText = "Pitanje " + (sessionInfo.currentQuestion + 1);
         questionContainerElements.text.innerText = question.questionText;
+        questionContainerElements.limit.MaterialProgress = 0;
+
+        let eachSecondProgress = 100 / question.timeToAnswer;
+        for(let i = 0; i < question.timeToAnswer; ++i)
+        {
+            setTimeout(() => questionContainerElements.limit.firstElementChild.style.width = eachSecondProgress * i + "%",
+            i * 1000);
+        }
+
+        setTimeout(() => {
+            alert("Vrijeme je isteklo!");
+            showInbetweenQuestions();
+        }, question.timeToAnswer * 1000);
 
         let button;
         const options =  questionContainerElements.options;
@@ -398,9 +415,9 @@
             return;
 
         updateUserCount();
-        quizBeginsSoonElements.username.innerText = "Vaše ime: " + userInfo.name + " " + userInfo.lastname;
-        quizBeginsSoonElements.quizName.innerText = "Ime kviza: " + sessionInfo.quizObject.title;
-        quizBeginsSoonElements.organiser.innerText = "Organizator kviza: " + sessionInfo.quizObject.owner.username;
+        quizBeginsSoonElements.username.innerText = "Ime: " + userInfo.name + " " + userInfo.lastname;
+        quizBeginsSoonElements.quizName.innerText = "Kviz: " + sessionInfo.quizObject.title;
+        quizBeginsSoonElements.organiser.innerText = "Organizator: " + sessionInfo.quizObject.owner.username;
     }
 
 
@@ -477,6 +494,11 @@
         inBetweenQuestions.style.display = "none";
         end.style.display = "flex";
     }
+
+
+    document.querySelector('#p1').addEventListener('mdl-componentupgraded', function() {
+        this.MaterialProgress.setProgress(44);
+    });
 
 </script>
 
