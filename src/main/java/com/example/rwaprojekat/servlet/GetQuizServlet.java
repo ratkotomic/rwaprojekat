@@ -26,7 +26,7 @@ public class GetQuizServlet extends HttpServlet {
         resp.setContentType("application/json");
         String quizId = req.getParameter("id");
         Quiz quiz = quizDao.findQuizById(quizId);
-        quiz.getQuestions().sort(Comparator.comparingInt(Question::getQuestionNumber).reversed());
+        quiz.getQuestions().sort(Comparator.comparingInt(Question::getQuestionNumber));
 
         ObjectMapper objectMapper = new ObjectMapper();
         String quizJson = objectMapper.writeValueAsString(quiz);
