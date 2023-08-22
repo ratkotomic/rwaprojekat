@@ -45,7 +45,7 @@ public class AddQuizServlet extends HttpServlet {
 
         QuizRequest quizRequest = objectMapper.readValue(requestData, QuizRequest.class);
 
-        User user = userDao.findByUserId(quizRequest.getCreator());
+        User user = (User) req.getSession().getAttribute("user");
 
         Quiz quiz = new Quiz();
         quiz.setTitle(quizRequest.getTitle());

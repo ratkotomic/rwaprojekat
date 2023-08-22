@@ -1,9 +1,11 @@
 package com.example.rwaprojekat.model;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Table(name = "user")
@@ -22,6 +24,10 @@ public class User {
 
     @Column(name = "role")
     private String role;
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "creator", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Game> createdGames;
 
     public String getId() {
         return id;
@@ -62,5 +68,13 @@ public class User {
     }
 
     public User() {
+    }
+
+    public List<Game> getCreatedGames() {
+        return createdGames;
+    }
+
+    public void setCreatedGames(List<Game> createdGames) {
+        this.createdGames = createdGames;
     }
 }

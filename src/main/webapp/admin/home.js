@@ -560,6 +560,7 @@ function addNewQuiz(button) {
 
     const title = quizDialog.querySelector(".title").value;
     const imageUrl = quizDialog.querySelector(".image-url").value;
+    const owner = newQuizButton.getAttribute("owner-id");
     const quizzesContainer = document.querySelector(".quizzes-container");
 
     const questions = [];
@@ -587,7 +588,7 @@ function addNewQuiz(button) {
     let quizRequest = {
         title: title,
         imageUrl: imageUrl,
-        creator: "1",
+        creator: owner,
         questions: questions
     };
 

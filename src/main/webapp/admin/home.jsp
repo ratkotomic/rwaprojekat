@@ -76,7 +76,7 @@
 
         <h1 class="mb-3">Kvizovi</h1>
 
-        <button type="button" id="new-quiz-button"
+        <button type="button" id="new-quiz-button" owner-id="<%= user.getId() %>"
                 class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored tc-primary-button mb-2">
             Novi kviz
         </button>
@@ -97,7 +97,7 @@
                 for (Quiz quiz : quizList) {
             %>
 
-            <div class="quiz-container flex flex-column flex-center gap-1 p-2" data-id="<%= quiz.getId()%>">
+            <div class="quiz-container flex flex-column flex-center gap-1 p-2" data-id="<%= quiz.getId()%>" creator="<%= quiz.getOwner().getId()%>">
                 <h2 class="title"><%= quiz.getTitle() %>
                 </h2>
                 <img class="image-url" src="<%= quiz.getImageUrl() %>">
@@ -345,8 +345,8 @@ It's when adding a new question or editing an existing question -->
 
 </body>
 
-
 <script defer src="https://code.getmdl.io/1.3.0/material.min.js"></script>
+<script type="module" src="./generatePin.js"></script>
 <script type="module" src="./quizValidation.js"></script>
 <script type="module" src="./questionValidation.js"></script>
 <script type="module" src="./answerValidation.js"></script>
