@@ -30,4 +30,10 @@ h1{
 }
 
 
+th, td {
+    text-align: center !important;
+}
 
+th {
+    width: 100%;
+}

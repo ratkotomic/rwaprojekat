@@ -43,8 +43,8 @@
         <div class="container h-100 flex-column flex-center info-input">
             <div class="wrapper py-1 w-80 px-2 flex flex-column flex-center gap-2">
                 <h1 class="fs-heading"> O vama </h1>
-                <p> Ispod možete unijeti svoje ime i prezime.Ovo koristimo da vas mozemo prikazati u ranking listi
-                    naspram drugih takmicara.</p>
+                <p> Ispod možete unijeti svoje ime i prezime. Ovo koristimo da vas možemo prikazati u ranking listi
+                    naspram drugih takmičara.</p>
 
                 <div class="w-100 mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
                     <label class="mdl-textfield__label" for="name"> Ime</label>
@@ -80,13 +80,12 @@
 
         </div>
 
-        <div class="container h-100 flex-column flex-center question-container ">
+        <div class="container h-100 flex-column flex-center question-container">
 
             <div class="wrapper py-1 w-80 px-2 flex flex-column flex-center gap-2">
                 <div id="p1" class="mdl-progress mdl-js-progress">
                 </div>
                 <p class="current-participants w-100 m-0"></p>
-                <h2 class="title"></h2>
                 <h3 class="text"></h3>
                 <div class="options flex flex-row flex-center gap-3 flex-wrap p-2 m-2">
                 </div>
@@ -105,6 +104,21 @@
         <div class="container h-100 flex-column flex-center in-between-questions">
             <div class="wrapper py-1 w-80 px-2 flex flex-column flex-center gap-2">
                 <h2> Čekanje na slijedeće pitanje </h2>
+                <h3>Trenutni ranking</h3>
+                <table class="mdl-data-table mdl-js-data-table">
+                    <thead>
+                    <tr>
+                        <th>Rank</th>
+                        <th class="mdl-data-table__cell--non-numeric">Ime</th>
+                        <th class="mdl-data-table__cell--non-numeric">Prezime</th>
+                        <th>Poeni</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    </tbody>
+                </table>
+
+
             </div>
         </div>
 
@@ -113,6 +127,20 @@
         <div class="container h-100 flex-column flex-center end">
             <div class="wrapper py-1 w-80 px-2 flex flex-column flex-center gap-2">
                 <h2> Kviz je završen! </h2>
+                <h3>Konačni ranking</h3>
+                <table class="mdl-data-table mdl-js-data-table">
+                    <thead>
+                    <tr>
+                        <th>Rank</th>
+                        <th class="mdl-data-table__cell--non-numeric">Ime</th>
+                        <th class="mdl-data-table__cell--non-numeric">Prezime</th>
+                        <th>Poeni</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    </tbody>
+                </table>
+
                 <a href="../">Nastavi</a>
             </div>
         </div>
@@ -178,7 +206,6 @@
 
     const questionContainer = document.querySelector(".question-container");
     const questionContainerElements = {
-        title: questionContainer.querySelector(".title"),
         text: questionContainer.querySelector(".text"),
         options: questionContainer.querySelector(".options"),
         currentParticipants: questionContainer.querySelector(".current-participants"),
@@ -201,7 +228,8 @@
         client: null,
         quizObject: null,
         currentQuestion: 0,
-        quizId: null
+        quizId: null,
+        userId: 0
     }
 
 
@@ -214,7 +242,7 @@
         wsUrl = wsUrl.replace("https", "ws");
         wsUrl = wsUrl.replace("http", "ws");
         wsUrl = wsUrl.replace("quiz/", "quizServer");
-        wsUrl += "?pin=" + pin;
+        wsUrl += "?pin=" + pin + "&name=" + userInfo.name + "&lastname=" + userInfo.lastname;
 
         sessionInfo.client = new WebSocket(wsUrl);
 
@@ -236,6 +264,7 @@
             }
 
             switch(message) {
+
                 case "no-game":
                     alert("Igra sa datim pin-om nije pronađena!");
                     url = window.location.href;
@@ -261,6 +290,11 @@
 
                 case "next-question":
                     showNextQuestion();
+                    break;
+
+                case "user-was-correct":
+                    if(inBetweenQuestions.style.display === "flex")
+                        showInbetweenQuestions();
                     break;
 
                 default:
@@ -302,7 +336,6 @@
     let questionTimeoutId;
     function updateQuestionContainer(question)
     {
-        questionContainerElements.title.innerText = "Pitanje " + (sessionInfo.currentQuestion + 1);
         questionContainerElements.text.innerText = question.questionText;
         questionContainerElements.limit.MaterialProgress = 0;
 
@@ -458,6 +491,8 @@
     function userWasCorrect(button){
         button.style.backgroundColor = "green";
         button.style.color = "black";
+
+        sessionInfo.client.send("user-was-correct");
     }
 
     function userWasWrong(button, correctButton)
@@ -481,8 +516,48 @@
 
 
     function showInbetweenQuestions(){
-        questionContainer.style.display = "none";
-        inBetweenQuestions.style.display = "flex";
+
+        let url = window.location.href;
+        url = url.replace("quiz/", "getPlayers");
+        const params = new URLSearchParams({pin: pin});
+
+        fetch(url + "?" + params)
+            .then((response) => {
+                return response.json();
+            })
+            .then((data) => {
+                let players = data;
+
+
+                const table = inBetweenQuestions.querySelector("table");
+                while (table.rows.length > 1) {
+                    table.deleteRow(table.rows.length - 1);
+                }
+
+                let player;
+                for (let i = 0; i < players.length; ++i) {
+                    player = players[i];
+                    let row = table.insertRow(-1);
+
+                    let c1 = row.insertCell(0);
+                    let c2 = row.insertCell(1);
+                    let c3 = row.insertCell(2);
+                    let c4 = row.insertCell(3);
+
+                    c1.innerText = i + 1;
+                    c2.innerText = player.firstName;
+                    c3.innerText = player.lastName;
+                    c4.innerText = player.points;
+
+                    }
+
+                questionContainer.style.display = "none";
+                inBetweenQuestions.style.display = "flex";
+            })
+            .catch(() => {
+                throw new Error("get players failed!");
+            })
+
     }
 
 
@@ -491,6 +566,45 @@
         questionContainer.style.display = "none";
         inBetweenQuestions.style.display = "none";
         end.style.display = "flex";
+
+        let url = window.location.href;
+        url = url.replace("quiz/", "getPlayers");
+        const params = new URLSearchParams({pin: pin});
+
+        fetch(url + "?" + params)
+            .then((response) => {
+                return response.json();
+            })
+            .then((data) => {
+                let players = data;
+
+
+                const table = end.querySelector("table");
+                while (table.rows.length > 1) {
+                    table.deleteRow(table.rows.length - 1);
+                }
+
+                let player;
+                for (let i = 0; i < players.length; ++i) {
+                    player = players[i];
+                    let row = table.insertRow(-1);
+
+                    let c1 = row.insertCell(0);
+                    let c2 = row.insertCell(1);
+                    let c3 = row.insertCell(2);
+                    let c4 = row.insertCell(3);
+
+                    c1.innerText = i + 1;
+                    c2.innerText = player.firstName;
+                    c3.innerText = player.lastName;
+                    c4.innerText = player.points;
+
+                }
+            })
+            .catch(() => {
+                throw new Error("get players failed!");
+            })
+
     }
 
 

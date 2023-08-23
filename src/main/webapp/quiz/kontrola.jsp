@@ -44,7 +44,7 @@
     <div class="container h-100 flex-column flex-center controls">
       <div class="wrapper py-1 w-80 px-2 flex flex-column flex-center gap-2">
         <h1 class="fs-heading"> Kontrola kviza </h1>
-        <p> Ispod možete imate kontrole kviza. Kada započnete kviz prvo pitanje se prikazuje učesnicima. Nakon isteka vremena
+        <p> Ispod imate kontrole kviza. Kada započnete kviz prvo pitanje se prikazuje učesnicima. Nakon isteka vremena
         datog pitanja možete prikazati slijedeće pitanje.</p>
 
         <p class="current-participants"></p>
@@ -68,8 +68,31 @@
 
     <div class="container h-100 flex-column flex-center quiz-end">
       <div class="wrapper py-1 w-80 px-2 flex flex-column flex-center gap-2">
-        <h1 class="fs-heading"> Kviz je završen </h1>
+        <h2 class="fs-heading"> Kviz je završen </h2>
+        <h3>Konačni ranking</h3>
+        <table class="mdl-data-table mdl-js-data-table">
+          <thead>
+          <tr>
+            <th>Rank</th>
+            <th class="mdl-data-table__cell--non-numeric">Ime</th>
+            <th class="mdl-data-table__cell--non-numeric">Prezime</th>
+            <th>Poeni</th>
+          </tr>
+          </thead>
+          <tbody>
+          </tbody>
+        </table>
+        <div class="action flex flex-row flex-center flex-wrap gap-3">
+          <button class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored ">
+            Preuzmi listu
+          </button>
+          <button class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored  ">
+            Nazad
+          </button>
+        </div>
       </div>
+
+
     </div>
 
 
@@ -186,6 +209,45 @@
     sessionInfo.client.send("quiz-end");
     container.style.display = "none";
     document.querySelector(".quiz-end").style.display = "flex";
+
+    let url = window.location.href;
+    url = url.replace("quiz/kontrola.jsp", "getPlayers");
+    const params = new URLSearchParams({pin: game.pin});
+
+    fetch(url + "?" + params)
+            .then((response) => {
+              return response.json();
+            })
+            .then((data) => {
+              let players = data;
+
+
+              const table = document.querySelector("table");
+              while (table.rows.length > 1) {
+                table.deleteRow(table.rows.length - 1);
+              }
+
+              let player;
+              for (let i = 0; i < players.length; ++i) {
+                player = players[i];
+                let row = table.insertRow(-1);
+
+                let c1 = row.insertCell(0);
+                let c2 = row.insertCell(1);
+                let c3 = row.insertCell(2);
+                let c4 = row.insertCell(3);
+
+                c1.innerText = i + 1;
+                c2.innerText = player.firstName;
+                c3.innerText = player.lastName;
+                c4.innerText = player.points;
+
+              }
+            })
+            .catch(() => {
+              throw new Error("get players failed!");
+            })
+
 
   }
 
