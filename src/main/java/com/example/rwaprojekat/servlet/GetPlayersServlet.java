@@ -20,10 +20,6 @@ public class GetPlayersServlet extends HttpServlet {
         playerDao = new PlayerDao();
     }
 
-    private final ObjectMapper objectMapper = new ObjectMapper();
-
-    /* todo */
-    /* should only return the top ten players */
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         resp.setContentType("application/json");

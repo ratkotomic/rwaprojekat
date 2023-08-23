@@ -1,7 +1,6 @@
 package com.example.rwaprojekat.servlet;
 
 import com.example.rwaprojekat.dao.UserDao;
-import com.example.rwaprojekat.model.User;
 import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;

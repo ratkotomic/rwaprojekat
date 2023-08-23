@@ -2,20 +2,20 @@ package com.example.rwaprojekat.servlet;
 
 import com.example.rwaprojekat.dao.GameDao;
 import com.example.rwaprojekat.dao.PlayerDao;
-import com.example.rwaprojekat.dao.QuizDao;
-import com.example.rwaprojekat.model.*;
-import jakarta.websocket.*;
+import com.example.rwaprojekat.model.Game;
+import com.example.rwaprojekat.model.Player;
+import com.example.rwaprojekat.model.Question;
+import jakarta.websocket.OnClose;
+import jakarta.websocket.OnMessage;
+import jakarta.websocket.OnOpen;
+import jakarta.websocket.Session;
 import jakarta.websocket.server.ServerEndpoint;
 import org.apache.http.NameValuePair;
 import org.apache.http.client.utils.URLEncodedUtils;
 
 import java.io.IOException;
-import java.io.UnsupportedEncodingException;
 import java.net.URI;
-import java.net.URLDecoder;
-import java.net.URLEncoder;
 import java.nio.charset.Charset;
-import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;

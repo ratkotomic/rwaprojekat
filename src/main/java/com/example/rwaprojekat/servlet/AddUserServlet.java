@@ -9,6 +9,7 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
+import javax.swing.*;
 import java.io.IOException;
 
 @WebServlet(name = "/AddUser", urlPatterns = "/admin/addUser")
@@ -28,11 +29,11 @@ public class AddUserServlet extends HttpServlet {
         String role = req.getParameter("role");
 
         if (userName.isEmpty() || password.isEmpty() || role.isEmpty()) {
-
         } else {
             User existingUser = userDao.findByUsername(userName);
             if (existingUser != null) {
-//                ("User with username already exists", request, response);
+                JOptionPane.showMessageDialog(null, "Vec postoji user sa username " + userName);
+                resp.sendRedirect("/rwaprojekat/admin/home");
             } else {
                 User user = userDao.createUser(new User(userName, password, role));
                 resp.setContentType("application/json");
