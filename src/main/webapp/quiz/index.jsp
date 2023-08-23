@@ -535,7 +535,7 @@
                 }
 
                 let player;
-                for (let i = 0; i < players.length; ++i) {
+                for (let i = 0; (i < players.length) && (i < 10); ++i) {
                     player = players[i];
                     let row = table.insertRow(-1);
 
@@ -585,7 +585,7 @@
                 }
 
                 let player;
-                for (let i = 0; i < players.length; ++i) {
+                for (let i = 0; (i < players.length) && (i < 10); ++i) {
                     player = players[i];
                     let row = table.insertRow(-1);
 
