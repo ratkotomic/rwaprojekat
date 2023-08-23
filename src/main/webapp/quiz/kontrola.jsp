@@ -280,22 +280,29 @@
         XLSX.utils.book_append_sheet(wb, ws, "Rezultati");
 
         console.log("wb:", wb);
-        var excelData = XLSX.write(wb, { bookType: 'xlsx', type: 'binary' });
+        var excelData = XLSX.write(wb, {bookType: 'xlsx', type: 'binary'});
 
         console.log("excelData:", excelData);
-        var blob = new Blob([excelData], {
+        const blob = new Blob([s2ab(excelData)], {
             type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
         });
-        console.log("blob:", blob);
+        const url = URL.createObjectURL(blob);
 
-        var url = URL.createObjectURL(blob);
-
-        var a = document.createElement("a");
+        const a = document.createElement("a");
         a.href = url;
         a.download = "rezultati_kviza.xlsx";
         a.click();
 
         URL.revokeObjectURL(url);
+
+        function s2ab(s) {
+            const buf = new ArrayBuffer(s.length);
+            const view = new Uint8Array(buf);
+            for (let i = 0; i < s.length; i++) {
+                view[i] = s.charCodeAt(i) & 0xFF;
+            }
+            return buf;
+        }
     }
 
 </script>
