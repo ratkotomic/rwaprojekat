@@ -6,7 +6,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="../styles.css">
   <link rel="stylesheet" href="../reset.css">
-  <link rel="stylesheet" href="../admin/home.css">
+  <link rel="stylesheet" href="kontrola.css">
   <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
   <link rel="stylesheet" href="https://code.getmdl.io/1.3.0/material.cyan-deep_orange.min.css"/>
 </head>
@@ -21,46 +21,174 @@
   <header class="mdl-layout__header">
     <div class="mdl-layout-icon"></div>
     <div class="mdl-layout__header-row">
-      <span class="mdl-layout__title tc-black fw-bold">Admin Panel</span>
+      <span class="mdl-layout__title tc-black fw-bold">QuizTopia</span>
       <div class="mdl-layout-spacer"></div>
       <nav class="mdl-navigation">
-        <a class="mdl-navigation__link tc-black fw-bold" href="#quizzes">Kvizovi</a>
-
-        <%
-          if (userRole.equals("super-admin")) {
-        %>
-
-        <a class="mdl-navigation__link tc-black fw-bold" href="#users">Korisnici</a>
-
-        <%
-          }
-        %>
-        <a class=" tc-black fw-bold" href="/rwaprojekat/admin/logout">
-          <button class="mdl-button mdl-js-button mdl-button--raised">Log out</button>
-        </a>
+        <a class="mdl-navigation__link tc-black fw-bold" href="index">Home</a>
+        <a class="mdl-navigation__link tc-black fw-bold" href="login">Login</a>
+        <a class="mdl-navigation__link tc-black fw-bold" href="register">Registracija</a>
       </nav>
     </div>
   </header>
 
   <div class="mdl-layout__drawer">
-    <span class="mdl-layout__title  tc-black fw-bold">Admin Panel</span>
+    <span class="mdl-layout__title  tc-black fw-bold">QuizTopia</span>
     <nav class="mdl-navigation">
-      <a class="mdl-navigation__link  tc-black fw-bold" href="#quizzes">Kvizovi</a>
-      <%
-        if (userRole.equals("super-admin")) {
-      %>
-      <a class="mdl-navigation__link  tc-black fw-bold" href="#users">Korisnici</a>
-      <%
-        }
-      %>
-      <a class=" tc-black fw-bold" href="/rwaprojekat/admin/logout">
-        <button class="mdl-button mdl-js-button mdl-button--raised" style="margin-left: 40px; margin-top: 5px">
-          Log out
-        </button>
-      </a>
+      <a class="mdl-navigation__link  tc-black fw-bold" href="index">Home</a>
+      <a class="mdl-navigation__link  tc-black fw-bold" href="login">Login</a>
+      <a class="mdl-navigation__link  tc-black fw-bold" href="register">Register</a>
     </nav>
   </div>
+
+  <main class="mdl-layout__content">
+    <div class="container h-100 flex-column flex-center controls">
+      <div class="wrapper py-1 w-80 px-2 flex flex-column flex-center gap-2">
+        <h1 class="fs-heading"> Kontrola kviza </h1>
+        <p> Ispod možete imate kontrole kviza. Kada započnete kviz prvo pitanje se prikazuje učesnicima. Nakon isteka vremena
+        datog pitanja možete prikazati slijedeće pitanje.</p>
+
+        <p class="current-participants"></p>
+        <p class="pin"></p>
+        <p class="status">Status: Čekanje na igrače</p>
+        <p class="timeToAnswer">Preostalo vrijeme za odgovor: </p>
+
+        <div class="action flex flex-row flex-center flex-wrap gap-3">
+          <button  id="start-quiz-button" class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored ">
+            Započni kviz
+          </button>
+          <button id="next-question-button" class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored  " disabled>
+            Prikaži slijedeće pitanje
+          </button>
+        </div>
+
+        <p>${errorMessage}</p>
+      </div>
+    </div>
+
+
+    <div class="container h-100 flex-column flex-center quiz-end">
+      <div class="wrapper py-1 w-80 px-2 flex flex-column flex-center gap-2">
+        <h1 class="fs-heading"> Kviz je završen </h1>
+      </div>
+    </div>
+
+
+  </main>
 </div>
 
+
 </body>
+
+
+
+<script>
+
+  const game = JSON.parse(window.localStorage.getItem("game"));
+  const container = document.querySelector(".controls");
+  container.style.display = "flex";
+  const elements = {
+    currentParticipants: container.querySelector(".current-participants"),
+    pin: container.querySelector(".pin"),
+    status: container.querySelector(".status")
+  }
+
+  elements.pin.innerText = "Pin igre: " + game.pin
+
+
+  const sessionInfo = {
+    client: null,
+    users: 0,
+    currentQuestion: 0
+  };
+
+
+  createQuizClient();
+
+  function createQuizClient() {
+
+    let wsUrl = window.location.href;
+    wsUrl = wsUrl.replace("quiz/kontrola.jsp", "quizServer");
+    wsUrl = wsUrl.replace("http", "ws");
+    wsUrl = wsUrl.replace("https", "ws");
+    wsUrl += "?pin=" + game.pin;
+
+    sessionInfo.client = new WebSocket(wsUrl);
+
+    sessionInfo.client.onmessage = function(event)
+    {
+      let message = event.data;
+
+      if(message.includes("users"))
+      {
+        message = message.replace("users: ", "");
+        sessionInfo.users = Number(message);
+        updateUserCount();
+        return;
+
+      }
+    }
+
+  }
+
+
+  function updateUserCount(){
+    elements.currentParticipants.innerText = "Trenutni broj učesnika: " + sessionInfo.users;
+  }
+
+
+
+  const startQuizButton = document.getElementById("start-quiz-button");
+  startQuizButton.addEventListener("click", () => {
+
+    if(sessionInfo.client == null)
+      return;
+
+    sessionInfo.client.send("quiz-start");
+    startQuizButton.disabled = true;
+    elements.status.innerText = "Status: Pitanje u toku";
+
+    /* we add 5 seconds for the time users get shown the message that the quiz has started */
+    setTimeout(() => {
+      elements.status.innerText = "Status: Igrači čekaju na slijedeće pitanje";
+      nextQuestionButton.disabled = false;
+    }, (game.quiz.questions[0].timeToAnswer + 5) * 1000);
+  });
+
+  const nextQuestionButton = document.getElementById("next-question-button");
+  nextQuestionButton.addEventListener("click", () =>
+  {
+    nextQuestionButton.disabled = true;
+    sessionInfo.currentQuestion++;
+
+    if(sessionInfo.currentQuestion == game.quiz.questions.length)
+    {
+      endQuiz();
+      return;
+    }
+
+    elements.status.innerText = "Status: Pitanje u toku";
+    setTimeout(() => {
+      elements.status.innerText = "Status: Igrači čekaju na slijedeće pitanje";
+      nextQuestionButton.disabled = false;
+    }, (game.quiz.questions[sessionInfo.currentQuestion].timeToAnswer + 5) * 1000);
+
+    nextQuestionButton.disabled = true;
+    sessionInfo.client.send("next-question");
+  });
+
+
+  function randomString() {
+    return Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
+  }
+
+
+  function endQuiz(){
+    sessionInfo.client.send("quiz-end");
+    container.style.display = "none";
+    document.querySelector(".quiz-end").style.display = "flex";
+
+  }
+
+</script>
+
 </html>

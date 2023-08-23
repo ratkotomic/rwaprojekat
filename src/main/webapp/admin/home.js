@@ -655,6 +655,9 @@ function addNewQuiz(button) {
                 editQuizButton.addEventListener("click", (event) => showEditQuizDialog(event.currentTarget));
                 quizContainer.appendChild(editQuizButton);
 
+                /* todo */
+                /* we need to add an event listener here */
+
                 const startQuizButton = document.createElement("BUTTON");
                 startQuizButton.classList.add("mdl-button");
                 startQuizButton.classList.add("mdl-js-button");

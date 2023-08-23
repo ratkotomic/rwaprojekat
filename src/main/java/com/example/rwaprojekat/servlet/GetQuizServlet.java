@@ -12,7 +12,10 @@ import jakarta.servlet.http.HttpServletResponse;
 
 import java.io.IOException;
 import java.util.Comparator;
-
+/* todo */
+/* since the client relies on this servlet to get the quiz before the quiz starts
+have to move from admin maybe?
+ */
 @WebServlet(name = "/GetQuiz", urlPatterns = "/admin/getQuiz")
 public class GetQuizServlet extends HttpServlet {
     QuizDao quizDao;

@@ -117,11 +117,6 @@
             </div>
         </div>
 
-        <div class="controls flex flex-row flex-center w-100">
-            <button id="start-quiz-button">Start quiz</button>
-            <button id="next-question-button" >Next question</button>
-
-        </div>
 
     </main>
 </div>
@@ -131,6 +126,7 @@
 </html>
 
 <script>
+    const pin = window.localStorage.getItem("pin");
 
     const infoInput = document.querySelector(".info-input");
     infoInput.style.display = "flex";
@@ -209,22 +205,6 @@
     }
 
 
-    const startQuizButton = document.getElementById("start-quiz-button");
-    startQuizButton.addEventListener("click", () => {
-
-        if(sessionInfo.client == null)
-            return;
-
-        sessionInfo.client.send("start-quiz");
-        startQuizButton.style.display="none";
-        nextQuestionButton.style.display="block";
-    });
-
-    const nextQuestionButton = document.getElementById("next-question-button");
-    nextQuestionButton.addEventListener("click", () =>
-    {
-        sessionInfo.client.send("next-question");
-    });
 
 
     function createQuizClient() {
@@ -234,8 +214,7 @@
         wsUrl = wsUrl.replace("https", "ws");
         wsUrl = wsUrl.replace("http", "ws");
         wsUrl = wsUrl.replace("quiz/", "quizServer");
-        const userId = "user-" + randomString();
-
+        wsUrl += "?pin=" + pin;
 
         sessionInfo.client = new WebSocket(wsUrl);
 
@@ -249,7 +228,7 @@
 
             if(message.includes("users"))
             {
-                message = message.replace("users", "");
+                message = message.replace("users: ", "");
                 sessionInfo.users = Number(message);
                 updateUserCount();
                 return;
@@ -257,9 +236,27 @@
             }
 
             switch(message) {
-                case "start-quiz":
+                case "no-game":
+                    alert("Igra sa datim pin-om nije pronađena!");
+                    url = window.location.href;
+                    url = url.replace("quiz/" , "");
+                    window.location.href = url;
+                    break;
+
+                case "no-join":
+                    alert("Igra sa datim trenutno ne prima igrače!");
+                    url = window.location.href;
+                    url = url.replace("quiz/" , "");
+                    window.location.href = url;
+                    break;
+
+                case "quiz-start":
                     quizBeginsSoonElements.quizStartingMessage.innerText = "Admin je pokreno kviz! Prvo pitanje će se pojaviti za 5 sekundi!";
                     setTimeout(startQuiz, 5000);
+                    break;
+
+                case "quiz-end":
+                    showEndScreen();
                     break;
 
                 case "next-question":

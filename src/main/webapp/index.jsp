@@ -80,7 +80,9 @@
         if(!isPinValid())
             return;
 
+        window.localStorage.setItem("pin", pinInput.value);
         window.location.href = "quiz";
+
     }
 
     function isPinValid ()
