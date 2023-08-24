@@ -101,7 +101,8 @@
                 for (Quiz quiz : quizList) {
             %>
 
-            <div class="quiz-container flex flex-column gap-1 p-2 mt-2" data-id="<%= quiz.getId()%>" creator="<%= quiz.getOwner().getId()%>">
+            <div class="quiz-container flex flex-column gap-1 p-2 mt-2" data-id="<%= quiz.getId()%>"
+                 creator="<%= quiz.getOwner().getId()%>">
                 <h2 class="title"><%= quiz.getTitle() %>
                 </h2>
                 <img class="image-url" src="<%= quiz.getImageUrl() %>">
@@ -189,6 +190,7 @@
             <button type="button"
                     class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored tc-primary-button action-button-two "></button>
         </div>
+        <p id="error-message" style="color: red;"></p>
 
     </div>
 

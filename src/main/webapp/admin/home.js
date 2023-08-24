@@ -611,8 +611,7 @@ function addNewQuiz(button) {
             const quizContainer = document.querySelector(".quiz-container");
 
             /* if the quiz container is null we have to make a brand new one */
-            if(quizContainer != null)
-            {
+            if (quizContainer != null) {
                 const newQuizContainer = quizContainer.cloneNode(true);
                 newQuizContainer.setAttribute("data-id", data.id);
 
@@ -623,9 +622,7 @@ function addNewQuiz(button) {
 
                 newQuizContainer.querySelector(".start-quiz-button").addEventListener("click", (event) => startQuiz(event.currentTarget));
                 quizzesContainer.appendChild(newQuizContainer);
-            }
-            else
-            {
+            } else {
                 const quizContainer = document.createElement("DIV");
                 quizContainer.classList.add("quiz-container");
                 quizContainer.classList.add("flex");
@@ -703,6 +700,9 @@ newUserButton.addEventListener("click", (event) => showNewUserDialog(event.curre
 
 function showNewUserDialog(button) {
 
+    const errorMessageElement = document.getElementById("error-message");
+    errorMessageElement.textContent = null;
+
     userDialog.querySelector("h3").innerText = "Novi korisnik";
     userDialog.querySelector(".username").value = "";
     userDialog.querySelector(".password").value = "";
@@ -746,23 +746,31 @@ function addNewUser(button) {
             return response.json();
         })
         .then((data) => {
-            const userContainer = document.querySelector(".user-container");
-            const newUserContainer = userContainer.cloneNode(true);
+            const errorMessageElement = document.getElementById("error-message");
+            errorMessageElement.textContent = null;
+            if (data && data.error) {
+                errorMessageElement.textContent = data.error;
+                console.error('Error:', data.error);
+            } else {
+                errorMessageElement.textContent = null;
+                const userContainer = document.querySelector(".user-container");
+                const newUserContainer = userContainer.cloneNode(true);
 
-            console.log(newUserContainer)
+                console.log(newUserContainer)
 
-            newUserContainer.setAttribute("id", data.id)
-            newUserContainer.setAttribute("username", data.username)
-            newUserContainer.querySelector(".username").innerText = 'Username: ' + username;
-            newUserContainer.querySelector(".password").innerText = 'Password: ' + password;
-            newUserContainer.querySelector(".role").innerText = 'Role: ' + role;
+                newUserContainer.setAttribute("id", data.id)
+                newUserContainer.setAttribute("username", data.username)
+                newUserContainer.querySelector(".username").innerText = 'Username: ' + username;
+                newUserContainer.querySelector(".password").innerText = 'Password: ' + password;
+                newUserContainer.querySelector(".role").innerText = 'Role: ' + role;
 
-            newUserContainer.querySelector(".edit-user-button").addEventListener("click", (event) => showEditUserDialog(event.currentTarget));
+                newUserContainer.querySelector(".edit-user-button").addEventListener("click", (event) => showEditUserDialog(event.currentTarget));
 
-            quizzesContainer.appendChild(newUserContainer);
+                quizzesContainer.appendChild(newUserContainer);
 
-            userDialog.close();
-            button.disabled = false;
+                userDialog.close();
+                button.disabled = false;
+            }
 
         })
         .catch((error) => {
@@ -775,6 +783,8 @@ editUserButtons.forEach((button) => button.addEventListener("click", (event) => 
 
 
 function showEditUserDialog(button) {
+    const errorMessageElement = document.getElementById("error-message");
+    errorMessageElement.textContent = null;
 
     const quizContainer = button.parentElement;
     const userId = quizContainer.getAttribute("id");
@@ -849,9 +859,19 @@ function deleteUser(button, quizContainer) {
         method: 'post',
         body: params
     })
-        .then(() => {
-            userDialog.close();
-            quizContainer.remove();
+        .then((response) => {
+            return response.json();
+        })
+        .then((data) => {
+            const errorMessageElement = document.getElementById("error-message");
+            errorMessageElement.textContent = null;
+            if (data && data.error) {
+                errorMessageElement.textContent = data.error;
+                console.error('Error:', data.error);
+            } else {
+                userDialog.close();
+                quizContainer.remove();
+            }
 
         })
         .catch((error) => {
@@ -875,11 +895,22 @@ function saveUserChanges(button, quizContainer) {
     fetch(url, {
         method: 'post',
     })
-        .then(() => {
-            userDialog.close();
-            quizContainer.querySelector(".username").innerText = 'Username: ' + username;
-            quizContainer.querySelector(".password").innerText = 'Password: ' + password;
-            quizContainer.querySelector(".role").innerText = 'Role: ' + role;
+        .then((response) => {
+            return response.json();
+        })
+        .then((data) => {
+            const errorMessageElement = document.getElementById("error-message");
+            errorMessageElement.textContent = null;
+            if (data && data.error) {
+                errorMessageElement.textContent = data.error;
+                console.error('Error:', data.error);
+            } else {
+                errorMessageElement.textContent = null;
+                userDialog.close();
+                quizContainer.querySelector(".username").innerText = 'Username: ' + username;
+                quizContainer.querySelector(".password").innerText = 'Password: ' + password;
+                quizContainer.querySelector(".role").innerText = 'Role: ' + role;
+            }
 
         })
         .catch((error) => {
