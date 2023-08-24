@@ -312,4 +312,8 @@ body{
 }
 
 
+.mdl-button{
+    height: fit-content !important;
+}
+
 
