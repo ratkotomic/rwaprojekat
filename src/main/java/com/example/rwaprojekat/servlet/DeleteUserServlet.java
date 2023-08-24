@@ -1,6 +1,8 @@
 package com.example.rwaprojekat.servlet;
 
 import com.example.rwaprojekat.dao.UserDao;
+import com.example.rwaprojekat.model.User;
+import com.google.gson.JsonObject;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -17,8 +19,21 @@ public class DeleteUserServlet extends HttpServlet {
         userDao = new UserDao();
     }
 
+    JsonObject responseJson = new JsonObject();
+
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        userDao.deleteUser(req.getParameter("id"));
+        User user = (User) req.getSession().getAttribute("user");
+
+        User user1 = userDao.findByUserId(req.getParameter("id"));
+
+        if (user.getUsername().equals(user1.getUsername())) {
+            responseJson.addProperty("error", "Ne mozete obrisati samog sebe.");
+        } else {
+            userDao.deleteUser(req.getParameter("id"));
+            responseJson.addProperty("message", "Brisanje uspijesno.");
+        }
+        resp.setContentType("application/json");
+        resp.getWriter().write(responseJson.toString());
     }
 }
