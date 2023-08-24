@@ -190,13 +190,13 @@ public class QuizServer {
 
     }
 
-
-    /* todo */
-    /* have to figure out when this gets called and how to update users on client */
     @OnClose
     public void onClose(Session session) throws IOException {
-        String pin = session.getQueryString();
-        pin = pin.replace("pin=", "");
+
+        URI url = session.getRequestURI();
+        List<NameValuePair> params = URLEncodedUtils.parse(url, Charset.defaultCharset());
+
+        String pin = params.get(0).getValue();
 
         GameDao gameDao = new GameDao();
         Game game = gameDao.findGameByPin(pin);
@@ -208,6 +208,11 @@ public class QuizServer {
         ArrayList<Session> list = sessions.get(pin);
 
         list.remove(session);
+
+        if(list.size() == 0)
+        {
+            gameDao.updateStatus(pin, "finished");
+        }
 
         for(int i = 0; i < list.size(); ++i)
         {

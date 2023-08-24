@@ -120,7 +120,7 @@
                     </tbody>
                 </table>
 
-
+            <p class="message fw-bold"></p>
             </div>
         </div>
 
@@ -320,19 +320,23 @@
     }
 
     function showNextQuestion(){
-        inBetweenQuestions.style.display = "none";
-        questionContainer.style.display ="flex";
-        sessionInfo.currentQuestion++;
+        inBetweenQuestions.querySelector(".message").innerText = "Admin je započeo slijdeće pitanje. Biće prikazano za 5 sekundi!";
 
-        if(sessionInfo.currentQuestion == sessionInfo.quizObject.questions.length)
-        {
-            showEndScreen();
-        }
+        setTimeout(() => {
 
-        const question = sessionInfo.quizObject.questions[sessionInfo.currentQuestion];
-        updateQuestionContainer(question);
-        updateCheckButton();
-        questionContainerElements.continueButton.disabled = true;
+            inBetweenQuestions.style.display = "none";
+            questionContainer.style.display = "flex";
+            sessionInfo.currentQuestion++;
+
+            if (sessionInfo.currentQuestion == sessionInfo.quizObject.questions.length) {
+                showEndScreen();
+            }
+
+            const question = sessionInfo.quizObject.questions[sessionInfo.currentQuestion];
+            updateQuestionContainer(question);
+            updateCheckButton();
+            questionContainerElements.continueButton.disabled = true;
+        }, 5000);
     }
 
 
@@ -455,12 +459,6 @@
     }
 
 
-    /* todo */
-    /* dva ista odgovora ne mogu biti unutar pitanja */
-
-    /* todo */
-    /* treba napravit da quiz ima vise tacnih odgovora */
-
     function checkUserAnswer()
     {
         clearTimeout(questionTimeoutId);
@@ -534,6 +532,8 @@
 
     function showInbetweenQuestions(){
 
+
+
         let url = window.location.href;
         url = url.replace("quiz/", "getPlayers");
         const params = new URLSearchParams({pin: pin});
@@ -568,6 +568,7 @@
 
                     }
 
+                inBetweenQuestions.querySelector(".message").innerText = "";
                 questionContainer.style.display = "none";
                 inBetweenQuestions.style.display = "flex";
             })
