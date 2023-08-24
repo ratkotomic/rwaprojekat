@@ -1,4 +1,6 @@
 
+const minimumQuestions = 2;
+
 const quizDialogCurr = document.getElementById("quiz-dialog");
 let actionButton = quizDialogCurr.querySelector(".action-button-one");
 
@@ -48,7 +50,7 @@ function checkTableValidity()
     /* todo */
     /* for testing purposes i've set it to 3 but it should be set to 11 */
     /* 10 questions and 1 header row */
-    isTableValid = table.rows.length >= 3;
+    isTableValid = table.rows.length >= minimumQuestions + 1;
     if(!isTableValid)
     {
         table.nextElementSibling.style.visibility = "visible";

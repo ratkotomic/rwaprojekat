@@ -18,10 +18,19 @@ textInput.addEventListener("input", checkTextInputValidity);
 timeToAnswerInput.addEventListener("input", checkTimeToAnswerValidity);
 pointsInput.addEventListener("input", checkPointsValidity);
 
+
+const observer = new MutationObserver(() => {
+    checkTableValidity();
+});
+observer.observe(table, {subtree: true, childList: true, attributes: true});
+
+
 export function setupValidation()
 {
     actionButton = questionDialog.querySelector(".action-button-one");
     table = questionDialog.querySelector("table");
+    observer.observe(table, {subtree: true, childList: true, attributes: true});
+
 
     /* if we are editing just check all the fields */
     /* if we aren't it means we are creating a new one so action button should be disabled */
@@ -37,11 +46,6 @@ export function setupValidation()
         table.nextElementSibling.style.visibility = "hidden";
     }
 }
-
-const observer = new MutationObserver(() => {
-    checkTableValidity();
-});
-observer.observe(table, {subtree: true, childList: true, attributes: true});
 
 function checkTextInputValidity() {
     isTextValid =  textInput.value.length >= 10;
@@ -61,13 +65,14 @@ function checkTableValidity()
     }
 
     let doesQuestionHaveAnCorrectAnswer = false;
+    let allAnswers = [];
     let row;
     for(let i = 1; i < table.rows.length; ++i)
     {
         row = table.rows[i];
+        allAnswers.push(row.cells[0].innerText)
         if(row.cells[1].innerText == "Tačan"){
             doesQuestionHaveAnCorrectAnswer = true;
-            break;
         }
     }
 
@@ -79,6 +84,19 @@ function checkTableValidity()
         checkQuestionValidity();
         return;
     }
+
+
+    const uniqueAnswers = new Set(allAnswers);
+    if(uniqueAnswers.size != allAnswers.length)
+    {
+        isTableValid = false;
+        errorMessage.innerText = "Pitanje ima odgovore sa istim tekstom!";
+        errorMessage.style.visibility = "visible";
+        checkQuestionValidity();
+        return;
+    }
+
+    let doesQuestionHaveTwoSameAnswers = false;
 
     isTableValid = true;
     errorMessage.style.visibility = "hidden";
