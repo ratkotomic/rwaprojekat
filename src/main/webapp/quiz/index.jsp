@@ -413,7 +413,7 @@
     function fetchQuiz(message)
     {
         let url = window.location.href;
-        url = url.replace("quiz/", "admin/getQuiz");
+        url = url.replace("quiz/", "/getQuiz");
         const params = new URLSearchParams({id: message});
 
         fetch(url + "?" + params)

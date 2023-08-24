@@ -53,7 +53,8 @@ function showEditQuizDialog(button) {
 
     let url = window.location.href;
     url = url.replace("#quizzes", "");
-    url = url.replace("home", "getQuiz");
+    url = url.replace("#users", "");
+    url = url.replace("admin/home", "getQuiz");
     const params = new URLSearchParams({id: quizId});
 
     fetch(url + "?" + params)
