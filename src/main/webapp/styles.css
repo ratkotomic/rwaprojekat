@@ -314,6 +314,7 @@ body{
 
 .mdl-button{
     height: fit-content !important;
+    overflow-x: auto !important;
 }
 
 

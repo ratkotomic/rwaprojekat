@@ -88,7 +88,7 @@
                 </div>
                 <p class="current-participants w-100 m-0"></p>
                 <h3 class="text"></h3>
-                <div class="options flex flex-row flex-center gap-3 flex-wrap p-2 m-2">
+                <div class="options w-100 flex flex-row flex-center gap-3 flex-wrap p-2 m-2">
                 </div>
 
                 <div class="action flex flex-row flex-center flex-wrap gap-3">
