@@ -99,6 +99,7 @@
                         Nastavi
                     </button>
                 </div>
+                <p class="message fw-bold"></p>
             </div>
         </div>
 
@@ -212,7 +213,8 @@
         currentParticipants: questionContainer.querySelector(".current-participants"),
         checkButton: questionContainer.querySelector(".check-button"),
         continueButton: questionContainer.querySelector(".continue-button"),
-        limit: questionContainer.querySelector(".mdl-progress")
+        limit: questionContainer.querySelector(".mdl-progress"),
+        message: questionContainer.querySelector(".message")
     }
 
     questionContainerElements.checkButton.addEventListener("click", () => checkUserAnswer());
@@ -339,6 +341,7 @@
     {
         questionContainerElements.text.innerText = question.questionText;
         questionContainerElements.limit.MaterialProgress = 0;
+        questionContainerElements.message.innerText = "";
 
         let eachSecondProgress = 100 / question.timeToAnswer;
         for(let i = 0; i < question.timeToAnswer; ++i)
@@ -472,16 +475,15 @@
         }
         else
         {
-            let correctAnswerIndex = 0;
+            let correctButtons = [];
             for(let i = 0; i < question.answers.length; ++i)
             {
                 if(question.answers[i].correct){
-                    correctAnswerIndex = i;
-                    break;
+                    correctButtons.push(button.parentElement.children[i]);
                 }
             }
-            const correctButton = button.parentElement.children[correctAnswerIndex];
-            userWasWrong(button, correctButton);
+
+            userWasWrong(button, correctButtons);
         }
 
         questionContainerElements.checkButton.disabled = true;
@@ -490,19 +492,33 @@
     }
 
     function userWasCorrect(button){
-        button.style.backgroundColor = "green";
+        button.style.backgroundColor = "lightgreen";
         button.style.color = "black";
+        questionContainerElements.message.innerText = "Tačno!";
+        questionContainerElements.message.style.color = "green";
 
         sessionInfo.client.send("user-was-correct");
     }
 
-    function userWasWrong(button, correctButton)
+    function userWasWrong(button, correctButtons)
     {
         button.style.backgroundColor = "red";
         button.style.color = "black";
+        if(correctButtons.length == 1)
+        questionContainerElements.message.innerText = "Netačno!";
+        else
+            questionContainerElements.message.innerText = "Netačno! Bilo je više tačnih odgovora!";
 
-        correctButton.style.backgroundColor = "green";
-        correctButton.style.color = "black";
+        questionContainerElements.message.style.color = "red";
+
+
+        for(let i = 0; i < correctButtons.length; ++i)
+        {
+            correctButtons[i].style.backgroundColor = "green";
+            correctButtons[i].style.color = "black";
+
+        }
+
     }
 
 

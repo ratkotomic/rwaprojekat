@@ -672,7 +672,6 @@ function addNewQuiz(button) {
                 quizzesContainer.appendChild(quizContainer);
             }
 
-
             quizDialog.close();
             button.disabled = false;
 
