@@ -63,7 +63,7 @@
 
         <div class="container h-100 flex flex-row">
 
-            <div class="wrapper py-3 w-80 px-3 flex flex-column flex-center gap-4">
+            <div class="wrapper py-3 w-60 px-3 flex flex-column flex-center gap-4">
 
                 <h1 class="fs-heading"> Dobrodošli u Kviz aplikaciju</h1>
 
