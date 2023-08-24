@@ -1,6 +1,7 @@
 package com.example.rwaprojekat.servlet;
 
 import com.example.rwaprojekat.dao.UserDao;
+import com.example.rwaprojekat.model.User;
 import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -22,6 +23,11 @@ public class RegisterServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        User user = (User)req.getSession().getAttribute("user");
+        if(user != null){
+            resp.sendRedirect("admin/home");
+            return;
+        }
         dispatcher = req.getRequestDispatcher("/Authorization/register.jsp");
         dispatcher.forward(req, resp);
     }

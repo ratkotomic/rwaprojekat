@@ -26,7 +26,7 @@
             <span class="mdl-layout__title tc-black fw-bold">QuizTopia</span>
             <div class="mdl-layout-spacer"></div>
             <nav class="mdl-navigation">
-                <a class="mdl-navigation__link tc-black fw-bold" href="">Admin Panel</a>
+                <a class="mdl-navigation__link tc-black fw-bold" href="../admin/home">Admin Panel</a>
             </nav>
         </div>
     </header>
@@ -34,7 +34,7 @@
     <div class="mdl-layout__drawer">
         <span class="mdl-layout__title  tc-black fw-bold">QuizTopia</span>
         <nav class="mdl-navigation">
-            <a class="mdl-navigation__link  tc-black fw-bold" href="">Admin Panel</a>
+            <a class="mdl-navigation__link  tc-black fw-bold" href="../admin/home">Admin Panel</a>
         </nav>
     </div>
 
@@ -321,5 +321,7 @@
     }
 
 </script>
+
+<script defer src="https://code.getmdl.io/1.3.0/material.min.js"></script>
 
 </html>

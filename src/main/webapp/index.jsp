@@ -1,3 +1,4 @@
+<%@ page import="com.example.rwaprojekat.model.User" %>
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <!DOCTYPE html>
 <html>
@@ -12,6 +13,15 @@
 </head>
 <body>
 
+<%
+    User user = (User) request.getSession().getAttribute("user");
+    String userRole;
+    if(user == null)
+        userRole = null;
+    else
+        userRole = user.getRole();
+
+%>
 
 <div class="mdl-layout mdl-js-layout">
 
@@ -22,7 +32,20 @@
             <div class="mdl-layout-spacer"></div>
             <nav class="mdl-navigation">
                 <a class="mdl-navigation__link tc-black fw-bold" href="index">Home</a>
+                <%
+                    if(userRole != null)
+                    {
+                %>
+                <a class="mdl-navigation__link tc-black fw-bold" href="admin/home">Admin Pristup</a>
+                <%
+                    }
+                    else
+                    {
+                %>
                 <a class="mdl-navigation__link tc-black fw-bold" href="login">Admin Pristup</a>
+                <%
+                    }
+                %>
             </nav>
         </div>
     </header>
