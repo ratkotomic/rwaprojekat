@@ -11,7 +11,7 @@ startButtons.forEach(button => {
     button.addEventListener("click", (event) => startQuiz(event.currentTarget));
 });
 
-function startQuiz(button) {
+export function startQuiz(button) {
     const quizId = button.closest('.quiz-container').getAttribute('data-id');
     const userId = button.closest('.quiz-container').getAttribute('creator');
 

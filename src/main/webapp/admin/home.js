@@ -3,6 +3,7 @@ import {setupValidation as setupQuestionValidation} from "./questionValidation.j
 import {setupValidation as setupAnswerValidation} from "./answerValidation.js";
 import {setupValidation as setupUserValidation} from "./userValidation.js";
 import {addDropAndDragToRow} from "./dragAndDrop.js";
+import {startQuiz} from "./generatePin.js";
 
 const tabLinks = document.querySelectorAll('.mdl-navigation__link');
 const tabContents = document.querySelectorAll('.tab-content');
@@ -619,6 +620,7 @@ function addNewQuiz(button) {
 
                 newQuizContainer.querySelector(".edit-quiz-button").addEventListener("click", (event) => showEditQuizDialog(event.currentTarget));
 
+                newQuizContainer.querySelector(".start-quiz-button").addEventListener("click", (event) => startQuiz(event.currentTarget));
                 quizzesContainer.appendChild(newQuizContainer);
             }
             else
@@ -655,9 +657,6 @@ function addNewQuiz(button) {
                 editQuizButton.addEventListener("click", (event) => showEditQuizDialog(event.currentTarget));
                 quizContainer.appendChild(editQuizButton);
 
-                /* todo */
-                /* we need to add an event listener here */
-
                 const startQuizButton = document.createElement("BUTTON");
                 startQuizButton.classList.add("mdl-button");
                 startQuizButton.classList.add("mdl-js-button");
@@ -668,11 +667,8 @@ function addNewQuiz(button) {
                 startQuizButton.classList.add("start-quiz-button");
                 startQuizButton.setAttribute("type", "button");
                 startQuizButton.innerText = "Započni";
+                startQuizButton.addEventListener("click", (event) => startQuiz(event.currentTarget));
                 quizContainer.appendChild(startQuizButton);
-
-                /* todo */
-                /* when we add the start functinoality we need to add the event listener here as well */
-
                 quizzesContainer.appendChild(quizContainer);
             }
 
