@@ -61,7 +61,7 @@
     <main class="mdl-layout__content">
 
 
-        <div class="container h-100 flex flex-column flex-center">
+        <div class="container h-100 flex flex-row">
 
             <div class="wrapper py-3 w-80 px-3 flex flex-column flex-center gap-4">
 
@@ -79,10 +79,9 @@
                 <p>${errorMessage}</p>
 
             </div>
-        </div>
-
-        <div class="flex flex-column flex-center gap-1 chat-container p-1">
-        <h5>Chat</h5>
+            <div class="flex flex-column flex-center gap-1 chat-container p-1">
+                <h5>Chat</h5>
+            </div>
         </div>
     </main>
 </div>

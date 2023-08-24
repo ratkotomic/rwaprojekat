@@ -1,5 +1,10 @@
 .container{
     background: linear-gradient(45deg, #F73A00 0%, #FFF 100%);
+    gap: 2rem;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: start;
+    padding: 4rem;
 }
 
 
@@ -8,9 +13,7 @@
     max-width: 500px;
     border-radius: 10px;
     background: #F6F6F6;
-    box-shadow: 0px 6px 16px 0px rgba(0, 0, 0, 0.35);
-    margin-bottom: 15rem;
-}
+    box-shadow: 0px 6px 16px 0px rgba(0, 0, 0, 0.35);}
 
 @media(max-width: 500px){
     .wrapper{
@@ -32,11 +35,9 @@ h1{
 
 
 .chat-container{
-    position: absolute;
-    top:20px;
-    right:10px;
     background: white;
     border-radius: 10px;
+
 
 }
 
