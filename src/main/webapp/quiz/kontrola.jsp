@@ -330,8 +330,7 @@
 
     function createChatClient(pin)
     {
-        const message = prompt("Pošaljite poruku korisnicima sa pin-om Vaše igre(" + pin + ")!");
-        let chatClient;
+        const message = prompt("Pošaljite poruku korisnicima sa pin-om Vaše igre (" + pin + ")!");
         let wsUrl = window.location.href;
         wsUrl = wsUrl.replace("quiz/kontrola.jsp", "chatServer");
         wsUrl = wsUrl.replace("http", "ws");
@@ -340,7 +339,7 @@
         let client = new WebSocket(wsUrl);
         client.onopen = function()
         {
-            client.send( message);
+            client.send("Poruka od " + game.creator.username + ": " + message);
         }
     }
 

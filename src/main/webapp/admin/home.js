@@ -737,6 +737,7 @@ function addNewUser(button) {
 
     let url = window.location.href;
     url = url.replace("#users", "");
+    url = url.replace("#quizzes", "");
     url = url.replace("home", "addUser") + "?username=" + username + "&password=" + password + "&role=" + role;
 
     fetch(url, {
