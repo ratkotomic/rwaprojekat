@@ -17,6 +17,8 @@ function startQuiz(button) {
 
     let url = window.location.href;
     url = url.replace("home", "generatePin");
+    url = url.replace("#users", "");
+    url = url.replace("#quizzes", "");
 
     fetch(url, {
         method: 'POST',
@@ -36,6 +38,8 @@ function startQuiz(button) {
             window.localStorage.setItem("game", JSON.stringify(data));
             let url = window.location.href;
             url = url.replace("admin/home", "quiz/kontrola.jsp");
+            url = url.replace("#users", "");
+            url = url.replace("#quizzes", "");
             window.location.href = url;
 
         })

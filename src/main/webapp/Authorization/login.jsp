@@ -8,7 +8,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
-    <title>Login</title>
+    <title>Admin Login - QuizTopia</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="styles.css">
     <link rel="stylesheet" href="reset.css">
@@ -27,8 +27,7 @@
             <div class="mdl-layout-spacer"></div>
             <nav class="mdl-navigation">
                 <a class="mdl-navigation__link tc-black fw-bold" href="index">Home</a>
-                <a class="mdl-navigation__link tc-black fw-bold" href="login">Login</a>
-                <a class="mdl-navigation__link tc-black fw-bold" href="register">Registracija</a>
+                <a class="mdl-navigation__link tc-black fw-bold" href="login">Admin Pristup</a>
             </nav>
         </div>
     </header>
@@ -37,8 +36,7 @@
         <span class="mdl-layout__title  tc-black fw-bold">QuizTopia</span>
         <nav class="mdl-navigation">
             <a class="mdl-navigation__link  tc-black fw-bold" href="index">Home</a>
-            <a class="mdl-navigation__link  tc-black fw-bold" href="login">Login</a>
-            <a class="mdl-navigation__link  tc-black fw-bold" href="register">Register</a>
+            <a class="mdl-navigation__link  tc-black fw-bold" href="login">Admin Pristup</a>
         </nav>
     </div>
 

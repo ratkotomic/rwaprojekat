@@ -11,7 +11,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
-    <title>Admin</title>
+    <title>Admin Panel - QuizTopia</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="../styles.css">
     <link rel="stylesheet" href="../reset.css">
@@ -46,7 +46,7 @@
                     }
                 %>
 
-                <a class=" tc-black fw-bold" href="/rwaprojekat/admin/logout">
+                <a class=" tc-black fw-bold" href="logout">
                     <button class="mdl-button mdl-js-button mdl-button--raised">Log out</button>
                 </a>
             </nav>
@@ -64,7 +64,7 @@
             <%
                 }
             %>
-            <a class=" tc-black fw-bold" href="/rwaprojekat/admin/logout">
+            <a class=" tc-black fw-bold" href="logout">
                 <button class="mdl-button mdl-js-button mdl-button--raised" style="margin-left: 40px; margin-top: 5px">
                     Log out
                 </button>
@@ -74,7 +74,7 @@
 
     <main id="quizzes" class="tab-content mdl-layout__content p-3">
 
-        <h1 class="mb-3">Kvizovi</h1>
+        <h1 class="mb-1">Kvizovi</h1>
 
         <button type="button" id="new-quiz-button" owner-id="<%= user.getId() %>"
                 class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored tc-primary-button mb-2">
@@ -97,7 +97,7 @@
                 for (Quiz quiz : quizList) {
             %>
 
-            <div class="quiz-container flex flex-column flex-center gap-1 p-2" data-id="<%= quiz.getId()%>" creator="<%= quiz.getOwner().getId()%>">
+            <div class="quiz-container flex flex-column gap-1 p-2 mt-2" data-id="<%= quiz.getId()%>" creator="<%= quiz.getOwner().getId()%>">
                 <h2 class="title"><%= quiz.getTitle() %>
                 </h2>
                 <img class="image-url" src="<%= quiz.getImageUrl() %>">
@@ -121,13 +121,13 @@
     </main>
     <main id="users" class="tab-content mdl-layout__content p-3">
         <!-- NEW USER -->
-        <h1 class="mb-3">Useri</h1>
+        <h1 class="mb-1">Useri</h1>
         <button type="button" id="new-user-button"
                 class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored tc-primary-button mb-2">
             Novi korisnik
         </button>
 
-        <div class="users-container flex flex-row flex-wrap gap-2">
+        <div class="users-container flex flex-row flex-wrap gap-2 mt-2">
             <%
 
                 List<User> userList = (List<User>) request.getAttribute("userList");

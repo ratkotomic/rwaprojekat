@@ -8,6 +8,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
+    <title>Igranje Kviza - QuizTopia</title>
     <link rel="stylesheet" href="../styles.css">
     <link rel="stylesheet" href="../reset.css">
     <link rel="stylesheet" href="index.css">
@@ -91,10 +92,10 @@
                 </div>
 
                 <div class="action flex flex-row flex-center flex-wrap gap-3">
-                    <button class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored check-button" disabled>
+                    <button class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored check-button tc-primary-button" disabled>
                         Projveri
                     </button>
-                    <button class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored  continue-button" disabled>
+                    <button class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored  continue-button tc-primary-button" disabled>
                         Nastavi
                     </button>
                 </div>
