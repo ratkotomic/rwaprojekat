@@ -40,3 +40,9 @@ th, td {
 th {
     width: 100%;
 }
+
+
+.chat-container{
+    position: absolute;
+
+}

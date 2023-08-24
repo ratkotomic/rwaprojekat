@@ -81,6 +81,9 @@
             </div>
         </div>
 
+        <div class="flex flex-column flex-center gap-1 chat-container p-1">
+        <h5>Chat</h5>
+        </div>
     </main>
 </div>
 
@@ -114,6 +117,31 @@
         const b = pinInput.checkValidity();
         return pinInput.value !== "" && pinInput.checkValidity();
     }
+
+    const chatContainer = document.querySelector(".chat-container");
+
+    let wsUrl = window.location.href;
+    wsUrl = wsUrl.replace("index", "");
+    wsUrl += "chatServer"
+    wsUrl = wsUrl.replace("http", "ws");
+    wsUrl = wsUrl.replace("https", "ws");
+
+    let client = new WebSocket(wsUrl);
+
+    client.onopen = function(event){
+        let message = document.createElement("p");
+        message.innerText = "Povezani ste!";
+        chatContainer.appendChild(message);
+    }
+    client.onmessage = function (event) {
+        let message = document.createElement("p");
+        message.innerText = event.data;
+        chatContainer.appendChild(message);
+    }
+
+
+
+
 
 </script>
 

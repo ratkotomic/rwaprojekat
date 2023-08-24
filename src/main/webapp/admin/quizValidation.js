@@ -59,6 +59,9 @@ function checkTableValidity()
     {
         table.nextElementSibling.style.visibility = "hidden";
     }
+
+
+
     checkQuizValidity();
 }
 function checkImageUrlValidity() {

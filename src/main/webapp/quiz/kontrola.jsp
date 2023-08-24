@@ -106,6 +106,8 @@
 
 <script>
 
+    document.querySelector(".quiz-end").style.display = "none";
+
     const game = JSON.parse(window.localStorage.getItem("game"));
     const container = document.querySelector(".controls");
     container.style.display = "flex";
@@ -116,8 +118,10 @@
         timeToAnswer: container.querySelector(".time-to-answer")
     }
 
-    elements.pin.innerText = "Pin igre: " + game.pin
+    elements.pin.innerText = "Pin igre: " + game.pin;
 
+
+    createChatClient(game.pin);
 
     const sessionInfo = {
         client: null,
@@ -163,6 +167,8 @@
 
         if (sessionInfo.client == null)
             return;
+
+
 
         sessionInfo.client.send("quiz-start");
         startQuizButton.disabled = true;
@@ -317,6 +323,24 @@
                 view[i] = s.charCodeAt(i) & 0xFF;
             }
             return buf;
+        }
+    }
+
+
+
+    function createChatClient(pin)
+    {
+        const message = prompt("Pošaljite poruku korisnicima sa pin-om Vaše igre(" + pin + ")!");
+        let chatClient;
+        let wsUrl = window.location.href;
+        wsUrl = wsUrl.replace("quiz/kontrola.jsp", "chatServer");
+        wsUrl = wsUrl.replace("http", "ws");
+        wsUrl = wsUrl.replace("https", "ws");
+
+        let client = new WebSocket(wsUrl);
+        client.onopen = function()
+        {
+            client.send( message);
         }
     }
 

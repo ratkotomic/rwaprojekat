@@ -34,6 +34,10 @@
             <span class="mdl-layout__title tc-black fw-bold">Admin Panel</span>
             <div class="mdl-layout-spacer"></div>
             <nav class="mdl-navigation">
+                <!-- todo
+                why does this not work?
+                <a  class="mdl-navigation__link tc-black fw-bold" href="../">Nazad</a>
+                -->
                 <a class="mdl-navigation__link tc-black fw-bold" href="#quizzes">Kvizovi</a>
 
                 <%

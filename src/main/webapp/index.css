@@ -31,3 +31,12 @@ h1{
 }
 
 
+.chat-container{
+    position: absolute;
+    top:20px;
+    right:10px;
+    background: white;
+    border-radius: 10px;
+
+}
+
