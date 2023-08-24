@@ -49,7 +49,7 @@
                 <p class="current-participants"></p>
                 <p class="pin"></p>
                 <p class="status">Status: Čekanje na igrače</p>
-                <p class="timeToAnswer">Preostalo vrijeme za odgovor: </p>
+                <p class="time-to-answer">Ovdje će biti prikazan vremenski limit pitanja </p>
 
                 <div class="action flex flex-row flex-center flex-wrap gap-3">
                     <button id="start-quiz-button"
@@ -112,7 +112,8 @@
     const elements = {
         currentParticipants: container.querySelector(".current-participants"),
         pin: container.querySelector(".pin"),
-        status: container.querySelector(".status")
+        status: container.querySelector(".status"),
+        timeToAnswer: container.querySelector(".time-to-answer")
     }
 
     elements.pin.innerText = "Pin igre: " + game.pin
@@ -172,11 +173,13 @@
             elements.status.innerText = "Status: Igrači čekaju na slijedeće pitanje";
             nextQuestionButton.disabled = false;
         }, (game.quiz.questions[0].timeToAnswer + 5) * 1000);
+
+        for(let i = game.quiz.questions[0].timeToAnswer + 5; i >= 0; i--)
+            setTimeout(() => {
+                elements.timeToAnswer.innerText = "Preostalno vrijeme: " + i;
+            }, 1000 * (game.quiz.questions[0].timeToAnswer + 5 - i));
     });
 
-    /* todo */
-    /* we should not just show the next quesiton */
-    /* should give the user a grace period of 5 seconds like a message like when starting the quiz */
 
     const nextQuestionButton = document.getElementById("next-question-button");
     nextQuestionButton.addEventListener("click", () => {
@@ -193,6 +196,12 @@
             elements.status.innerText = "Status: Igrači čekaju na slijedeće pitanje";
             nextQuestionButton.disabled = false;
         }, (game.quiz.questions[sessionInfo.currentQuestion].timeToAnswer + 5) * 1000);
+
+
+        for(let i = game.quiz.questions[sessionInfo.currentQuestion].timeToAnswer + 5; i >= 0; i--)
+            setTimeout(() => {
+                elements.timeToAnswer.innerText = "Preostalno vrijeme: " + i;
+            }, 1000 * (game.quiz.questions[sessionInfo.currentQuestion].timeToAnswer + 5 -i));
 
         nextQuestionButton.disabled = true;
         sessionInfo.client.send("next-question");
