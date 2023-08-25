@@ -326,8 +326,8 @@ It's when adding a new question or editing an existing question -->
 
         <div class="w-100 mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
             <label class="mdl-textfield__label">Tekst</label>
-            <input type="text" class="mdl-textfield__input text" pattern=".{10,}">
-            <span class="mdl-textfield__error"> Tekst odgovora minimalno 10 karaktera! </span>
+            <input type="text" class="mdl-textfield__input text" pattern=".{2,}">
+            <span class="mdl-textfield__error"> Tekst odgovora minimalno 2 karaktera! </span>
         </div>
 
         <div class="flex">

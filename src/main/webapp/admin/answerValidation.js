@@ -20,7 +20,7 @@ export function setupValidation() {
 }
 
 function checkTextInputValidity() {
-    isTextValid = textInput.value.length >= 10;
+    isTextValid = textInput.value.length >= 2;
     checkAnswerValidity();
 }
 

@@ -221,7 +221,7 @@
         message: questionContainer.querySelector(".message")
     }
 
-    questionContainerElements.checkButton.addEventListener("click", () => checkUserAnswer());
+    questionContainerElements.checkButton.addEventListener("click", (event) => checkUserAnswer(event.currentTarget));
 
 
     const inBetweenQuestions = document.querySelector(".in-between-questions");
@@ -385,19 +385,22 @@
             button.classList.remove("mdl-button--accent", "tc-primary-button");
         }
         else{
-
-            let sibling;
-            for(let i = 0; i < options.children.length; ++i)
-            {
-                sibling = options.children[i];
-                if(sibling === button)
-                    continue;
-
-                if(sibling.classList.contains("mdl-button--accent"))
-                    sibling.classList.remove("mdl-button--accent", "tc-primary-button");
-            }
             button.classList.add("mdl-button--accent", "tc-primary-button");
         }
+        // else{
+        //
+        //     let sibling;
+        //     for(let i = 0; i < options.children.length; ++i)
+        //     {
+        //         sibling = options.children[i];
+        //         if(sibling === button)
+        //             continue;
+        //
+        //         if(sibling.classList.contains("mdl-button--accent"))
+        //             sibling.classList.remove("mdl-button--accent", "tc-primary-button");
+        //     }
+        //     button.classList.add("mdl-button--accent", "tc-primary-button");
+        // }
 
         updateCheckButton();
     }
@@ -463,17 +466,38 @@
     }
 
 
-    function checkUserAnswer()
+    function checkUserAnswer(button)
     {
         clearTimeout(questionTimeoutId);
-        const button = getSelectedAnswer();
-        const answerIndex = Array.from(button.parentElement.children).indexOf(button);
+        const selectedAnswers = getSelectedAnswers();
+        const selectedAnswerIndexes = [];
+        for(let i = 0; i < selectedAnswers.length; ++i)
+            selectedAnswerIndexes.push(Array.from(selectedAnswers[i].parentElement.children).indexOf(selectedAnswers[i]));
 
         const question = sessionInfo.quizObject.questions[sessionInfo.currentQuestion];
-        const answer = question.answers[answerIndex];
-        if(answer.correct)
+
+        let wasUserCorrect = true;
+
+        let correctAnswerCount = 0;
+        for(let i = 0; i < question.answers.length; ++i){
+            if(question.answers[i].correct)
+                correctAnswerCount++;
+        }
+
+        if(selectedAnswers.length != correctAnswerCount)
+            wasUserCorrect = false;
+
+        for(let i = 0; i < selectedAnswerIndexes.length; ++i)
         {
-            userWasCorrect(button);
+            if(!question.answers[selectedAnswerIndexes[i]].correct){
+                wasUserCorrect = false;
+                break;
+            }
+        }
+
+        if(wasUserCorrect)
+        {
+            userWasCorrect( selectedAnswers);
         }
         else
         {
@@ -481,11 +505,11 @@
             for(let i = 0; i < question.answers.length; ++i)
             {
                 if(question.answers[i].correct){
-                    correctButtons.push(button.parentElement.children[i]);
+                    correctButtons.push(selectedAnswers[0].parentElement.children[i]);
                 }
             }
 
-            userWasWrong(button, correctButtons);
+            userWasWrong(selectedAnswers, selectedAnswerIndexes, question, correctButtons);
         }
 
         questionContainerElements.checkButton.disabled = true;
@@ -493,44 +517,58 @@
 
     }
 
-    function userWasCorrect(button){
-        button.style.backgroundColor = "lightgreen";
-        button.style.color = "black";
+    function userWasCorrect(answers){
+        for(let i = 0; i < answers.length; ++i) {
+            answers[i].style.backgroundColor = "lightgreen";
+            answers[i].style.color = "black";
+        }
+
         questionContainerElements.message.innerText = "Tačno!";
         questionContainerElements.message.style.color = "green";
 
         sessionInfo.client.send("user-was-correct");
     }
 
-    function userWasWrong(button, correctButtons)
+    function userWasWrong(answers, answerIndexes, question, correctButtons)
     {
-        button.style.backgroundColor = "red";
-        button.style.color = "black";
-        if(correctButtons.length == 1)
+        for(let i = 0; i < answerIndexes.length; ++i)
+        {
+            if(!question.answers[answerIndexes[i]].correct){
+                answers[i].style.backgroundColor = "red";
+                answers[i].style.color = "black";
+            }
+            else{
+                answers[i].style.backgroundColor = "lightgreen";
+                answers[i].style.color = "black";
+            }
+        }
+
         questionContainerElements.message.innerText = "Netačno!";
-        else
-            questionContainerElements.message.innerText = "Netačno! Bilo je više tačnih odgovora!";
+        for(let i = 0; i < correctButtons.length; ++i)
+        {
+            if(correctButtons[i].style.backgroundColor != "red" && correctButtons[i].style.backgroundColor != "lightgreen") {
+                correctButtons[i].style.background = "lightgreen";
+                correctButtons[i].style.color = "black";
+                questionContainerElements.message.innerText = "Niste odabrali sve tačne odgovore!";
+            }
+        }
 
         questionContainerElements.message.style.color = "red";
 
 
-        for(let i = 0; i < correctButtons.length; ++i)
-        {
-            correctButtons[i].style.backgroundColor = "green";
-            correctButtons[i].style.color = "black";
-
-        }
 
     }
 
 
-    function getSelectedAnswer(){
+    function getSelectedAnswers(){
         const options = questionContainerElements.options;
+        let answers = [];
         for(let i = 0; i < options.children.length; ++i)
         {
             if(options.children[i].classList.contains("mdl-button--accent"))
-                return options.children[i];
+                answers.push(options.children[i]);
         }
+        return answers;
     }
 
 
